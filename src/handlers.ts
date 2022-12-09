@@ -1,0 +1,48 @@
+import { ChatGPTAPI } from "chatgpt";
+import { MatrixClient } from "matrix-bot-sdk";
+import { matrixBotUsername } from "./config.js";
+import { isEventAMessage } from "./utils.js";
+
+/**
+ * Run when *any* room event is received. The bot only sends a message if needed.
+ * @param client 
+ * @returns Room event handler, which itself returnings nothing
+ */
+export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPI): Promise<(roomId: string, event: any) => Promise<void>> {
+  return async (roomId: string, event: any) => {
+    if (event.sender === matrixBotUsername) {
+      return;
+    }
+    if (Date.now() - event.origin_server_ts > 10000) {
+      // Don't send notifications for old events if the bot shuts down for some reason.
+      return;
+    }
+
+    if (isEventAMessage(event)) {
+      const question: string = event.content.body;
+      if (question === undefined) {
+        await client.sendReadReceipt(roomId, event.event_id);
+        await client.sendText(roomId,
+          `Question is undefined. I don't currently support encrypted chats, maybe that's the issue?
+Please add me to an unencrypted chat.`);
+        await client.sendReadReceipt(roomId, event.event_id);
+        return;
+      }
+      await client.sendReadReceipt(roomId, event.event_id);
+      await client.setTyping(roomId, true, 10000)
+      try {
+        const response = await chatGPT.sendMessage(
+          question)
+        await client.setTyping(roomId, false, 500)
+        await client.sendText(roomId, `${response}`);
+        await client.sendReadReceipt(roomId, event.event_id);
+      } catch (e) {
+        await client.setTyping(roomId, false, 500)
+        await client.sendText(roomId, `ChatGPT returned an error :(`);
+        await client.sendReadReceipt(roomId, event.event_id);
+        console.error("ChatGPS returned an error:");
+        console.error(e);
+      }
+    }
+  }
+}

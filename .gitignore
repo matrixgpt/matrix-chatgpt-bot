@@ -1,0 +1,13 @@
+# Secrets!
+.env
+
+node_modules/
+*.swp
+dist/
+
+tsconfig.tsbuildinfo
+
+.DS_Store
+
+crypto/
+storage/
