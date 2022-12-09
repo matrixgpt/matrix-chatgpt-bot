@@ -3,12 +3,20 @@ Matrix ChatGPT Bot
 
 Talk to ChatGPT via your favourite Matrix client!
 
-This is an unofficial Matrix bot that uses https://github.com/transitive-bullshit/chatgpt-api to access the unofficial ChatGPT API.
+This is an unofficial Matrix bot that uses github.com/transitive-bullshit/chatgpt-api to access the unofficial ChatGPT API.
 
 # Usage
 - Create an unencrypted room
 - Add the bot
 - Start chatting away!
+
+![Screenshot of Element iOS app showing conversation with bot](img/matrix-chatgpt.png)
+
+# Features
+- Shows typing indicator as ChatGPT is thinking!
+- Doesn't yet support encryption
+  - Two lines of code can be uncommented to enable it, however "unable to decrypt" messages appear
+  - If you have time to look into fixing this PRs very welcome :)
 
 # Setting up the account
 - Create a new Matrix account on Matrix.org (or your favourite server)
