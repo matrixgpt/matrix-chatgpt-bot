@@ -17,7 +17,6 @@ You should not be using this ChatGPT account while the bot is using it, because 
 
 If your OpenAI account uses Google Auth, you shouldn't encounter any of the more complicated Recaptchas — and can avoid using paid third-party CAPTCHA solving providers. To use Google auth, make sure your OpenAI account is using Google and then set IS_GOOGLE_LOGIN to true.
 
-
 # Usage
 - Create an unencrypted room
 - Add the bot
@@ -55,6 +54,15 @@ MATRIX_BOT_PASSWORD=
 - `yarn`
 - `yarn build`
 - `yarn start`
+
+## Running with Docker
+
+```
+docker build . -t matrix-chatgpt-bot
+docker run --cap-add=SYS_ADMIN -it matrix-chatgpt-bot
+```
+
+Note: Without -it flags in the command above you won't be able to stop the container using Ctrl-C
 
 # License
 GNU AGPLv3. See LICENSE
