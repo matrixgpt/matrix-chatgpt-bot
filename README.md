@@ -46,6 +46,12 @@ MATRIX_BOT_USERNAME=
 MATRIX_BOT_PASSWORD=
 ```
 
+# Discussion
+
+Come and join [#matrix-chatgpt-bot:matrix.org](https://matrix.to/#/#matrix-chatgpt-bot:matrix.org)
+with your favourite Matrix chat client! If you've never set up a Matrix client before I'd
+recomend following the prompts at https://element.io/get-started to download and sign into Element.
+
 # Local development setup
 - Run `yarn`
 - Run `yarn build`
