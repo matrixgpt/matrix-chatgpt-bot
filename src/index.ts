@@ -4,10 +4,10 @@ import {
   RichConsoleLogger,
   // RustSdkCryptoStorageProvider,
 } from "matrix-bot-sdk";
-import { chatGPTApiKey, homeserverUrl, matrixBotPassword, matrixBotUsername } from './config.js'
+import { openAiEmail, openAiPassword, isGoogleLogin, homeserverUrl, matrixBotPassword, matrixBotUsername } from './config.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import { handleRoomEvent } from './handlers.js';
-import { ChatGPTAPI } from 'chatgpt'
+import { ChatGPTAPIBrowser } from 'chatgpt'
 
 LogService.setLogger(new RichConsoleLogger());
 
@@ -29,12 +29,13 @@ async function main() {
   const authedClient = await (new MatrixAuth(homeserverUrl)).passwordLogin(botUsernameWithoutDomain, matrixBotPassword);
   const client = new MatrixClient(authedClient.homeserverUrl, authedClient.accessToken, storage);
 
-  const chatGPT = new ChatGPTAPI({
-    sessionToken: chatGPTApiKey
+  // use puppeteer to bypass cloudflare (headful because of captchas)  
+  const chatGPT = new ChatGPTAPIBrowser({
+    email: openAiEmail,
+    password: openAiPassword,
+    isGoogleLogin: isGoogleLogin
   })
-
-  // ensure the API is properly authenticated
-  await chatGPT.ensureAuth()
+  await chatGPT.initSession()
 
   // Automatically join rooms the bot is invited to
   AutojoinRoomsMixin.setupOnClient(client);

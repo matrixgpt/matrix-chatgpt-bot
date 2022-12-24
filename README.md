@@ -7,6 +7,16 @@ Talk to ChatGPT via your favourite Matrix client!
 
 This is an unofficial Matrix bot that uses https://github.com/transitive-bullshit/chatgpt-api to access the unofficial ChatGPT API.
 
+It is worth reading the [authentication instructions](https://www.npmjs.com/package/chatgpt#usage) for the unofficial ChatGPT API.
+
+Your user-agent and IP address must match from the real browser window you're logged in with to the one you're using for ChatGPTAPI. This means that you currently can't log in with your laptop and then run the bot on a server or proxy somewhere.
+
+Cloudflare will still sometimes ask you to complete a CAPTCHA, so you may need to keep an eye on it and manually resolve the CAPTCHA.
+
+You should not be using this ChatGPT account while the bot is using it, because that browser window may refresh one of your tokens and invalidate the bot's session. 
+
+If your OpenAI account uses Google Auth, you shouldn't encounter any of the more complicated Recaptchas — and can avoid using paid third-party CAPTCHA solving providers. To use Google auth, make sure your OpenAI account is using Google and then set IS_GOOGLE_LOGIN to true.
+
 # Usage
 - Create an unencrypted room
 - Add the bot
@@ -27,9 +37,9 @@ This is an unofficial Matrix bot that uses https://github.com/transitive-bullshi
 MATRIX_HOMESERVER_URL=
 MATRIX_ACCESS_TOKEN=
 
-# The value of the __Secure-next-auth.session-token cookie. See instructions on
-# https://www.npmjs.com/package/chatgpt
-CHATGPT_SESSION_TOKEN=
+OPENAI_EMAIL=
+OPENAI_PASSWORD=
+IS_GOOGLE_LOGIN=true
 
 # With the @ and :DOMAIN, ie @SOMETHING:DOMAIN
 MATRIX_BOT_USERNAME=
@@ -44,6 +54,15 @@ MATRIX_BOT_PASSWORD=
 - `yarn`
 - `yarn build`
 - `yarn start`
+
+## Running with Docker
+
+```
+docker build . -t matrix-chatgpt-bot
+docker run --cap-add=SYS_ADMIN -it matrix-chatgpt-bot
+```
+
+Note: Without -it flags in the command above you won't be able to stop the container using Ctrl-C
 
 # License
 GNU AGPLv3. See LICENSE

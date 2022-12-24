@@ -1,4 +1,4 @@
-import { ChatGPTAPI } from "chatgpt";
+import { ChatGPTAPIBrowser } from "chatgpt";
 import { MatrixClient } from "matrix-bot-sdk";
 import { matrixBotUsername } from "./config.js";
 import { isEventAMessage } from "./utils.js";
@@ -8,7 +8,7 @@ import { isEventAMessage } from "./utils.js";
  * @param client 
  * @returns Room event handler, which itself returnings nothing
  */
-export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPI): Promise<(roomId: string, event: any) => Promise<void>> {
+export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPIBrowser): Promise<(roomId: string, event: any) => Promise<void>> {
   return async (roomId: string, event: any) => {
     if (event.sender === matrixBotUsername) {
       return;
@@ -31,10 +31,13 @@ Please add me to an unencrypted chat.`);
       await client.sendReadReceipt(roomId, event.event_id);
       await client.setTyping(roomId, true, 10000)
       try {
-        const response = await chatGPT.sendMessage(
-          question)
+        // timeout after 2 minutes (which will also abort the underlying HTTP request)
+        const result = await chatGPT.sendMessage(question, {
+          timeoutMs: 2 * 60 * 1000
+        })
         await client.setTyping(roomId, false, 500)
-        await client.sendText(roomId, `${response}`);
+
+        await client.sendText(roomId, `${result.response}`);
         await client.sendReadReceipt(roomId, event.event_id);
       } catch (e) {
         await client.setTyping(roomId, false, 500)
