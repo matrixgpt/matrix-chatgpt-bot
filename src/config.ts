@@ -16,7 +16,7 @@ export const matrixBotPassword = process.env.MATRIX_BOT_PASSWORD as string;
 /** ChatGPT specific stuff */
 export const openAiEmail = process.env.OPENAI_EMAIL as string;
 export const openAiPassword = process.env.OPENAI_PASSWORD as string;
-export const isGoogleLogin = Boolean(process.env.IS_GOOGLE_LOGIN) as boolean;
+export const isGoogleLogin = (process.env.IS_GOOGLE_LOGIN.toLowerCase() === "true") as boolean;
 
 if(accessToken === undefined) {
   console.error("MATRIX_ACCESS_TOKEN env variable is undefined");
