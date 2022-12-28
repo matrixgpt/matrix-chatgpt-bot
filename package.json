@@ -15,7 +15,7 @@
     "typecheck": "npx tsc"
   },
   "dependencies": {
-    "chatgpt": "^3.3.1",
+    "chatgpt": "^3.3.5",
     "dotenv": "^14.2.0",
     "matrix-bot-sdk": "^0.6.2",
     "puppeteer": "^19.4.1",
