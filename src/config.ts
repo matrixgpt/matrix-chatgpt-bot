@@ -12,6 +12,7 @@ export const homeserverUrl = process.env.MATRIX_HOMESERVER_URL as string;
 /** The full username: eg @bot:server.com */
 export const matrixBotUsername = process.env.MATRIX_BOT_USERNAME as string;
 export const matrixBotPassword = process.env.MATRIX_BOT_PASSWORD as string;
+export const matrixPrefix = process.env.MATRIX_PREFIX as string;
 
 /** ChatGPT specific stuff */
 export const openAiEmail = process.env.OPENAI_EMAIL as string;
@@ -32,6 +33,10 @@ if(matrixBotUsername === undefined) {
 }
 if(matrixBotPassword === undefined) {
   console.error("MATRIX_BOT_PASSWORD env variable is undefined");
+  process.exit(1);
+}
+if(matrixPrefix === undefined) {
+  console.error("MATRIX_PREFIX env variable is undefined");
   process.exit(1);
 }
 if(openAiEmail === undefined) {

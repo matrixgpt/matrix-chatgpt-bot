@@ -44,6 +44,8 @@ IS_GOOGLE_LOGIN=true
 # With the @ and :DOMAIN, ie @SOMETHING:DOMAIN
 MATRIX_BOT_USERNAME=
 MATRIX_BOT_PASSWORD=
+# Leave prefix blank to reply to all messages
+MATRIX_PREFIX=
 ```
 
 # Discussion

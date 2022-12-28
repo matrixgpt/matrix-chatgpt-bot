@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser } from "chatgpt";
 import { MatrixClient } from "matrix-bot-sdk";
-import { matrixBotUsername } from "./config.js";
+import { matrixBotUsername, matrixPrefix } from "./config.js";
 import { isEventAMessage } from "./utils.js";
 
 /**
@@ -19,7 +19,15 @@ export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPIB
     }
 
     if (isEventAMessage(event)) {
-      const question: string = event.content.body;
+      let question: string;
+      if (matrixPrefix){
+        if (!event.content.body.startsWith(matrixPrefix)){
+          return;
+        }
+        question = event.content.body.slice(matrixPrefix.length).trimStart();
+      } else {
+        question = event.content.body;
+      }
       if (question === undefined) {
         await client.sendReadReceipt(roomId, event.event_id);
         await client.sendText(roomId,
