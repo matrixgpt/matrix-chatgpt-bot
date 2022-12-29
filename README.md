@@ -44,7 +44,7 @@ IS_GOOGLE_LOGIN=true
 # With the @ and :DOMAIN, ie @SOMETHING:DOMAIN
 MATRIX_BOT_USERNAME=
 MATRIX_BOT_PASSWORD=
-MATRIX_AUTO_JOIN=true
+MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true
 # Leave prefix blank to reply to all messages
 MATRIX_PREFIX=
@@ -73,7 +73,7 @@ recomend following the prompts at https://element.io/get-started to download and
 
 ```
 docker build . -t matrix-chatgpt-bot
-docker run --cap-add=SYS_ADMIN -it -v ./storage:/storage matrix-chatgpt-bot
+docker run -it -v /full-path-not-relative-path/storage:/storage matrix-chatgpt-bot
 ```
 
 Note: Without -it flags in the command above you won't be able to stop the container using Ctrl-C
