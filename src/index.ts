@@ -7,7 +7,7 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { dataPath, openAiEmail, openAiPassword, isGoogleLogin, homeserverUrl, accessToken, matrixAutojoin, matrixBotPassword, matrixBotUsername, matrixEncryption } from './config.js'
+import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import { handleRoomEvent } from './handlers.js';
 import { ChatGPTAPIBrowser } from 'chatgpt'
@@ -22,34 +22,35 @@ LogService.setLevel(LogLevel.INFO);
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
 
-const storage = new SimpleFsStorageProvider(path.join(dataPath, "bot.json")); // /storage/bot.json
+const storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 
 // Prepare a crypto store if we need that
 let cryptoStore: ICryptoStorageProvider;
-if (matrixEncryption) {
-  cryptoStore = new RustSdkCryptoStorageProvider(path.join(dataPath, "encrypted")); // /storage/encrypted
+if (MATRIX_ENCRYPTION) {
+  cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
 }
 
 async function main() {
-  const botUsernameWithoutDomain = parseMatrixUsernamePretty(matrixBotUsername);
-  if (!accessToken){
-    const authedClient = await (new MatrixAuth(homeserverUrl)).passwordLogin(botUsernameWithoutDomain, matrixBotPassword);
+  const botUsernameWithoutDomain = parseMatrixUsernamePretty(MATRIX_BOT_USERNAME);
+  if (!MATRIX_ACCESS_TOKEN){
+    const authedClient = await (new MatrixAuth(MATRIX_HOMESERVER_URL)).passwordLogin(botUsernameWithoutDomain, MATRIX_BOT_PASSWORD);
     console.log(authedClient.homeserverUrl + " token: \n" + authedClient.accessToken)
-    console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_ACCESS_USERNAME and MATRIX_ACCESS_PASSWORD can now be blank")
+    console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_BOT_PASSWORD can now be blank")
     return;
   }
-  const client = new MatrixClient(homeserverUrl, accessToken, storage, cryptoStore);
+  const client = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
   const chatGPT = new ChatGPTAPIBrowser({
-    email: openAiEmail,
-    password: openAiPassword,
-    isGoogleLogin: isGoogleLogin
+    email: OPENAI_EMAIL,
+    password: OPENAI_PASSWORD,
+    isGoogleLogin: (OPENAI_LOGIN_TYPE == "google"), 
+    isMicrosoftLogin: (OPENAI_LOGIN_TYPE == "microsoft")
   })
   await chatGPT.initSession()
 
   // Automatically join rooms the bot is invited to
-  if (matrixAutojoin) {
+  if (MATRIX_AUTOJOIN) {
     AutojoinRoomsMixin.setupOnClient(client);
   }
 
@@ -61,10 +62,9 @@ async function main() {
 
   client.on("room.join", async (roomId: string, _event: any) => {
     LogService.info("index", `Bot joined room ${roomId}`);
-
     await client.sendMessage(roomId, {
       "msgtype": "m.notice",
-      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${ matrixEncryption }`,
+      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${MATRIX_ENCRYPTION }`,
     });
   });
 

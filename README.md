@@ -17,6 +17,8 @@ You should not be using this ChatGPT account while the bot is using it, because 
 
 If your OpenAI account uses Google Auth, you shouldn't encounter any of the more complicated Recaptchas — and can avoid using paid third-party CAPTCHA solving providers. To use Google auth, make sure your OpenAI account is using Google and then set IS_GOOGLE_LOGIN to true.
 
+If you want to get an access token without exposing your password to this bot you can follow [how-to-get-an-access-token-for-element-riot-matrix](https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-element-riot-matrix).
+
 # Usage
 - Create an (encrypted if enabled) room
 - Add the bot
@@ -24,34 +26,36 @@ If your OpenAI account uses Google Auth, you shouldn't encounter any of the more
 
 # Features
 - Shows typing indicator as ChatGPT is thinking!
-- Doesn't yet support encryption
-  - Two lines of code can be uncommented to enable it, however "unable to decrypt" messages appear
-  - If you have time to look into fixing this PRs very welcome :)
+- Supports encryption
 
 # Setting up the account
 - Create a new Matrix account on Matrix.org (or your favourite server)
 - Go to the settings and get the access token
 - Add the details to your environment vars. One way of doing this is adding this to a file called `.env`:
 ```
-# https://matrix.org if your account is on matrix.org.
-MATRIX_HOMESERVER_URL=
-MATRIX_ACCESS_TOKEN=
-
+# ChatGPT Settings (required)
 OPENAI_EMAIL=
 OPENAI_PASSWORD=
-IS_GOOGLE_LOGIN=true
+OPENAI_LOGIN_TYPE="google"
 
-# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN
+# Matrix Static Settings (required, see notes)
+# Defaults to "https://matrix.org"
+MATRIX_HOMESERVER_URL=
+# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN, needs to always be set
 MATRIX_BOT_USERNAME=
+# Set `MATRIX_BOT_PASSWORD` the bot will print an `MATRIX_ACCESS_TOKEN` to the terminal
+MATRIX_ACCESS_TOKEN=
+# Once `MATRIX_ACCESS_TOKEN` is set this is no longer used.
 MATRIX_BOT_PASSWORD=
-MATRIX_AUTO_JOIN=true
+
+# Matrix Configurable Settings Defaults (optional)
+MATRIX_DEFAULT_PREFIX="!chatgpt " # Leave prefix blank to reply to all messages
+MATRIX_DEFAULT_PREFIX_REPLY=false
+
+# Matrix Feature Flags (optional)
+MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true
-# Leave prefix blank to reply to all messages
-MATRIX_PREFIX=
-
-# needs to be ./storage/ if you aren't using Docker or /storage/ if you are.
-DATA_PATH=/storage/
-
+MATRIX_THREADS=true
 ```
 
 # Discussion
@@ -73,7 +77,7 @@ recomend following the prompts at https://element.io/get-started to download and
 
 ```
 docker build . -t matrix-chatgpt-bot
-docker run --cap-add=SYS_ADMIN -it -v ./storage:/storage matrix-chatgpt-bot
+docker run -it -v /full-path-not-relative-path/storage:/storage matrix-chatgpt-bot
 ```
 
 Note: Without -it flags in the command above you won't be able to stop the container using Ctrl-C
