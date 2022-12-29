@@ -18,21 +18,21 @@ export const openAiEmail = process.env.OPENAI_EMAIL as string;
 export const openAiPassword = process.env.OPENAI_PASSWORD as string;
 export const isGoogleLogin = process.env.IS_GOOGLE_LOGIN && process.env.IS_GOOGLE_LOGIN.toLowerCase() === "true";
 
-if(accessToken === undefined) {
-  console.error("MATRIX_ACCESS_TOKEN env variable is undefined");
-  process.exit(1);
-}
 if(homeserverUrl === undefined) {
   console.error("MATRIX_HOMESERVER_URL env variable is undefined");
   process.exit(1);
 }
-if(matrixBotUsername === undefined) {
-  console.error("MATRIX_BOT_USERNAME env variable is undefined");
+if(accessToken === undefined) {
+  console.error("MATRIX_ACCESS_TOKEN env variable is undefined, set it to empty string to use username and password");
   process.exit(1);
-}
-if(matrixBotPassword === undefined) {
-  console.error("MATRIX_BOT_PASSWORD env variable is undefined");
-  process.exit(1);
+  if(matrixBotUsername === undefined) {
+    console.error("MATRIX_BOT_USERNAME env variable is undefined, set it to empty string to use access token");
+    process.exit(1);
+  }
+  if(matrixBotPassword === undefined) {
+    console.error("MATRIX_BOT_PASSWORD env variable is undefined, set it to empty string to use access token");
+    process.exit(1);
+  }
 }
 if(openAiEmail === undefined) {
   console.error("OPENAI_EMAIL env variable is undefined");
