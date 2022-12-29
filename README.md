@@ -46,9 +46,12 @@ MATRIX_BOT_USERNAME=
 MATRIX_BOT_PASSWORD=
 MATRIX_AUTO_JOIN=true
 MATRIX_ENCRYPTION=true
+# Leave prefix blank to reply to all messages
+MATRIX_PREFIX=
 
 # needs to be ./storage/ if you aren't using Docker or /storage/ if you are.
 DATA_PATH=/storage/
+
 ```
 
 # Discussion

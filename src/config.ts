@@ -16,6 +16,7 @@ export const matrixAutojoin = process.env.MATRIX_AUTO_JOIN && process.env.MATRIX
 export const matrixEncryption = process.env.MATRIX_ENCRYPTION && process.env.MATRIX_ENCRYPTION.toLowerCase() === "true" as string;
 
 export const dataPath = process.env.DATA_PATH as string;
+export const matrixPrefix = process.env.MATRIX_PREFIX as string;
 
 /** ChatGPT specific stuff */
 export const openAiEmail = process.env.OPENAI_EMAIL as string;
@@ -49,6 +50,10 @@ if(matrixAutojoin === undefined) {
 }
 if(matrixEncryption === undefined) {
   console.error("MATRIX_ENCRYPTION env variable is undefined");
+  process.exit(1);
+}
+if(matrixPrefix === undefined) {
+  console.error("MATRIX_PREFIX env variable is undefined");
   process.exit(1);
 }
 if(openAiEmail === undefined) {
