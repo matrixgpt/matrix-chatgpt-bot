@@ -21,8 +21,7 @@ export const matrixPrefix = process.env.MATRIX_PREFIX as string;
 /** ChatGPT specific stuff */
 export const openAiEmail = process.env.OPENAI_EMAIL as string;
 export const openAiPassword = process.env.OPENAI_PASSWORD as string;
-export const isGoogleLogin = process.env.IS_GOOGLE_LOGIN && process.env.IS_GOOGLE_LOGIN.toLowerCase() === "true";
-
+export const isGoogleLogin = process.env.IS_GOOGLE_LOGIN && process.env.IS_GOOGLE_LOGIN.toLowerCase() === "true" as string;
 
 if(dataPath === undefined) {
   console.error("DATA_PATH env variable is undefined");
