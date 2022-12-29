@@ -2,9 +2,11 @@ import {
   MatrixAuth, MatrixClient, SimpleFsStorageProvider, AutojoinRoomsMixin,
   LogService, LogLevel,
   RichConsoleLogger,
-  // RustSdkCryptoStorageProvider,
+  ICryptoStorageProvider,
+  RustSdkCryptoStorageProvider,
 } from "matrix-bot-sdk";
-import { openAiEmail, openAiPassword, isGoogleLogin, homeserverUrl, matrixBotPassword, matrixBotUsername } from './config.js'
+import * as path from "path";
+import { dataPath, openAiEmail, openAiPassword, isGoogleLogin, homeserverUrl, accessToken, matrixAutojoin, matrixBotPassword, matrixBotUsername, matrixEncryption } from './config.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import { handleRoomEvent } from './handlers.js';
 import { ChatGPTAPIBrowser } from 'chatgpt'
@@ -19,10 +21,13 @@ LogService.setLevel(LogLevel.INFO);
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
 
-const storage = new SimpleFsStorageProvider("./storage/bot.json");
+const storage = new SimpleFsStorageProvider(path.join(dataPath, "bot.json")); // /storage/bot.json
 
-// Still fails to decrypt sometimes
-// const cryptoProvider = new RustSdkCryptoStorageProvider("./crypto/");
+// Prepare a crypto store if we need that
+let cryptoStore: ICryptoStorageProvider;
+if (matrixEncryption) {
+  cryptoStore = new RustSdkCryptoStorageProvider(path.join(dataPath, "encrypted")); // /storage/encrypted
+}
 
 async function main() {
   const botUsernameWithoutDomain = parseMatrixUsernamePretty(matrixBotUsername);
@@ -38,7 +43,9 @@ async function main() {
   await chatGPT.initSession()
 
   // Automatically join rooms the bot is invited to
-  AutojoinRoomsMixin.setupOnClient(client);
+  if (matrixAutojoin) {
+    AutojoinRoomsMixin.setupOnClient(client);
+  }
 
   client.on("room.failed_decryption", async (roomId, event, error) => {
     // handle `m.room.encrypted` event that could not be decrypted
@@ -51,7 +58,7 @@ async function main() {
 
     await client.sendMessage(roomId, {
       "msgtype": "m.notice",
-      "body": `👋 Hello, I'm the ChatGPT bot! I only work in unencrypted rooms at the moment.`,
+      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${ matrixEncryption }`,
     });
   });
 
