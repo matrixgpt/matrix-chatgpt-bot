@@ -51,3 +51,14 @@ export type MatrixInviteEvent = CommonMatrixEventFields & {
   event_id: string
 }
 export type MembershipType = 'leave' | 'invite' | 'join'
+
+export type StoredConversationConfig = {
+    REQUIRE_MENTION_IN_REPLY?: boolean;
+}
+
+export type StoredConversation = {
+    conversationId: string;
+    messageId: string;
+    now: number;
+    config: StoredConversationConfig;
+}
