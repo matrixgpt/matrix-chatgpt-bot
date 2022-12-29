@@ -66,6 +66,8 @@ RUN npm install puppeteer@19.4.1 \
     && chown -R pptruser:pptruser /home/pptruser
 USER pptruser
 
+VOLUME /storage
+
 # We run a fake display and run our script.
 # Start script on Xvfb
 CMD xvfb-run --server-args="-screen 0 1024x768x24" yarn start
