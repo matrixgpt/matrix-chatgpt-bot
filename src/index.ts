@@ -5,6 +5,7 @@ import {
   ICryptoStorageProvider,
   RustSdkCryptoStorageProvider,
 } from "matrix-bot-sdk";
+
 import * as path from "path";
 import { dataPath, openAiEmail, openAiPassword, isGoogleLogin, homeserverUrl, accessToken, matrixAutojoin, matrixBotPassword, matrixBotUsername, matrixEncryption } from './config.js'
 import { parseMatrixUsernamePretty } from './utils.js';
@@ -31,8 +32,13 @@ if (matrixEncryption) {
 
 async function main() {
   const botUsernameWithoutDomain = parseMatrixUsernamePretty(matrixBotUsername);
-  const authedClient = await (new MatrixAuth(homeserverUrl)).passwordLogin(botUsernameWithoutDomain, matrixBotPassword);
-  const client = new MatrixClient(authedClient.homeserverUrl, authedClient.accessToken, storage);
+  if (!accessToken){
+    const authedClient = await (new MatrixAuth(homeserverUrl)).passwordLogin(botUsernameWithoutDomain, matrixBotPassword);
+    console.log(authedClient.homeserverUrl + " token: \n" + authedClient.accessToken)
+    console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_ACCESS_USERNAME and MATRIX_ACCESS_PASSWORD can now be blank")
+    return;
+  }
+  const client = new MatrixClient(homeserverUrl, accessToken, storage);
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
   const chatGPT = new ChatGPTAPIBrowser({
