@@ -31,22 +31,30 @@ If your OpenAI account uses Google Auth, you shouldn't encounter any of the more
 - Go to the settings and get the access token
 - Add the details to your environment vars. One way of doing this is adding this to a file called `.env`:
 ```
-# https://matrix.org if your account is on matrix.org.
-MATRIX_HOMESERVER_URL="https://matrix.org"
-MATRIX_ACCESS_TOKEN=
-# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN
+# ChatGPT Settings
+OPENAI_EMAIL=
+OPENAI_PASSWORD=
+OPENAI_LOGIN_TYPE="google"
+
+# Matrix Static Settings (required, see notes)
+# Defaults to "https://matrix.org"
+MATRIX_HOMESERVER_URL=
+# Set `MATRIX_BOT_PASSWORD` the bot will print an `MATRIX_ACCESS_TOKEN` to the terminal
 MATRIX_BOT_USERNAME=
+# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN, needs to always be set
+MATRIX_BOT_USERNAME=
+# Once `MATRIX_BOT_USERNAME` is set this is no longer used.
 MATRIX_BOT_PASSWORD=
 
-# Leave prefix blank to reply to all messages
-MATRIX_PREFIX="!chatgpt "
+# Matrix Configurable Settings Defaults (optional)
+MATRIX_DEFAULT_PREFIX_REPLY=false
+MATRIX_DEFAULT_PREFIX="!chatgpt " # Leave prefix blank to reply to all messages
+
+# Matrix Feature Flags (optional)
 MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true
 MATRIX_THREADS=true
 
-OPENAI_EMAIL=
-OPENAI_PASSWORD=
-OPENAI_LOGIN_TYPE="google"
 ```
 
 # Discussion
