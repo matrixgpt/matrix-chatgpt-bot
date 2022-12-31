@@ -24,9 +24,7 @@ If your OpenAI account uses Google Auth, you shouldn't encounter any of the more
 
 # Features
 - Shows typing indicator as ChatGPT is thinking!
-- Doesn't yet support encryption
-  - Two lines of code can be uncommented to enable it, however "unable to decrypt" messages appear
-  - If you have time to look into fixing this PRs very welcome :)
+- Supports encryption
 
 # Setting up the account
 - Create a new Matrix account on Matrix.org (or your favourite server)
