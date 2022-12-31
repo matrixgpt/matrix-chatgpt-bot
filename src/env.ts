@@ -22,7 +22,8 @@ export const {
   /** ChatGPT Settings */
   OPENAI_EMAIL,
   OPENAI_PASSWORD,
-  OPENAI_LOGIN_TYPE
+  OPENAI_LOGIN_TYPE,
+  CHATGPT_TIMEOUT
 } = parseEnv(process.env, {
   DATA_PATH: {schema: z.string().default("./storage"),     description: "Set to /storage/ if using docker, ./storage if running without"},
   /** Matrix Bot Settings */
@@ -43,4 +44,5 @@ export const {
   OPENAI_EMAIL: {schema: z.string().min(3)},
   OPENAI_PASSWORD: {schema: z.string().min(1)},
   OPENAI_LOGIN_TYPE: {schema: z.enum(["google", "openai", "microsoft"]).default("google")},
+  CHATGPT_TIMEOUT: {schema: z.number().default(2 * 60 * 1000)}
 });

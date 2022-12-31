@@ -59,6 +59,5 @@ export type StoredConversationConfig = {
 export type StoredConversation = {
     conversationId: string;
     messageId: string;
-    now: number;
     config: StoredConversationConfig;
 }
