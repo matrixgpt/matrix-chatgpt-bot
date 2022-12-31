@@ -13,13 +13,17 @@ export function isEventAMessage(event: any): event is MessageEvent {
   return event.type === 'm.room.message'
 }
 
+export async function sendError(client: MatrixClient, text: string, roomId: string, eventId: string): Promise<void> {
+  Promise.all([client.setTyping(roomId, false, 500), client.sendText(roomId, text), client.sendReadReceipt(roomId, eventId)]);
+}
+
 /**
  * Send a thread reply.
  * @param client Matrix client
  * @param param1 Object containing text, root_event_id and roomId. root_event_id is the event_id
  * of the message the thread "replying" to.
  */
-export async function sendThreadReply(client: MatrixClient, { text, root_event_id, roomId }: { text: string, root_event_id: string, roomId: string }): Promise<void> {
+export async function sendThreadReply(client: MatrixClient, text: string, roomId: string, root_event_id: string): Promise<void> {
   const content = {
     body: text,
     msgtype: "m.text",
