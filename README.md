@@ -45,7 +45,7 @@ MATRIX_HOMESERVER_URL=
 MATRIX_BOT_USERNAME=
 # Set `MATRIX_BOT_PASSWORD` the bot will print an `MATRIX_ACCESS_TOKEN` to the terminal
 MATRIX_ACCESS_TOKEN=
-# Once `MATRIX_BOT_USERNAME` is set this is no longer used.
+# Once `MATRIX_ACCESS_TOKEN` is set this is no longer used.
 MATRIX_BOT_PASSWORD=
 
 # Matrix Configurable Settings Defaults (optional)
