@@ -36,6 +36,7 @@ If you want to get an access token without exposing your password to this bot yo
 # ChatGPT Settings (required)
 OPENAI_EMAIL=
 OPENAI_PASSWORD=
+# What type of Login it is, possibility's are google, openai, microsoft
 OPENAI_LOGIN_TYPE="google"
 
 # Matrix Static Settings (required, see notes)
