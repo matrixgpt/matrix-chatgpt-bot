@@ -50,7 +50,8 @@ MATRIX_ACCESS_TOKEN=
 MATRIX_BOT_PASSWORD=
 
 # Matrix Configurable Settings Defaults (optional)
-MATRIX_DEFAULT_PREFIX="!chatgpt " # Leave prefix blank to reply to all messages
+# Leave prefix blank to reply to all messages
+MATRIX_DEFAULT_PREFIX=!chatgpt
 MATRIX_DEFAULT_PREFIX_REPLY=false
 
 # Matrix Feature Flags (optional)
@@ -78,7 +79,7 @@ recomend following the prompts at https://element.io/get-started to download and
 
 ```
 docker build . -t matrix-chatgpt-bot
-docker run -it -v /full-path-not-relative-path/storage:/storage matrix-chatgpt-bot
+docker run -it -v storage:/storage --env-file=./.env --name matrix-chatgpt-bot matrix-chatgpt-bot
 ```
 
 Note: Without -it flags in the command above you won't be able to stop the container using Ctrl-C
