@@ -38,13 +38,13 @@ export const {
   MATRIX_THREADS:                           {schema: z.boolean().default(true)},
   /** Matrix Bot Runtime Config */
   MATRIX_DEFAULT_PREFIX: {schema: z.string().default(""), description: "Set this to empty string if you don't want to use it. Trailing space matters."},
-  MATRIX_DEFAULT_PREFIX_REPLY:           {schema: z.boolean().default(false)},
+  MATRIX_DEFAULT_PREFIX_REPLY:              {schema: z.boolean().default(false)},
   MATRIX_DEFAULT_REQUIRE_MENTION:           {schema: z.boolean().default(false)},
   MATRIX_DEFAULT_REQUIRE_MENTION_IN_DM:     {schema: z.boolean().default(false)},
   MATRIX_DEFAULT_REQUIRE_MENTION_IN_REPLY:  {schema: z.boolean().default(false)},
   /** ChatGPT Settings */
-  OPENAI_EMAIL: {schema: z.string().min(3)},
-  OPENAI_PASSWORD: {schema: z.string().min(1)},
+  OPENAI_EMAIL: {schema:      z.string().min(3)},
+  OPENAI_PASSWORD: {schema:   z.string().min(1)},
   OPENAI_LOGIN_TYPE: {schema: z.enum(["google", "openai", "microsoft"]).default("google")},
-  CHATGPT_TIMEOUT: {schema: z.number().default(2 * 60 * 1000)}
+  CHATGPT_TIMEOUT: {schema:   z.number().default(2 * 60 * 1000)}
 });

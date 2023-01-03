@@ -1,7 +1,7 @@
 import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
 import { MatrixClient } from "matrix-bot-sdk";
 import { CHATGPT_TIMEOUT, MATRIX_BOT_USERNAME, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX} from "./env.js";
-import { RelatesTo, StoredConversation } from "./interfaces.js";
+import { RelatesTo, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { isEventAMessage, sendError, sendThreadReply } from "./utils.js";
 
 /**
@@ -17,8 +17,8 @@ export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPIB
         const rootEventId: string = (relatesTo !== undefined && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
         const storedValue: string = await client.storageProvider.readValue('gpt-' + rootEventId)
         const storedConversation: StoredConversation = (storedValue !== undefined) ? JSON.parse(storedValue) : undefined;
-        const config = (storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {};
-        const MATRIX_PREFIX_REPLY = (config.MATRIX_PREFIX_REPLY === undefined) ? MATRIX_DEFAULT_PREFIX_REPLY : config.MATRIX_PREFIX_REPLY
+        const config: StoredConversationConfig = (storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {};
+        const MATRIX_PREFIX_REPLY:boolean = (config.MATRIX_PREFIX_REPLY === undefined) ? MATRIX_DEFAULT_PREFIX_REPLY : config.MATRIX_PREFIX_REPLY
         const shouldBePrefixed: boolean = ((MATRIX_DEFAULT_PREFIX) && (relatesTo === undefined)) || (MATRIX_PREFIX_REPLY && (relatesTo !== undefined));
         if (event.sender === MATRIX_BOT_USERNAME) return;                                       // Don't reply to ourself
         if (Date.now() - event.origin_server_ts > 10000) return;                                // Don't reply to old messages
