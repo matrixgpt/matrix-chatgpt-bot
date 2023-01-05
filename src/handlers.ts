@@ -17,12 +17,16 @@ export async function handleRoomEvent(client: MatrixClient, chatGPT: ChatGPTAPIB
         const rootEventId: string = (relatesTo !== undefined && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
         const storedValue: string = await client.storageProvider.readValue('gpt-' + rootEventId)
         const storedConversation: StoredConversation = (storedValue !== undefined) ? JSON.parse(storedValue) : undefined;
+
         const config: StoredConversationConfig = (storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {};
+        const MATRIX_PREFIX: string = (config.MATRIX_PREFIX === undefined) ? MATRIX_DEFAULT_PREFIX : config.MATRIX_PREFIX
         const MATRIX_PREFIX_REPLY:boolean = (config.MATRIX_PREFIX_REPLY === undefined) ? MATRIX_DEFAULT_PREFIX_REPLY : config.MATRIX_PREFIX_REPLY
-        const shouldBePrefixed: boolean = ((MATRIX_DEFAULT_PREFIX) && (relatesTo === undefined)) || (MATRIX_PREFIX_REPLY && (relatesTo !== undefined));
-        if (event.sender === MATRIX_BOT_USERNAME) return;                                       // Don't reply to ourself
-        if (Date.now() - event.origin_server_ts > 10000) return;                                // Don't reply to old messages
-        if (shouldBePrefixed && !event.content.body.startsWith(MATRIX_DEFAULT_PREFIX)) return;  // Don't reply without prefix if prefixed
+
+        const shouldBePrefixed: boolean = ((MATRIX_PREFIX) && (relatesTo === undefined)) || (MATRIX_PREFIX_REPLY && (relatesTo !== undefined));
+
+        if (event.sender === MATRIX_BOT_USERNAME) return;                               // Don't reply to ourself
+        if (Date.now() - event.origin_server_ts > 10000) return;                        // Don't reply to old messages
+        if (shouldBePrefixed && !event.content.body.startsWith(MATRIX_PREFIX)) return;  // Don't reply without prefix if prefixed
 
         await Promise.all([client.sendReadReceipt(roomId, event.event_id), client.setTyping(roomId, true, 10000)]);
         
