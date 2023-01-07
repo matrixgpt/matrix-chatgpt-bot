@@ -9,6 +9,10 @@ export function parseMatrixUsernamePretty(matrix_username: string): string {
   return withoutUrl.split('@')[1]
 }
 
+export function isEventAMessage(event: any): event is MessageEvent {
+  return event.type === 'm.room.message'
+}
+
 export async function sendError(client: MatrixClient, text: string, roomId: string, eventId: string): Promise<void> {
   Promise.all([client.setTyping(roomId, false, 500), client.sendText(roomId, text), client.sendReadReceipt(roomId, eventId)]);
 }

@@ -31,8 +31,8 @@ if (MATRIX_ENCRYPTION) {
 }
 
 async function main() {
-  const botUsernameWithoutDomain = parseMatrixUsernamePretty(MATRIX_BOT_USERNAME);
   if (!MATRIX_ACCESS_TOKEN){
+    const botUsernameWithoutDomain = parseMatrixUsernamePretty(MATRIX_BOT_USERNAME);
     const authedClient = await (new MatrixAuth(MATRIX_HOMESERVER_URL)).passwordLogin(botUsernameWithoutDomain, MATRIX_BOT_PASSWORD);
     console.log(authedClient.homeserverUrl + " token: \n" + authedClient.accessToken)
     console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_BOT_PASSWORD can now be blank")

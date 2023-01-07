@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_TIMEOUT, MATRIX_BOT_USERNAME, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX} from "./env.js";
+import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX} from "./env.js";
 import { RelatesTo, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendError, sendThreadReply } from "./utils.js";
 
@@ -31,12 +31,12 @@ export default class CommandHandler {
   }
 
   /**
-   * Run when *any* room message is received. The bot only sends a message if needed.
+   * Run when `message` room event is received. The bot only sends a message if needed.
    * @returns Room event handler, which itself returnings nothing
    */
   private async onMessage(roomId: string, event: any) {
     try {
-      if (event.sender === MATRIX_BOT_USERNAME) return;                                 // Ignore ourself
+      if (event.sender === this.userId) return;                                         // Ignore ourselves
       if (Date.now() - event.origin_server_ts > 10000) return;                          // Ignore old messages
       const relatesTo: RelatesTo | undefined = event.content["m.relates_to"];
       if ((relatesTo !== undefined) && (relatesTo["rel_type"] === "m.replace")) return; // Ignore edits

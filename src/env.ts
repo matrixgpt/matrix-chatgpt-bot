@@ -29,9 +29,9 @@ export const {
   DATA_PATH: {schema: z.string().default("./storage"),    description: "Set to /storage/ if using docker, ./storage if running without"},
   /** Matrix Bot Settings */
   MATRIX_HOMESERVER_URL: {schema: z.string().default("https://matrix.org")},
-  MATRIX_ACCESS_TOKEN:   {schema: z.string().optional(),  description: "Set MATRIX_BOT_USERNAME & MATRIX_BOT_PASSWORD to print ACCESS_TOKEN or follow https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-element-riot-matrix"},
-  MATRIX_BOT_USERNAME:   {schema: z.string().min(3),      description: "Set full username: eg @bot:server.com"},
-  MATRIX_BOT_PASSWORD:   {schema: z.string().optional(),  description: "Set AccessToken which supersedes MATRIX_BOT_PASSWORD"},
+  MATRIX_ACCESS_TOKEN:   {schema: z.string().optional(),  description: "Set MATRIX_BOT_USERNAME & MATRIX_BOT_PASSWORD to print MATRIX_ACCESS_TOKEN or follow https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-element-riot-matrix"},
+  MATRIX_BOT_USERNAME:   {schema: z.string().optional(),  description: "Set full username: eg @bot:server.com (superseded by MATRIX_ACCESS_TOKEN if set)"},
+  MATRIX_BOT_PASSWORD:   {schema: z.string().optional(),  description: "Set password (superseded by MATRIX_ACCESS_TOKEN if set)"},
   /** Matrix Bot Features */
   MATRIX_AUTOJOIN:                          {schema: z.boolean().default(true)},
   MATRIX_ENCRYPTION:                        {schema: z.boolean().default(true)},
