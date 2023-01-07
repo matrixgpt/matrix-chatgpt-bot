@@ -9,7 +9,7 @@ import {
 import * as path from "path";
 import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
-import { handleRoomEvent } from './handlers.js';
+import CommandHandler from "./handlers.js"
 import { ChatGPTAPIBrowser } from 'chatgpt'
 
 LogService.setLogger(new RichConsoleLogger());
@@ -68,7 +68,9 @@ async function main() {
     });
   });
 
-  client.on("room.event", await handleRoomEvent(client, chatGPT));
+  // Prepare the command handler
+  const commands = new CommandHandler(client, chatGPT);
+  await commands.start();
 
   LogService.info("index", "Starting bot...");
   await client.start()

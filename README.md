@@ -37,7 +37,7 @@ If you want to get an access token without exposing your password to this bot yo
 OPENAI_EMAIL=
 OPENAI_PASSWORD=
 # What type of Login it is, possibility's are google, openai, microsoft
-OPENAI_LOGIN_TYPE="google"
+OPENAI_LOGIN_TYPE=google
 
 # Matrix Static Settings (required, see notes)
 # Defaults to "https://matrix.org"
