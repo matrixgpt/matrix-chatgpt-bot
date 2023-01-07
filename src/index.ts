@@ -38,10 +38,10 @@ async function main() {
     console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_BOT_PASSWORD can now be blank")
     return;
   }
-  const client = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
+  const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
-  const chatGPT = new ChatGPTAPIBrowser({
+  const chatGPT: ChatGPTAPIBrowser = new ChatGPTAPIBrowser({
     email: OPENAI_EMAIL,
     password: OPENAI_PASSWORD,
     isGoogleLogin: (OPENAI_LOGIN_TYPE == "google"), 

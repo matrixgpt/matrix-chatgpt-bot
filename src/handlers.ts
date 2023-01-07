@@ -1,7 +1,7 @@
 import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
 import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX} from "./env.js";
-import { RelatesTo, StoredConversation, StoredConversationConfig } from "./interfaces.js";
+import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendError, sendThreadReply } from "./utils.js";
 
 export default class CommandHandler {
@@ -34,7 +34,7 @@ export default class CommandHandler {
    * Run when `message` room event is received. The bot only sends a message if needed.
    * @returns Room event handler, which itself returnings nothing
    */
-  private async onMessage(roomId: string, event: any) {
+  private async onMessage(roomId: string, event: MessageEvent) {
     try {
       if (event.sender === this.userId) return;                                         // Ignore ourselves
       if (Date.now() - event.origin_server_ts > 10000) return;                          // Ignore old messages
@@ -50,7 +50,17 @@ export default class CommandHandler {
 
       const shouldBePrefixed: boolean = ((MATRIX_PREFIX) && (relatesTo === undefined)) || (MATRIX_PREFIX_REPLY && (relatesTo !== undefined));
       const prefixes = [MATRIX_PREFIX, `${this.localpart}:`, `${this.displayName}:`, `${this.userId}:`];
-      const prefixUsed = prefixes.find(p => event.content.body.startsWith(p));
+      if ((relatesTo !== undefined) && !MATRIX_PREFIX_REPLY) {
+        if(relatesTo.event_id !== undefined){
+          const rootEvent: MessageEvent = await this.client.getEvent(roomId, relatesTo.event_id) // relatesTo is root event.
+          const rootPrefixUsed = prefixes.find(p => rootEvent.content.body.startsWith(p));
+          if (!rootPrefixUsed) return;                                                  // Ignore unrelated threads
+        } else {
+          // reply not a thread, we don't currently support looking back for a prefix
+          return;                                                                       // Ignore if no relatesTo EventID
+        }
+      }
+      const prefixUsed: string = prefixes.find(p => event.content.body.startsWith(p));
       if (shouldBePrefixed && !prefixUsed) return;                                      // Ignore without prefix if prefixed
       await Promise.all([this.client.sendReadReceipt(roomId, event.event_id), this.client.setTyping(roomId, true, 10000)]);
 
