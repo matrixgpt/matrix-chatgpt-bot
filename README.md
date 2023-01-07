@@ -42,11 +42,11 @@ OPENAI_LOGIN_TYPE=google
 # Matrix Static Settings (required, see notes)
 # Defaults to "https://matrix.org"
 MATRIX_HOMESERVER_URL=
-# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN, needs to always be set
+# With the @ and :DOMAIN, ie @SOMETHING:DOMAIN - Not used if `MATRIX_ACCESS_TOKEN` is set.
 MATRIX_BOT_USERNAME=
 # Set `MATRIX_BOT_PASSWORD` the bot will print an `MATRIX_ACCESS_TOKEN` to the terminal
 MATRIX_ACCESS_TOKEN=
-# Once `MATRIX_ACCESS_TOKEN` is set this is no longer used.
+# Not used if `MATRIX_ACCESS_TOKEN` is set.
 MATRIX_BOT_PASSWORD=
 
 # Matrix Configurable Settings Defaults (optional)
