@@ -54,6 +54,11 @@ MATRIX_BOT_PASSWORD=
 MATRIX_DEFAULT_PREFIX=!chatgpt
 MATRIX_DEFAULT_PREFIX_REPLY=false
 
+# Matrix Access Control (optional)
+# Can be set to user:homeserver or a wildcard like :anotherhomeserver.example
+MATRIX_BLACKLIST=
+MATRIX_WHITELIST=
+
 # Matrix Feature Flags (optional)
 MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true

@@ -15,6 +15,9 @@ export const {
   MATRIX_ENCRYPTION,
   MATRIX_THREADS,
   MATRIX_PREFIX_DM,
+  /** Matrix Access Control */
+  MATRIX_BLACKLIST,
+  MATRIX_WHITELIST,
   /** Matrix Bot Runtime Config */
   MATRIX_DEFAULT_PREFIX,
   MATRIX_DEFAULT_PREFIX_REPLY,
@@ -35,6 +38,9 @@ export const {
   MATRIX_ENCRYPTION:          {schema: z.boolean().default(true)},
   MATRIX_THREADS:             {schema: z.boolean().default(true)},
   MATRIX_PREFIX_DM:           {schema: z.boolean().default(false)},
+  /** Matrix Access Control */
+  MATRIX_BLACKLIST:           {schema: z.string().optional()},
+  MATRIX_WHITELIST:           {schema: z.string().optional()},
   /** Matrix Bot Runtime Config */
   MATRIX_DEFAULT_PREFIX:      {schema: z.string().default(""), description: "Set this to empty string if you don't want to use it. Trailing space matters."},
   MATRIX_DEFAULT_PREFIX_REPLY:{schema: z.boolean().default(false)},
