@@ -7,7 +7,7 @@
   "license": "AGPL-3.0",
   "type": "module",
   "engines": {
-    "node": "v18.12.1"
+    "node": ">=18.12.1"
   },
   "scripts": {
     "build": "rm -f tsconfig.tsbuildinfo && npx tsc",
