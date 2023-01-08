@@ -44,7 +44,7 @@ export default class CommandHandler {
         if (MATRIX_BLACKLIST.split(" ").find(b => event.sender.endsWith(b))) return;    // Ignore if on blacklist if set
       }
       if ((MATRIX_WHITELIST !== undefined) && MATRIX_WHITELIST){
-        if (!MATRIX_WHITELIST.split(" ").find(w => event.sender.endsWith(w))) return; // Ignore if not on whitelist if set
+        if (!MATRIX_WHITELIST.split(" ").find(w => event.sender.endsWith(w))) return;   // Ignore if not on whitelist if set
       }
       const rootEventId: string = (relatesTo !== undefined && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
       const storedValue: string = await this.client.storageProvider.readValue('gpt-' + rootEventId)
@@ -88,7 +88,7 @@ export default class CommandHandler {
         result = await this.chatGPT.sendMessage(question, {timeoutMs: CHATGPT_TIMEOUT});
       }
 
-      await Promise.all([this.client.setTyping(roomId, false, 500), sendThreadReply(this.client, `${result.response}`, roomId, rootEventId)]);
+      await Promise.all([this.client.setTyping(roomId, false, 500), sendThreadReply(this.client, roomId, rootEventId,`${result.response}`, true)]);
 
       await this.client.storageProvider.storeValue('gpt-' + rootEventId, JSON.stringify({
         conversationId: result.conversationId,
