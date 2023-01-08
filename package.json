@@ -2,7 +2,7 @@
   "name": "matrix-chatgpt-bot",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "repository": "git@github.com:jakecoppinger/matrix-chatgpt-bot.git",
+  "repository": "git@github.com:matrixgpt/matrix-chatgpt-bot.git",
   "author": "Jake Coppinger <jake@jakecoppinger.com>",
   "license": "AGPL-3.0",
   "type": "module",
