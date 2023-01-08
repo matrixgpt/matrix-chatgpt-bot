@@ -57,6 +57,7 @@ MATRIX_DEFAULT_PREFIX_REPLY=false
 # Matrix Access Control (optional)
 # Can be set to user:homeserver or a wildcard like :anotherhomeserver.example
 MATRIX_BLACKLIST=
+# `MATRIX_WHITELIST` is overriden by `MATRIX_BLACKLIST`
 MATRIX_WHITELIST=
 
 # Matrix Feature Flags (optional)

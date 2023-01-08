@@ -40,10 +40,10 @@ export default class CommandHandler {
       if (Date.now() - event.origin_server_ts > 10000) return;                          // Ignore old messages
       const relatesTo: RelatesTo | undefined = event.content["m.relates_to"];
       if ((relatesTo !== undefined) && (relatesTo["rel_type"] === "m.replace")) return; // Ignore edits
-      if (MATRIX_BLACKLIST !== undefined){
+      if ((MATRIX_BLACKLIST !== undefined) && MATRIX_BLACKLIST){
         if (MATRIX_BLACKLIST.split(" ").find(b => event.sender.endsWith(b))) return;    // Ignore if on blacklist if set
       }
-      if (MATRIX_WHITELIST !== undefined){
+      if ((MATRIX_WHITELIST !== undefined) && MATRIX_WHITELIST){
         if (!MATRIX_WHITELIST.split(" ").find(w => event.sender.endsWith(w))) return; // Ignore if not on whitelist if set
       }
       const rootEventId: string = (relatesTo !== undefined && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
