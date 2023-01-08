@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST} from "./env.js";
+import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT} from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendError, sendThreadReply } from "./utils.js";
 
@@ -88,7 +88,7 @@ export default class CommandHandler {
         result = await this.chatGPT.sendMessage(question, {timeoutMs: CHATGPT_TIMEOUT});
       }
 
-      await Promise.all([this.client.setTyping(roomId, false, 500), sendThreadReply(this.client, roomId, rootEventId,`${result.response}`, true)]);
+      await Promise.all([this.client.setTyping(roomId, false, 500), sendThreadReply(this.client, roomId, rootEventId,`${result.response}`, MATRIX_RICH_TEXT)]);
 
       await this.client.storageProvider.storeValue('gpt-' + rootEventId, JSON.stringify({
         conversationId: result.conversationId,

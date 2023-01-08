@@ -15,6 +15,7 @@ export const {
   MATRIX_ENCRYPTION,
   MATRIX_THREADS,
   MATRIX_PREFIX_DM,
+  MATRIX_RICH_TEXT,
   /** Matrix Access Control */
   MATRIX_BLACKLIST,
   MATRIX_WHITELIST,
@@ -38,6 +39,7 @@ export const {
   MATRIX_ENCRYPTION:          {schema: z.boolean().default(true)},
   MATRIX_THREADS:             {schema: z.boolean().default(true)},
   MATRIX_PREFIX_DM:           {schema: z.boolean().default(false)},
+  MATRIX_RICH_TEXT:           {schema: z.boolean().default(true)},
   /** Matrix Access Control */
   MATRIX_BLACKLIST:           {schema: z.string().optional()},
   MATRIX_WHITELIST:           {schema: z.string().optional()},
