@@ -4,9 +4,9 @@ on:
   push:
     tags:
       - "v*.*.*"
+    branches: [main]  
   pull_request:
-    branches:
-      - "main"
+    branches: [main]
 
 jobs:
   docker:
@@ -23,6 +23,7 @@ jobs:
           # list of Docker images to use as base name for tags
           images: |
             ghcr.io/matrixgpt/matrix-chatgpt-bot
+          flavor: latest=true
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -51,7 +52,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.ref_type == 'tag' }}
           tags: ${{ steps.meta.outputs.tags }}
-          platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
