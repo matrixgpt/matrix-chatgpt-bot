@@ -1,4 +1,4 @@
-FROM satantime/puppeteer-node:18.13.0-slim
+FROM satantime/puppeteer-node:19-slim
 
 # Create app directory
 WORKDIR /usr/src/app
