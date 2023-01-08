@@ -1,5 +1,8 @@
+import Markdown from 'markdown-it';
 import { MatrixClient } from "matrix-bot-sdk";
 import { MessageEvent } from "./interfaces.js";
+
+const md = Markdown();
 
 export function parseMatrixUsernamePretty(matrix_username: string): string {
   if (matrix_username.includes(":") === false || matrix_username.includes("@") === false) {
@@ -19,23 +22,49 @@ export async function sendError(client: MatrixClient, text: string, roomId: stri
 
 /**
  * Send a thread reply.
- * @param client Matrix client
- * @param param1 Object containing text, root_event_id and roomId. root_event_id is the event_id
- * of the message the thread "replying" to.
+ * @param {MatrixClient} client Matrix client
+ * @param {string} roomId the room ID the event being replied to resides in
+ * @param {string} rootEventId the root event of the thread
+ * @param {string} text the plain text to reply with
+ * @param {boolean} rich should the plain text be rendered to html using markdown?
  */
-export async function sendThreadReply(client: MatrixClient, text: string, roomId: string, root_event_id: string): Promise<void> {
-  const content = {
+export async function sendThreadReply(client: MatrixClient, roomId: string, rootEventId: string, text: string, rich:boolean = false): Promise<void> {
+
+  const contentCommon = {
     body: text,
     msgtype: "m.text",
-    "org.matrix.msc1767.text": text,
     "m.relates_to": {
-      event_id: root_event_id,
+      event_id: rootEventId,
       is_falling_back: true,
       "m.in_reply_to": {
-        "event_id": root_event_id
+        "event_id": rootEventId
       },
       rel_type: "m.thread"
     }
   }
+
+  const contentTextOnly = {
+    "org.matrix.msc1767.text": text,
+  }
+
+  const renderedText = md.render(text)
+
+  const contentRichOnly = {
+    format: "org.matrix.custom.html",
+    formatted_body: renderedText,
+    "org.matrix.msc1767.message": [
+      {
+        "body": text,
+        "mimetype": "text/plain"
+      },
+      {
+        "body": renderedText,
+        "mimetype": "text/html"
+      }
+    ]
+  }
+
+  const content = rich ? { ...contentCommon, ...contentRichOnly } : { ...contentCommon, ...contentTextOnly };
+
   await client.sendEvent(roomId, "m.room.message", content);
 }
