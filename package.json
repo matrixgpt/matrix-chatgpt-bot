@@ -15,7 +15,7 @@
     "typecheck": "npx tsc"
   },
   "dependencies": {
-    "chatgpt": "^3.3.12",
+    "chatgpt": "^3.3.13",
     "dotenv": "^16.0.3",
     "markdown-it": "^13.0.1",
     "matrix-bot-sdk": "^0.6.3",
