@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
-import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT} from "./env.js";
+import { LogService, MatrixClient, UserID,  } from "matrix-bot-sdk";
+import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM} from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendError, sendThreadReply } from "./utils.js";
 
@@ -39,27 +39,30 @@ export default class CommandHandler {
       if (event.sender === this.userId) return;                                         // Ignore ourselves
       if (Date.now() - event.origin_server_ts > 10000) return;                          // Ignore old messages
       const relatesTo: RelatesTo | undefined = event.content["m.relates_to"];
-      if ((relatesTo !== undefined) && (relatesTo["rel_type"] === "m.replace")) return; // Ignore edits
+      const isReplyOrThread: boolean = (relatesTo === undefined)
+      if ((!isReplyOrThread) && (relatesTo["rel_type"] === "m.replace")) return; // Ignore edits
       if ((MATRIX_BLACKLIST !== undefined) && MATRIX_BLACKLIST){
         if (MATRIX_BLACKLIST.split(" ").find(b => event.sender.endsWith(b))) return;    // Ignore if on blacklist if set
       }
       if ((MATRIX_WHITELIST !== undefined) && MATRIX_WHITELIST){
         if (!MATRIX_WHITELIST.split(" ").find(w => event.sender.endsWith(w))) return;   // Ignore if not on whitelist if set
       }
-      const rootEventId: string = (relatesTo !== undefined && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
+      const rootEventId: string = (!isReplyOrThread && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
       const storedValue: string = await this.client.storageProvider.readValue('gpt-' + rootEventId)
       const storedConversation: StoredConversation = (storedValue !== undefined) ? JSON.parse(storedValue) : undefined;
       const config: StoredConversationConfig = (storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {};
       const MATRIX_PREFIX: string = (config.MATRIX_PREFIX === undefined) ? MATRIX_DEFAULT_PREFIX : config.MATRIX_PREFIX
       const MATRIX_PREFIX_REPLY:boolean = (config.MATRIX_PREFIX_REPLY === undefined) ? MATRIX_DEFAULT_PREFIX_REPLY : config.MATRIX_PREFIX_REPLY
 
-      const shouldBePrefixed: boolean = ((MATRIX_PREFIX) && (relatesTo === undefined)) || (MATRIX_PREFIX_REPLY && (relatesTo !== undefined));
+      const isDm: boolean = this.client.dms.isDm(roomId)
+      let shouldBePrefixed: boolean = (MATRIX_PREFIX && isReplyOrThread) || (MATRIX_PREFIX_REPLY && !isReplyOrThread);
+      if (!MATRIX_PREFIX_DM && isDm) shouldBePrefixed=false
       const prefixes = [MATRIX_PREFIX, `${this.localpart}:`, `${this.displayName}:`, `${this.userId}:`];
-      if ((relatesTo !== undefined) && !MATRIX_PREFIX_REPLY) {
+      if (!isReplyOrThread && !MATRIX_PREFIX_REPLY) {
         if(relatesTo.event_id !== undefined){
           const rootEvent: MessageEvent = await this.client.getEvent(roomId, relatesTo.event_id) // relatesTo is root event.
           const rootPrefixUsed = prefixes.find(p => rootEvent.content.body.startsWith(p));
-          if (!rootPrefixUsed) return;                                                  // Ignore unrelated threads
+          if (!rootPrefixUsed && !(!MATRIX_PREFIX_DM && isDm)) return;                  // Ignore unrelated threads or certain dms
         } else {
           // reply not a thread, we don't currently support looking back for a prefix
           return;                                                                       // Ignore if no relatesTo EventID
