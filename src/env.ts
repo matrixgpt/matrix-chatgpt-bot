@@ -48,7 +48,7 @@ export const {
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },
   /** ChatGPT Settings */
   OPENAI_EMAIL:                { schema: z.string().min(3),                        description: "Set full username of OpenAI's account" },
-  OPENAI_PASSWORD:           { schema: z.string().min(1),                          description: "Set password of OpenAI's account" },
+  OPENAI_PASSWORD:             { schema: z.string().min(1),                        description: "Set password of OpenAI's account" },
   OPENAI_LOGIN_TYPE:           { schema: z.enum(["google", "openai", "microsoft"]).default("google"), description: "Set authentication provider to 'google', 'openai' or 'microsoft'" },
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for CHATGPT responses" }
 });
