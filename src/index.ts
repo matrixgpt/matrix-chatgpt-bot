@@ -64,7 +64,7 @@ async function main() {
     LogService.info("index", `Bot joined room ${roomId}`);
     await client.sendMessage(roomId, {
       "msgtype": "m.notice",
-      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${MATRIX_ENCRYPTION }`,
+      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${MATRIX_ENCRYPTION}`,
     });
   });
 
