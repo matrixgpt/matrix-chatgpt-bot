@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM } from "./env.js";
+import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendChatGPTMessage, sendError, sendThreadReply } from "./utils.js";
 
@@ -100,7 +100,7 @@ export default class CommandHandler {
 
       await Promise.all([
         this.client.sendReadReceipt(roomId, event.event_id),
-        this.client.setTyping(roomId, true, 10000)
+        this.client.setTyping(roomId, true, CHATGPT_TIMEOUT)
       ]);
 
       const bodyWithoutPrefix = this.getBodyWithoutPrefix(event, config, shouldBePrefixed);
