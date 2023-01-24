@@ -7,7 +7,7 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION } from './env.js'
+import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import CommandHandler from "./handlers.js"
 import { ChatGPTAPIBrowser } from 'chatgpt'
@@ -45,7 +45,8 @@ async function main() {
     email: OPENAI_EMAIL,
     password: OPENAI_PASSWORD,
     isGoogleLogin: (OPENAI_LOGIN_TYPE == "google"), 
-    isMicrosoftLogin: (OPENAI_LOGIN_TYPE == "microsoft")
+    isMicrosoftLogin: (OPENAI_LOGIN_TYPE == "microsoft"),
+    isProAccount: OPENAI_PRO
   })
   await chatGPT.initSession()
 

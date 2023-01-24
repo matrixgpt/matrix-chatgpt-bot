@@ -38,6 +38,8 @@ OPENAI_EMAIL=
 OPENAI_PASSWORD=
 # What type of Login it is, possibility's are google, openai, microsoft
 OPENAI_LOGIN_TYPE=google
+# Set the next line to true if you are using a ChatGPT pro account.
+OPENAI_PRO=false
 
 # Matrix Static Settings (required, see notes)
 # Defaults to "https://matrix.org"
