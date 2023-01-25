@@ -65,7 +65,6 @@ MATRIX_WHITELIST=
 # Matrix Feature Flags (optional)
 MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true
-MATRIX_THREADS=true
 MATRIX_PREFIX_DM=false
 MATRIX_RICH_TEXT=true
 ```
