@@ -17,7 +17,7 @@ You should not be using this ChatGPT account while the bot is using it, because 
 
 If your OpenAI account uses Google Auth, you shouldn't encounter any of the more complicated Recaptchas — and can avoid using paid third-party CAPTCHA solving providers. To use Google auth, make sure your OpenAI account is using Google and then set `OPENAI_LOGIN_TYPE` to `google`. You should also note that if your Google account uses 2FA it will not work but there is a workaround detailed [here](https://github.com/transitive-bullshit/chatgpt-api/issues/169#issuecomment-1362206780)
 
-If you want to get an access token without exposing your password to this bot you can follow [how-to-get-an-access-token-for-element-riot-matrix](https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-element-riot-matrix).
+To get an access token you can provide MATRIX_USERNAME and MATRIX_PASSWORD whilst leaving MATRIX_ACCESS_TOKEN blank. This will print a token to the screen. You can then add this token to the MATRIX_ACCESS_TOKEN field.
 
 # Usage
 - Create an (encrypted if enabled) room
