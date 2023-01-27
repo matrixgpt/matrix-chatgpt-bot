@@ -41,6 +41,9 @@ OPENAI_LOGIN_TYPE=google
 # Set the next line to true if you are using a ChatGPT pro account.
 OPENAI_PRO=false
 
+# Set the ChatGPT conversation context to 'thread', 'room' or 'both'.
+CHATGPT_CONTEXT=thread
+
 # Matrix Static Settings (required, see notes)
 # Defaults to "https://matrix.org"
 MATRIX_HOMESERVER_URL=

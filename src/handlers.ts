@@ -1,6 +1,6 @@
 import { ChatGPTAPIBrowser } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM } from "./env.js";
+import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendChatGPTMessage, sendError, sendThreadReply } from "./utils.js";
 
@@ -44,8 +44,20 @@ export default class CommandHandler {
     return (!isReplyOrThread && relatesTo.event_id !== undefined) ? relatesTo.event_id : event.event_id;
   }
 
-  private async getStoredConversation(rootEventId: string): Promise<StoredConversation> {
-    const storedValue: string = await this.client.storageProvider.readValue('gpt-' + rootEventId)
+  private getStorageKey(event: MessageEvent, roomId: string): string {
+    const rootEventId: string = this.getRootEventId(event)
+    if (CHATGPT_CONTEXT == "room") {
+      return roomId
+    } else if (CHATGPT_CONTEXT == "thread") {
+      return rootEventId
+    } else {  // CHATGPT_CONTEXT set to both.
+      return (rootEventId !== event.event_id) ? rootEventId : roomId;
+    }
+  }
+
+  private async getStoredConversation(storageKey: string, roomId: string): Promise<StoredConversation> {
+    let storedValue: string = await this.client.storageProvider.readValue('gpt-' + storageKey)
+    if (storedValue == undefined && storageKey != roomId) storedValue = await this.client.storageProvider.readValue('gpt-' + roomId)
     return (storedValue !== undefined) ? JSON.parse(storedValue) : undefined;
   }
 
@@ -91,8 +103,8 @@ export default class CommandHandler {
     try {
       if (this.shouldIgnore(event)) return;
 
-      const rootEventId = this.getRootEventId(event);
-      const storedConversation = await this.getStoredConversation(rootEventId);
+      const storageKey = this.getStorageKey(event, roomId);
+      const storedConversation = await this.getStoredConversation(storageKey, roomId);
       const config = this.getConfig(storedConversation);
 
       const shouldBePrefixed = await this.shouldBePrefixed(config, roomId, event)
@@ -112,13 +124,13 @@ export default class CommandHandler {
       const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
-        sendThreadReply(this.client, roomId, rootEventId, `${result.response}`, MATRIX_RICH_TEXT)
+        sendThreadReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_RICH_TEXT)
       ]);
 
-      await this.client.storageProvider.storeValue('gpt-' + rootEventId, JSON.stringify({
-        conversationId: result.conversationId, messageId: result.messageId,
-        config: ((storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {}),
-      }));
+      const storedConfig = ((storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {})
+      const configString: string = JSON.stringify({conversationId: result.conversationId, messageId: result.messageId, config: storedConfig})
+      await this.client.storageProvider.storeValue('gpt-' + storageKey, configString);
+      if ((storageKey === roomId) && (CHATGPT_CONTEXT === "both")) await this.client.storageProvider.storeValue('gpt-' + event.event_id, configString);
     } catch (err) {
       console.error(err);
     }
