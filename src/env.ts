@@ -13,6 +13,7 @@ export const {
   /** Matrix Bot Features */
   MATRIX_AUTOJOIN,
   MATRIX_ENCRYPTION,
+  MATRIX_THREADS,
   MATRIX_PREFIX_DM,
   MATRIX_RICH_TEXT,
   /** Matrix Access Control */
@@ -38,6 +39,7 @@ export const {
   /** Matrix Bot Features */
   MATRIX_AUTOJOIN:             { schema: z.boolean().default(true),                description: "Set to true if you want the bot to autojoin when invited" },
   MATRIX_ENCRYPTION:           { schema: z.boolean().default(true),                description: "Set to true if you want the bot to support encrypted channels" },
+  MATRIX_THREADS:              { schema: z.boolean().default(true),                description: "Set to true if you want the bot to answer always in a new thread/conversation" },
   MATRIX_PREFIX_DM:            { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a one-to-one room" },
   MATRIX_RICH_TEXT:            { schema: z.boolean().default(true),                description: "Set to true if you want the bot to answer with enriched text" },
   /** Matrix Access Control */
