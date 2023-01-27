@@ -7,7 +7,7 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION } from './env.js'
+import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import CommandHandler from "./handlers.js"
 import { ChatGPTAPIBrowser } from 'chatgpt'
@@ -38,6 +38,7 @@ async function main() {
     console.log("Set MATRIX_ACCESS_TOKEN to above token, MATRIX_BOT_PASSWORD can now be blank")
     return;
   }
+  if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room") throw Error("You must set CHATGPT_CONTEXT to 'room' if you set MATRIX_THREADS to false")
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
