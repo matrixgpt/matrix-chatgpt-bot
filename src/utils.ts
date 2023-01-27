@@ -28,13 +28,17 @@ export async function sendError(client: MatrixClient, text: string, roomId: stri
  * @param {string} roomId the room ID the event being replied to resides in
  * @param {string} rootEventId the root event of the thread
  * @param {string} text the plain text to reply with
+ * @param {boolean} thread reply as a thread
  * @param {boolean} rich should the plain text be rendered to html using markdown?
  */
-export async function sendThreadReply(client: MatrixClient, roomId: string, rootEventId: string, text: string, rich:boolean = false): Promise<void> {
+export async function sendReply(client: MatrixClient, roomId: string, rootEventId: string, text: string, thread: boolean = false, rich:boolean = false): Promise<void> {
 
   const contentCommon = {
     body: text,
     msgtype: "m.text",
+  }
+
+  const contentThreadOnly = {
     "m.relates_to": {
       event_id: rootEventId,
       is_falling_back: true,
@@ -67,8 +71,9 @@ export async function sendThreadReply(client: MatrixClient, roomId: string, root
   }
 
   const content = rich ? { ...contentCommon, ...contentRichOnly } : { ...contentCommon, ...contentTextOnly };
+  const finalContent = thread ? { ...content, ...contentThreadOnly } : content
 
-  await client.sendEvent(roomId, "m.room.message", content);
+  await client.sendEvent(roomId, "m.room.message", finalContent);
 }
 
 export async function sendChatGPTMessage(chatGPT: ChatGPTAPIBrowser, question: string, storedConversation: StoredConversation) {

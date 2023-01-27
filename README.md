@@ -68,6 +68,8 @@ MATRIX_WHITELIST=
 # Matrix Feature Flags (optional)
 MATRIX_AUTOJOIN=true
 MATRIX_ENCRYPTION=true
+# If you turn threads off you will have problems if you don't set CHATGPT_CONTEXT=room
+MATRIX_THREADS=true
 MATRIX_PREFIX_DM=false
 MATRIX_RICH_TEXT=true
 ```

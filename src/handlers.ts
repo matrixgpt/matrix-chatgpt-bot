@@ -1,8 +1,8 @@
 import { ChatGPTAPIBrowser } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM } from "./env.js";
+import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
-import { sendChatGPTMessage, sendError, sendThreadReply } from "./utils.js";
+import { sendChatGPTMessage, sendError, sendReply } from "./utils.js";
 
 export default class CommandHandler {
 
@@ -124,7 +124,7 @@ export default class CommandHandler {
       const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
-        sendThreadReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_RICH_TEXT)
+        sendReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
       ]);
 
       const storedConfig = ((storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {})
