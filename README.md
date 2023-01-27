@@ -19,22 +19,20 @@ A Matrix bot that uses [transitive-bullshit/chatgpt-api](https://github.com/tran
 
 # Configure
 
-## Bot
-
 ```
 cp .env.example .env
 ```
 
-You must adjust the settings in the `.env` file according to your needs. See below for help.
+You must adjust the settings in the `.env` file according to your needs.
 
 ## Matrix
 You need a Matrix account on Matrix.org (or any other server).
 
-The bot outputs MATRIX_ACCESS_TOKEN to the console if it is not already set but MATRIX_BOT_USERNAME & MATRIX_BOT_PASSWORD are.
+The bot outputs `MATRIX_ACCESS_TOKEN` to the console if it is not already set but `MATRIX_BOT_USERNAME` & `MATRIX_BOT_PASSWORD` are.
 
-You must set MATRIX_ACCESS_TOKEN to use this token. Do not use it with any other client.
+You must set `MATRIX_ACCESS_TOKEN` to use this token. Do not use it with any other client.
 
-You no longer need to use the MATRIX_BOT_PASSWORD field but you can leave it set if you want.
+You no longer need `MATRIX_BOT_PASSWORD` set but you can leave it if you want.
 
 ## OpenAI / ChatGPT
 
