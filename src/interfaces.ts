@@ -35,8 +35,7 @@ export type MatrixReactionEvent = CommonMatrixEventFields & {
   content: {
     'm.relates_to'?: {
       event_id: string
-      /** The emoji itself */
-      key: string
+      key: string /** The emoji itself */
     }
   }
 }

@@ -1,8 +1,6 @@
-import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
 import Markdown from 'markdown-it';
 import { MatrixClient } from "matrix-bot-sdk";
-import { MessageEvent, StoredConversation } from "./interfaces.js";
-import { CHATGPT_TIMEOUT } from "./env.js";
+import { MessageEvent } from "./interfaces.js";
 
 const md = Markdown();
 
@@ -32,12 +30,10 @@ export async function sendError(client: MatrixClient, text: string, roomId: stri
  * @param {boolean} rich should the plain text be rendered to html using markdown?
  */
 export async function sendReply(client: MatrixClient, roomId: string, rootEventId: string, text: string, thread: boolean = false, rich:boolean = false): Promise<void> {
-
   const contentCommon = {
     body: text,
     msgtype: "m.text",
   }
-
   const contentThreadOnly = {
     "m.relates_to": {
       event_id: rootEventId,
@@ -48,13 +44,10 @@ export async function sendReply(client: MatrixClient, roomId: string, rootEventI
       rel_type: "m.thread"
     }
   }
-
   const contentTextOnly = {
     "org.matrix.msc1767.text": text,
   }
-
   const renderedText = md.render(text)
-
   const contentRichOnly = {
     format: "org.matrix.custom.html",
     formatted_body: renderedText,
@@ -69,23 +62,7 @@ export async function sendReply(client: MatrixClient, roomId: string, rootEventI
       }
     ]
   }
-
   const content = rich ? { ...contentCommon, ...contentRichOnly } : { ...contentCommon, ...contentTextOnly };
   const finalContent = thread ? { ...content, ...contentThreadOnly } : content
-
   await client.sendEvent(roomId, "m.room.message", finalContent);
-}
-
-export async function sendChatGPTMessage(chatGPT: ChatGPTAPIBrowser, question: string, storedConversation: StoredConversation) {
-  let result: ChatResponse
-  if (storedConversation !== undefined) {
-    result = await chatGPT.sendMessage(question, {
-      timeoutMs: CHATGPT_TIMEOUT,
-      conversationId: storedConversation.conversationId,
-      parentMessageId: storedConversation.messageId
-    });
-  } else {
-    result = await chatGPT.sendMessage(question, { timeoutMs: CHATGPT_TIMEOUT });
-  }
-  return result
 }

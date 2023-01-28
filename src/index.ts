@@ -1,3 +1,4 @@
+import { ChatGPTAPIBrowser } from 'chatgpt'
 import {
   MatrixAuth, MatrixClient, SimpleFsStorageProvider, AutojoinRoomsMixin,
   LogService, LogLevel,
@@ -5,25 +6,19 @@ import {
   ICryptoStorageProvider,
   RustSdkCryptoStorageProvider,
 } from "matrix-bot-sdk";
-
 import * as path from "path";
+
 import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import CommandHandler from "./handlers.js"
-import { ChatGPTAPIBrowser } from 'chatgpt'
 
 LogService.setLogger(new RichConsoleLogger());
-
-// Shows the Matrix sync loop details - not needed most of the time
-// LogService.setLevel(LogLevel.DEBUG);
-
+// LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
 LogService.setLevel(LogLevel.INFO);
-
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
 
 const storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
-
 // Prepare a crypto store if we need that
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION) {
@@ -50,28 +45,18 @@ async function main() {
     isProAccount: OPENAI_PRO
   })
 
-  chatGPT.initSession().then(() => {
-    LogService.info('ChatGPT session initialized');
-  });
-
-  // call `api.refreshSession()` every hour to refresh the session
-  setInterval(() => {
-    chatGPT.refreshSession().then(() => {
-      LogService.info('ChatGPT session reset');
-    });
-  }, 60 * 60 * 1000);
-
-  // call `api.resetSession()` every 24 hours to reset the session
-  setInterval(() => {
-    chatGPT.resetSession().then(() => {
-      LogService.info('ChatGPT session reset');
-    });
-  }, 24 * 60 * 60 * 1000);
+  try{
+    chatGPT.initSession().then(() => { LogService.info("index", 'ChatGPT session initialized'); });
+    setInterval(() => {  // call `api.refreshSession()` every hour to refresh the session
+      chatGPT.refreshSession().then(() => { LogService.info("index", "ChatGPT session refresh"); });
+    }, 60 * 60 * 1000);
+    setInterval(() => {  // call `api.resetSession()` every 24 hours to reset the session
+      chatGPT.resetSession().then(() => { LogService.info("ChatGPT session reset"); });
+    }, 24 * 60 * 60 * 1000);
+  } catch(error) { LogService.error("index", "Failed to init or renew ChatGPT session"); }
 
   // Automatically join rooms the bot is invited to
-  if (MATRIX_AUTOJOIN) {
-    AutojoinRoomsMixin.setupOnClient(client);
-  }
+  if (MATRIX_AUTOJOIN) AutojoinRoomsMixin.setupOnClient(client);
 
   client.on("room.failed_decryption", async (roomId, event, error) => {
     // handle `m.room.encrypted` event that could not be decrypted

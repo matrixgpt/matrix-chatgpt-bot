@@ -1,8 +1,8 @@
-import { ChatGPTAPIBrowser } from "chatgpt";
+import { ChatGPTAPIBrowser, ChatGPTError, ChatResponse } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
 import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
-import { sendChatGPTMessage, sendError, sendReply } from "./utils.js";
+import { sendError, sendReply } from "./utils.js";
 
 export default class CommandHandler {
 
@@ -106,6 +106,7 @@ export default class CommandHandler {
       const storageKey = this.getStorageKey(event, roomId);
       const storedConversation = await this.getStoredConversation(storageKey, roomId);
       const config = this.getConfig(storedConversation);
+      delete storedConversation.config
 
       const shouldBePrefixed = await this.shouldBePrefixed(config, roomId, event)
       if (!shouldBePrefixed) return;
@@ -121,14 +122,25 @@ export default class CommandHandler {
         return;
       }
 
-      const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
+      let result: ChatResponse;
+      try {
+        result = await this.chatGPT.sendMessage(await bodyWithoutPrefix, {timeoutMs: CHATGPT_TIMEOUT, ...storedConversation});
+      } catch (error) {
+        if (error instanceof ChatGPTError) {
+          console.error('ChatGPT error:', error);
+          result = { response: error.message, ...storedConversation};
+          // TODO: should we refresh the ChatGPT session here?
+          // TODO: add emoji that the user can click to retry.
+        }
+      }
+
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
         sendReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
       ]);
 
-      const storedConfig = ((storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {})
-      const configString: string = JSON.stringify({conversationId: result.conversationId, messageId: result.messageId, config: storedConfig})
+      const storedConfig = config !== undefined ? config : {}
+      const configString: string = JSON.stringify({...result, config: storedConfig})
       await this.client.storageProvider.storeValue('gpt-' + storageKey, configString);
       if ((storageKey === roomId) && (CHATGPT_CONTEXT === "both")) await this.client.storageProvider.storeValue('gpt-' + event.event_id, configString);
     } catch (err) {
