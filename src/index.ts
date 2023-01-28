@@ -54,19 +54,19 @@ async function main() {
     LogService.info('ChatGPT session initialized');
   });
 
-  // call `api.refreshSession()` every hour to refresh the session
-  setInterval(() => {
-    chatGPT.refreshSession().then(() => {
-      LogService.info('ChatGPT session reset');
-    });
-  }, 60 * 60 * 1000);
+//   // call `api.refreshSession()` every hour to refresh the session
+//   setInterval(() => {
+//     chatGPT.refreshSession().then(() => {
+//       LogService.info('ChatGPT session reset');
+//     });
+//   }, 60 * 60 * 1000);
 
-  // call `api.resetSession()` every 24 hours to reset the session
-  setInterval(() => {
-    chatGPT.resetSession().then(() => {
-      LogService.info('ChatGPT session reset');
-    });
-  }, 24 * 60 * 60 * 1000);
+//   // call `api.resetSession()` every 24 hours to reset the session
+//   setInterval(() => {
+//     chatGPT.resetSession().then(() => {
+//       LogService.info('ChatGPT session reset');
+//     });
+//   }, 24 * 60 * 60 * 1000);
 
   // Automatically join rooms the bot is invited to
   if (MATRIX_AUTOJOIN) {
