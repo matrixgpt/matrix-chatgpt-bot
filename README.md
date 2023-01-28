@@ -48,7 +48,13 @@ Ensure your OpenAI account uses Google and set `OPENAI_LOGIN_TYPE` to `google`.
 
 ## with Docker
 
-This is the recommended way to run this project.
+This is the recommended way to run this project. It will use the latest stable release.
+
+```
+docker run -it -v storage:/storage --env-file=./.env --name matrix-chatgpt-bot ghcr.io/matrixgpt/matrix-chatgpt-bot:latest
+```
+
+or to build locally from the latest unstable release (only do this if you have a good reason):
 
 ```
 docker build . -t matrix-chatgpt-bot
