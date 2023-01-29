@@ -78,11 +78,17 @@ You only need to do this if you want to contribute code to this package.
 - Run `yarn`
 - Run `yarn build`
 
+# Reporting issues
+
+You must report issues via Github if you want support. The chat room is for discussion not first line tech support.
+
 # Discussion
 
 Join [#matrix-chatgpt-bot:matrix.org](https://matrix.to/#/#matrix-chatgpt-bot:matrix.org) with any Matrix chat client or on the web!
 
 If you've never set up a Matrix client before you can follow the prompts to get started.
+
+Please use the search on Github and Matrix before asking for support. 
 
 # License
 GNU AGPLv3. See LICENSE
