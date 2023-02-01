@@ -109,13 +109,14 @@ You only need to do this if you want to contribute code to this package.
 # Good to know
 
 - The "storage"-folder contains all your encryption keys. If you delete it, you will loose access to all your encrypted messages.
-- The bot will reply in a thread. If you want to keep the context you need to reply to this thread otherwise the bot will think its a new conversation. "Threads" are still an experimental feature so you would need to activate it in your clients settings (e.g. in Element in the "lab"-section).
+- The bot replies in a thread. If you want to keep the context you need to reply to this thread or the bot will think its a new conversation. "Threads" were recently an experimental feature so you may need to activate it in your clients settings (e.g. in Element in the "lab"-section).
+- There is support to set the context to work at the room level, the thread level or both (threads fork the conversation from the main room)
 
 # FAQ
 
 ## What do I do if a login fails?
 - Its strongly suggested to use google as the prefererred login method to avoid being not abled to solve the required captchas
-- Make sure that 2FA is deactivated (E.g. use the above mentioned workaroud or create a fresh google account
+- Make sure that 2FA is deactivated (E.g. use the above mentioned workaroud or create a fresh google account)
 
 ## How do I handle "[Error: decryption failed because the room key is missing]" 
 Encryption works great with this package but can sometimes be a bit sensitive. Following steps can help to solve the "encryption" error
@@ -129,7 +130,7 @@ Encryption works great with this package but can sometimes be a bit sensitive. F
 - If all fails, you can always reset your key storage. It's important to exercise all of the following steps, because any remaining data could lead to the next encryption error. Once everything is working, make sure to not touch the "storage" folder anymore:
 1) Stop the bot
 2) Delete the "storage" folder
-3) Delete all user data of your matrix bot account (e.g. using Synapse-Admin) or create a fresh bot user account (you can then skip step 4)
+3) Delete all user data for the matrix bot account (e.g. use Synapse-Admin) or create a fresh bot user account (you can then skip step 4)
 4) Log into your bot account (e.g. via Element) and log out of all sessions
 5) Verify the correctness of your `env` file and then run the bot setup again (e.g. via `docker-compose up` if you use docker-compose).
 
@@ -159,7 +160,7 @@ There are multiple ways out there on what to do, so see this just as some ideas
 ## How do I know that the bot is running succesfully?
 Once the bot has started succesfully, it will output the following information to your console. 
 -  `[INFO] [index] Starting bot...`
--  `[INFO] [MatrixClientLite] End-to-end encryption enabled`  ## this is dependend on your setup
+-  `[INFO] [MatrixClientLite] End-to-end encryption enabled`  ## this depends on your setup
 -  `[INFO] [index] Bot started!`
 
 ## I use Docker but I don't see an console output
