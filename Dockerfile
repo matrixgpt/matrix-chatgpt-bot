@@ -1,4 +1,4 @@
-FROM satantime/puppeteer-node:19-slim
+FROM node:19-slim
 
 WORKDIR /usr/src/app
 
