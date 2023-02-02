@@ -7,10 +7,10 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, OPENAI_EMAIL, OPENAI_PASSWORD, OPENAI_LOGIN_TYPE, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT } from './env.js'
+import { DATA_PATH, OPENAI_API_KEY, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import CommandHandler from "./handlers.js"
-import { ChatGPTAPIBrowser } from 'chatgpt'
+import { ChatGPTAPI } from 'chatgpt'
 
 LogService.setLogger(new RichConsoleLogger());
 
@@ -42,17 +42,9 @@ async function main() {
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
-  const chatGPT: ChatGPTAPIBrowser = new ChatGPTAPIBrowser({
-    email: OPENAI_EMAIL,
-    password: OPENAI_PASSWORD,
-    isGoogleLogin: (OPENAI_LOGIN_TYPE == "google"), 
-    isMicrosoftLogin: (OPENAI_LOGIN_TYPE == "microsoft"),
-    isProAccount: OPENAI_PRO
+  const chatGPT: ChatGPTAPI = new ChatGPTAPI({
+	  apiKey: OPENAI_API_KEY
   })
-
-  chatGPT.initSession().then(() => {
-    LogService.info('ChatGPT session initialized');
-  });
 
 //   // call `api.refreshSession()` every hour to refresh the session
 //   setInterval(() => {

@@ -23,9 +23,7 @@ export const {
   MATRIX_DEFAULT_PREFIX,
   MATRIX_DEFAULT_PREFIX_REPLY,
   /** ChatGPT Settings */
-  OPENAI_EMAIL,
-  OPENAI_PASSWORD,
-  OPENAI_LOGIN_TYPE,
+  OPENAI_API_KEY,
   OPENAI_PRO,
   CHATGPT_CONTEXT,
   CHATGPT_TIMEOUT
@@ -49,9 +47,7 @@ export const {
   MATRIX_DEFAULT_PREFIX:       { schema: z.string().default(""),                   description: "Set to a string if you want the bot to respond only when messages start with this prefix. Trailing space matters. Empty for no prefix." },
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },
   /** ChatGPT Settings */
-  OPENAI_EMAIL:                { schema: z.string().min(3),                        description: "Set full username of OpenAI's account" },
-  OPENAI_PASSWORD:             { schema: z.string().min(1),                        description: "Set password of OpenAI's account" },
-  OPENAI_LOGIN_TYPE:           { schema: z.enum(["google", "openai", "microsoft"]).default("google"), description: "Set authentication provider to 'google', 'openai' or 'microsoft'" },
+  OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
   OPENAI_PRO:                  { schema: z.boolean().default(false),               description: "Set to true if you have a paid ChatGPT subscription." },
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
   CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" }

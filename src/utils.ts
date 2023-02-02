@@ -1,4 +1,4 @@
-import { ChatGPTAPIBrowser, ChatResponse } from "chatgpt";
+import { ChatGPTAPI, ChatMessage } from "chatgpt";
 import Markdown from 'markdown-it';
 import { MatrixClient } from "matrix-bot-sdk";
 import { MessageEvent, StoredConversation } from "./interfaces.js";
@@ -76,8 +76,8 @@ export async function sendReply(client: MatrixClient, roomId: string, rootEventI
   await client.sendEvent(roomId, "m.room.message", finalContent);
 }
 
-export async function sendChatGPTMessage(chatGPT: ChatGPTAPIBrowser, question: string, storedConversation: StoredConversation) {
-  let result: ChatResponse
+export async function sendChatGPTMessage(chatGPT: ChatGPTAPI, question: string, storedConversation: StoredConversation) {
+  let result: ChatMessage
   if (storedConversation !== undefined) {
     result = await chatGPT.sendMessage(question, {
       timeoutMs: CHATGPT_TIMEOUT,
