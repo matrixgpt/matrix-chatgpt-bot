@@ -35,12 +35,7 @@ You must adjust all required settings in the `.env` file according to your needs
 Per default, whoever knows the name of your bot can add it to their rooms and start chatting. Access can be restricted by setting `MATRIX_BLACKLIST` or `MATRIX_WHISTLIST` in your `.env` file. When using a self-hosted setup, you could wildcard all your user by adding `MATRIX_WHITELIST=:anotherhomeserver.example` and change it to your homeserver address.
 
 ### OpenAI / ChatGPT
-- You need to have an account at [openai.com. ](https://openai.com/) Its recommended to use an google account without 2FA for set up the account to avoid unsolvable captchas. Then, set `OPENAI_LOGIN_TYPE` to `google` in your `.env` file
-
-You must read the [authentication instructions](https://www.npmjs.com/package/chatgpt#usage) for chatgpt-api if you get stuck.
-Using the same account at [chat.openai.com](https://chat.openai.com) may refresh tokens invalidating the bot's session. 
-
-**If the Google account uses 2FA it will fail** but there is [a workaround](https://github.com/transitive-bullshit/chatgpt-api/issues/169#issuecomment-1362206780)
+- You need to have an account at [openai.com. ](https://openai.com/). Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
 
 ## Setup
 
@@ -52,7 +47,7 @@ You no longer need `MATRIX_BOT_PASSWORD` set but you can leave it if you want.
 
 # Run
 
-There are multiple ways to run this bot. The easiest way is to run it within docker. You need to be logged into your OpenAi account from the same network your bot machine is. When you are logged in, you can safely close the window, just make sure you do not log out because this would make your session token invalid.
+There are multiple ways to run this bot. The easiest way is to run it within docker.
 
 ## with Docker
 
@@ -114,10 +109,6 @@ You only need to do this if you want to contribute code to this package.
 
 # FAQ
 
-## What do I do if a login fails?
-- Its strongly suggested to use google as the prefererred login method to avoid being not abled to solve the required captchas
-- Make sure that 2FA is deactivated (E.g. use the above mentioned workaroud or create a fresh google account)
-
 ## How do I handle "[Error: decryption failed because the room key is missing]" 
 Encryption works great with this package but can sometimes be a bit sensitive. Following steps can help to solve the "encryption" error
 
@@ -135,9 +126,7 @@ Encryption works great with this package but can sometimes be a bit sensitive. F
 5) Verify the correctness of your `env` file and then run the bot setup again (e.g. via `docker-compose up` if you use docker-compose).
 
 - If you experience this error after adding the bot to a new room but it was working before, you can try to use the command `/discardsession` in the element app to drop the session and trigger a new one. In this error case, the error only appears on a specific device, so using another client should work eitherway.
-
-## What to do if I get an error saying I'm not logged in?
-- If the bot can't log into your OpenAI account, your session token might not been valid anymore (e.g. you logged out of your OpenAI account through your browser). Re-login to your OpenAI account using a machine in the same network as the machine your bot is using. Then restart the bot.
+bot is using. Then restart the bot.
 
 ## I just want to chat with the bot and don't want to deal with encryption problems
 - Set `MATRIX_ENCRYPTION=false` in your env-file and restart the bot. If it previously was running with encryption switched on, you need to create a new room with the bot as encryption can't be switched off once it was activated.
