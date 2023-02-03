@@ -7,7 +7,7 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, OPENAI_API_KEY, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT } from './env.js'
+import { DATA_PATH, OPENAI_API_KEY, OPENAI_PRO, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL } from './env.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 import CommandHandler from "./handlers.js"
 import { ChatGPTAPI } from 'chatgpt'
@@ -43,7 +43,10 @@ async function main() {
 
   // use puppeteer to bypass cloudflare (headful because of captchas)  
   const chatGPT: ChatGPTAPI = new ChatGPTAPI({
-	  apiKey: OPENAI_API_KEY
+    apiKey: OPENAI_API_KEY,
+    completionParams: {
+      model: CHATGPT_MODEL
+    }
   })
 
 //   // call `api.refreshSession()` every hour to refresh the session
@@ -83,7 +86,7 @@ async function main() {
   const commands = new CommandHandler(client, chatGPT);
   await commands.start();
 
-  LogService.info("index", "Starting bot...");
+  LogService.info("index", `Starting bot using ChatGPT model ${CHATGPT_MODEL}`);
   await client.start()
   LogService.info("index", "Bot started!");
 }

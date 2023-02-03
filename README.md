@@ -36,6 +36,7 @@ Per default, whoever knows the name of your bot can add it to their rooms and st
 
 ### OpenAI / ChatGPT
 - You need to have an account at [openai.com. ](https://openai.com/). Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
+- You might want to change to chat-model by setting the `CHATGPT_MODEL` in your `.env` file. The model currently defaults to `text-chat-davinci-002-20221122`. Check the [node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository for keeping track of the models.
 
 ## Setup
 
