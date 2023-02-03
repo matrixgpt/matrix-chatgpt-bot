@@ -107,6 +107,7 @@ You only need to do this if you want to contribute code to this package.
 - The "storage"-folder contains all your encryption keys. If you delete it, you will loose access to all your encrypted messages.
 - The bot replies in a thread. If you want to keep the context you need to reply to this thread or the bot will think its a new conversation. "Threads" were recently an experimental feature so you may need to activate it in your clients settings (e.g. in Element in the "lab"-section).
 - There is support to set the context to work at the room level, the thread level or both (threads fork the conversation from the main room)
+- The `CHATGPT_MODEL` environment sets the used model. As of writing the default uses ChatGPT from late 2022 which works fine, however we can't tell if OpenAI decides to remove the model. If so, you can always change the model variable to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these models are not free and will cost you OpenAI credits.
 
 # FAQ
 
