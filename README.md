@@ -126,9 +126,6 @@ Encryption works great with this package but can sometimes be a bit sensitive. F
 4) Log into your bot account (e.g. via Element) and log out of all sessions
 5) Verify the correctness of your `env` file and then run the bot setup again (e.g. via `docker-compose up` if you use docker-compose).
 
-- If you experience this error after adding the bot to a new room but it was working before, you can try to use the command `/discardsession` in the element app to drop the session and trigger a new one. In this error case, the error only appears on a specific device, so using another client should work eitherway.
-bot is using. Then restart the bot.
-
 ## I just want to chat with the bot and don't want to deal with encryption problems
 - Set `MATRIX_ENCRYPTION=false` in your env-file and restart the bot. If it previously was running with encryption switched on, you need to create a new room with the bot as encryption can't be switched off once it was activated.
 
