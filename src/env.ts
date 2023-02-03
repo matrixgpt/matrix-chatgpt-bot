@@ -24,7 +24,6 @@ export const {
   MATRIX_DEFAULT_PREFIX_REPLY,
   /** ChatGPT Settings */
   OPENAI_API_KEY,
-  OPENAI_PRO,
   CHATGPT_CONTEXT,
   CHATGPT_TIMEOUT,
   CHATGPT_MODEL
@@ -49,7 +48,6 @@ export const {
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },
   /** ChatGPT Settings */
   OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
-  OPENAI_PRO:                  { schema: z.boolean().default(false),               description: "Set to true if you have a paid ChatGPT subscription." },
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
   CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" },
   CHATGPT_MODEL:               { schema: z.string().default("text-chat-davinci-002-20221122"), description: "The model for the ChatGPT-API to use" }
