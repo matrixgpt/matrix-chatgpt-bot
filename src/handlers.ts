@@ -1,4 +1,4 @@
-import { ChatGPTAPIBrowser } from "chatgpt";
+import { ChatGPTAPI } from "chatgpt";
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
 import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
@@ -11,7 +11,7 @@ export default class CommandHandler {
   private userId: string;
   private localpart: string;
 
-  constructor(private client: MatrixClient, private chatGPT: ChatGPTAPIBrowser) { }
+  constructor(private client: MatrixClient, private chatGPT: ChatGPTAPI) { }
 
   public async start() {
     await this.prepareProfile();  // Populate the variables above (async)
@@ -124,11 +124,11 @@ export default class CommandHandler {
       const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
-        sendReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
+        sendReply(this.client, roomId, this.getRootEventId(event), `${result.text}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
       ]);
 
       const storedConfig = ((storedConversation !== undefined && storedConversation.config !== undefined) ? storedConversation.config : {})
-      const configString: string = JSON.stringify({conversationId: result.conversationId, messageId: result.messageId, config: storedConfig})
+      const configString: string = JSON.stringify({conversationId: result.conversationId, messageId: result.id, config: storedConfig})
       await this.client.storageProvider.storeValue('gpt-' + storageKey, configString);
       if ((storageKey === roomId) && (CHATGPT_CONTEXT === "both")) await this.client.storageProvider.storeValue('gpt-' + event.event_id, configString);
     } catch (err) {

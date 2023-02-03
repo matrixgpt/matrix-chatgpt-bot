@@ -23,12 +23,10 @@ export const {
   MATRIX_DEFAULT_PREFIX,
   MATRIX_DEFAULT_PREFIX_REPLY,
   /** ChatGPT Settings */
-  OPENAI_EMAIL,
-  OPENAI_PASSWORD,
-  OPENAI_LOGIN_TYPE,
-  OPENAI_PRO,
+  OPENAI_API_KEY,
   CHATGPT_CONTEXT,
-  CHATGPT_TIMEOUT
+  CHATGPT_TIMEOUT,
+  CHATGPT_MODEL
 } = parseEnv(process.env, {
   DATA_PATH:                   { schema: z.string().default("./storage"),          description: "Set to /storage/ if using docker, ./storage if running without" },
   /** Matrix Bot Settings */
@@ -49,10 +47,8 @@ export const {
   MATRIX_DEFAULT_PREFIX:       { schema: z.string().default(""),                   description: "Set to a string if you want the bot to respond only when messages start with this prefix. Trailing space matters. Empty for no prefix." },
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },
   /** ChatGPT Settings */
-  OPENAI_EMAIL:                { schema: z.string().min(3),                        description: "Set full username of OpenAI's account" },
-  OPENAI_PASSWORD:             { schema: z.string().min(1),                        description: "Set password of OpenAI's account" },
-  OPENAI_LOGIN_TYPE:           { schema: z.enum(["google", "openai", "microsoft"]).default("google"), description: "Set authentication provider to 'google', 'openai' or 'microsoft'" },
-  OPENAI_PRO:                  { schema: z.boolean().default(false),               description: "Set to true if you have a paid ChatGPT subscription." },
+  OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
-  CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" }
+  CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" },
+  CHATGPT_MODEL:               { schema: z.string().default("text-chat-davinci-002-20221122"), description: "The model for the ChatGPT-API to use" }
 });
