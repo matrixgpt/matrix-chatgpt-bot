@@ -1,33 +1,48 @@
+import { ChatGPTAPI } from 'chatgpt'
+import Keyv from 'keyv'
+import { KeyvFile } from 'keyv-file';
 import {
-  MatrixAuth, MatrixClient, SimpleFsStorageProvider, AutojoinRoomsMixin,
-  LogService, LogLevel,
-  RichConsoleLogger,
-  ICryptoStorageProvider,
-  RustSdkCryptoStorageProvider,
+  MatrixAuth, MatrixClient, AutojoinRoomsMixin,
+  LogService, LogLevel, RichConsoleLogger,
+  ICryptoStorageProvider, RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider,
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL } from './env.js'
-import { parseMatrixUsernamePretty } from './utils.js';
+import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_ENCRYPTION, KEYV_BOT_STORAGE, KEYV_BACKEND } from './env.js'
 import CommandHandler from "./handlers.js"
-import { ChatGPTAPI } from 'chatgpt'
+import { KeyvCryptoStorageProvider, KeyvStorageProvider } from './storage.js'
+import { parseMatrixUsernamePretty } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
-
 // Shows the Matrix sync loop details - not needed most of the time
 // LogService.setLevel(LogLevel.DEBUG);
-
 LogService.setLevel(LogLevel.INFO);
-
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
 
-const storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
+if (KEYV_URL && KEYV_BACKEND === 'file') LogService.warn('config', 'KEYV_URL is ignored when KEYV_BACKEND is set to `file`')
 
-// Prepare a crypto store if we need that
+let chatgptStore:Keyv
+if (KEYV_BACKEND === 'file'){
+  chatgptStore = new Keyv({store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`),})})
+} else {
+  chatgptStore = new Keyv(KEYV_URL, { namespace: 'chatgpt-bot-api' });
+}
+
+let storage: IStorageProvider
+if (KEYV_BOT_STORAGE) {
+  storage = new KeyvStorageProvider('chatgpt-bot-storage');
+} else {
+  storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
+}
+
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION) {
-  cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
+  if (KEYV_BOT_ENCRYPTION) {
+    cryptoStore = new KeyvCryptoStorageProvider('chatgpt-bot-encryption');
+  } else {
+    cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
+  }
 }
 
 async function main() {
@@ -40,28 +55,13 @@ async function main() {
   }
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room") throw Error("You must set CHATGPT_CONTEXT to 'room' if you set MATRIX_THREADS to false")
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
-
-  // use puppeteer to bypass cloudflare (headful because of captchas)  
   const chatGPT: ChatGPTAPI = new ChatGPTAPI({
     apiKey: OPENAI_API_KEY,
     completionParams: {
-      model: CHATGPT_MODEL
-    }
+      model: CHATGPT_MODEL,
+    },
+    messageStore: chatgptStore
   })
-
-//   // call `api.refreshSession()` every hour to refresh the session
-//   setInterval(() => {
-//     chatGPT.refreshSession().then(() => {
-//       LogService.info('ChatGPT session reset');
-//     });
-//   }, 60 * 60 * 1000);
-
-//   // call `api.resetSession()` every 24 hours to reset the session
-//   setInterval(() => {
-//     chatGPT.resetSession().then(() => {
-//       LogService.info('ChatGPT session reset');
-//     });
-//   }, 24 * 60 * 60 * 1000);
 
   // Automatically join rooms the bot is invited to
   if (MATRIX_AUTOJOIN) {

@@ -5,6 +5,10 @@ dotenv.config();
 
 export const {
   DATA_PATH,
+  KEYV_BACKEND,
+  KEYV_URL,
+  KEYV_BOT_ENCRYPTION,
+  KEYV_BOT_STORAGE,
   /** Matrix Bot Settings */
   MATRIX_HOMESERVER_URL,
   MATRIX_ACCESS_TOKEN,
@@ -29,6 +33,10 @@ export const {
   CHATGPT_MODEL
 } = parseEnv(process.env, {
   DATA_PATH:                   { schema: z.string().default("./storage"),          description: "Set to /storage/ if using docker, ./storage if running without" },
+  KEYV_BACKEND:                { schema: z.enum(["file", "other"]).default("file"),description: "Set the Keyv backend to 'file' or 'other' if other set KEYV_URL" },
+  KEYV_URL:                    { schema: z.string().default(""),                   description: "Set Keyv backend for storage, in-memory if blank, ignored if KEYV_BACKEND set to `file`"},
+  KEYV_BOT_ENCRYPTION:         { schema: z.boolean().default(false),               description: "Set to true to use a Keyv backend to store bot encryption keys. Uses a file if false."},
+  KEYV_BOT_STORAGE:            { schema: z.boolean().default(false),               description: "Set to true to use a Keyv backend to store bot data. Uses a file if false."},
   /** Matrix Bot Settings */
   MATRIX_HOMESERVER_URL:       { schema: z.string().default("https://matrix.org"), description: "Set matrix homeserver with 'https://' prefix" },
   MATRIX_ACCESS_TOKEN:         { schema: z.string().optional(),                    description: "Set MATRIX_BOT_USERNAME & MATRIX_BOT_PASSWORD to print MATRIX_ACCESS_TOKEN or follow https://webapps.stackexchange.com/questions/131056/how-to-get-an-access-token-for-element-riot-matrix" },
