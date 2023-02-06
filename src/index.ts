@@ -36,7 +36,7 @@ if (KEYV_BOT_STORAGE) {
   storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 }
 
-const cryptoStore: ICryptoStorageProvider = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
+const cryptoStore = MATRIX_ENCRYPTION ? new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")) : undefined; // /storage/encrypted
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
@@ -71,7 +71,7 @@ async function main() {
     LogService.info("index", `Bot joined room ${roomId}`);
     await client.sendMessage(roomId, {
       "msgtype": "m.notice",
-      "body": `👋 Hello, I'm the ChatGPT bot! Encrypted message support: ${MATRIX_ENCRYPTION}`,
+      "body": `👋 Hello, I'm ChatGPT bot! Matrix E2EE: ${MATRIX_ENCRYPTION}`,
     });
   });
 
@@ -79,7 +79,7 @@ async function main() {
   const commands = new CommandHandler(client, chatGPT);
   await commands.start();
 
-  LogService.info("index", `Starting bot using ChatGPT model ${CHATGPT_MODEL}`);
+  LogService.info("index", `Starting bot using ChatGPT model: ${CHATGPT_MODEL}`);
   await client.start()
   LogService.info("index", "Bot started!");
 }
