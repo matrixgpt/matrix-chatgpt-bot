@@ -4,7 +4,7 @@ import { KeyvFile } from 'keyv-file';
 import {
   MatrixAuth, MatrixClient, AutojoinRoomsMixin,
   LogService, LogLevel, RichConsoleLogger,
-  ICryptoStorageProvider, RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider,
+  RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider,
 } from "matrix-bot-sdk";
 
 import * as path from "path";
@@ -14,12 +14,10 @@ import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
-// Shows the Matrix sync loop details - not needed most of the time
-// LogService.setLevel(LogLevel.DEBUG);
+// LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
 LogService.setLevel(LogLevel.INFO);
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
-
 if (KEYV_URL && KEYV_BACKEND === 'file') LogService.warn('config', 'KEYV_URL is ignored when KEYV_BACKEND is set to `file`')
 
 let chatgptStore:Keyv
