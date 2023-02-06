@@ -1,4 +1,4 @@
-import { ChatGPTAPI } from 'chatgpt'
+import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
 import Keyv from 'keyv'
 import { KeyvFile } from 'keyv-file';
 import {
@@ -8,10 +8,10 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND } from './env.js'
+import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX } from './env.js'
 import CommandHandler from "./handlers.js"
 import { KeyvStorageProvider } from './storage.js'
-import { parseMatrixUsernamePretty } from './utils.js';
+import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
 // LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
@@ -46,18 +46,21 @@ async function main() {
   }
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room") throw Error("You must set CHATGPT_CONTEXT to 'room' if you set MATRIX_THREADS to false")
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
-  const chatGPT: ChatGPTAPI = new ChatGPTAPI({
-    apiKey: OPENAI_API_KEY,
-    completionParams: {
-      model: CHATGPT_MODEL,
+
+  const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
+    modelOptions: {
+      model: CHATGPT_MODEL,  // The model is set to text-chat-davinci-002-20221122 by default
     },
-    messageStore: chatgptStore
-  })
+    promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
+    debug: false,
+  };
+  const cacheOptions = {  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
+    store: chatgptStore,
+  };
+  const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
 
   // Automatically join rooms the bot is invited to
-  if (MATRIX_AUTOJOIN) {
-    AutojoinRoomsMixin.setupOnClient(client);
-  }
+  if (MATRIX_AUTOJOIN) AutojoinRoomsMixin.setupOnClient(client);
 
   client.on("room.failed_decryption", async (roomId, event, error) => {
     // handle `m.room.encrypted` event that could not be decrypted
@@ -74,10 +77,11 @@ async function main() {
   });
 
   // Prepare the command handler
-  const commands = new CommandHandler(client, chatGPT);
+  const commands = new CommandHandler(client, chatgpt);
   await commands.start();
 
   LogService.info("index", `Starting bot using ChatGPT model: ${CHATGPT_MODEL}`);
+  LogService.info("index", `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`)
   await client.start()
   LogService.info("index", "Bot started!");
 }
