@@ -122,7 +122,6 @@ export default class CommandHandler {
       }
 
       const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
-      console.log(result)
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
         sendReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
