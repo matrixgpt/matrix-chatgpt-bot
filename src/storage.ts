@@ -1,9 +1,8 @@
 import Keyv from 'keyv'
 import { KeyvFile } from 'keyv-file';
 import * as sha512 from "hash.js/lib/hash/sha/512.js";
-import * as sha256 from "hash.js/lib/hash/sha/256.js";
 import * as path from "path";
-import { IAppserviceCryptoStorageProvider, IAppserviceStorageProvider, ICryptoRoomInformation, ICryptoStorageProvider, IFilterInfo, IStorageProvider } from "matrix-bot-sdk";
+import { IAppserviceStorageProvider, IFilterInfo, IStorageProvider } from "matrix-bot-sdk";
 import { DATA_PATH, KEYV_BACKEND, KEYV_URL } from './env.js';
 
 /**
@@ -127,65 +126,5 @@ class NamespacedKeyvProvider implements IStorageProvider {
 
     storeValue(key: string, value: string): Promise<any> | void {
         return this.parent.storeValue(`${this.prefix}_kv_${key}`, value);
-    }
-}
-
-/**
- * A crypto storage provider for the default rust-sdk store (sled, file-based).
- * @category Storage providers
- */
-export class KeyvCryptoStorageProvider implements ICryptoStorageProvider {
-    private db: Keyv;
-
-    /**
-     * Creates a new rust-sdk storage provider.
-     * @param {string} namespace The *directory* to persist database details to.
-     */
-    public constructor(public readonly namespace: string) {
-        if (KEYV_BACKEND === 'file'){
-            this.db = new Keyv({store: new KeyvFile({ filename: path.join(DATA_PATH, `${namespace}.json`),})})
-        } else {
-            this.db = new Keyv(KEYV_URL, { namespace: namespace });
-        }
-        this.db.set('deviceId', null)
-        this.db.set('rooms', {})
-    }
-
-    public async getDeviceId(): Promise<string> {
-        return this.db.get('deviceId');
-    }
-
-    public async setDeviceId(deviceId: string): Promise<void> {
-        this.db.set('deviceId', deviceId);
-    }
-
-    public async getRoom(roomId: string): Promise<ICryptoRoomInformation> {
-        const key = sha512().update(roomId).digest('hex');
-        return this.db.get(`rooms.${key}`);
-    }
-
-    public async storeRoom(roomId: string, config: ICryptoRoomInformation): Promise<void> {
-        const key = sha512().update(roomId).digest('hex');
-        this.db.set(`rooms.${key}`, config);
-    }
-}
-
-/**
- * An appservice crypto storage provider for the default rust-sdk store (sled, file-based).
- * @category Storage providers
- */
-export class KeyvAppserviceCryptoStorageProvider extends KeyvCryptoStorageProvider implements IAppserviceCryptoStorageProvider {
-    /**
-     * Creates a new rust-sdk storage provider.
-     * @param {string} baseNamespace The *directory* to persist database details to.
-     */
-    public constructor(private baseNamespace: string) {
-        super(baseNamespace +  "_default");
-    }
-
-    public storageForUser(userId: string): ICryptoStorageProvider {
-        // sha256 because sha512 is a bit big for some operating systems
-        const key = sha256().update(userId).digest('hex');
-        return new KeyvCryptoStorageProvider(this.baseNamespace + "_" + key);
     }
 }

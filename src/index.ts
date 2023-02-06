@@ -8,9 +8,9 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_ENCRYPTION, KEYV_BOT_STORAGE, KEYV_BACKEND } from './env.js'
+import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND } from './env.js'
 import CommandHandler from "./handlers.js"
-import { KeyvCryptoStorageProvider, KeyvStorageProvider } from './storage.js'
+import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
@@ -36,14 +36,7 @@ if (KEYV_BOT_STORAGE) {
   storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 }
 
-let cryptoStore: ICryptoStorageProvider;
-if (MATRIX_ENCRYPTION) {
-  if (KEYV_BOT_ENCRYPTION) {
-    cryptoStore = new KeyvCryptoStorageProvider('chatgpt-bot-encryption');
-  } else {
-    cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
-  }
-}
+const cryptoStore: ICryptoStorageProvider = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
