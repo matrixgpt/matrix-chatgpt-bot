@@ -1,4 +1,4 @@
-import { ChatGPTAPI } from 'chatgpt'
+import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
 import Keyv from 'keyv'
 import { KeyvFile } from 'keyv-file';
 import {
@@ -46,18 +46,27 @@ async function main() {
   }
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room") throw Error("You must set CHATGPT_CONTEXT to 'room' if you set MATRIX_THREADS to false")
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
-  const chatGPT: ChatGPTAPI = new ChatGPTAPI({
-    apiKey: OPENAI_API_KEY,
-    completionParams: {
-      model: CHATGPT_MODEL,
+
+  const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
+    modelOptions: {
+      model: CHATGPT_MODEL,  // The model is set to text-chat-davinci-002-20221122 by default
     },
-    messageStore: chatgptStore
-  })
+    // (Optional) Set custom instructions instead of "You are ChatGPT...".
+    // promptPrefix: 'You are Bob, a cowboy in Western times...',
+    // (Optional) Set a custom name for the user
+    // userLabel: 'User',
+    // (Optional) Set a custom name for ChatGPT
+    // chatGptLabel: 'ChatGPT',
+    // (Optional) Set to true to enable `console.debug()` logging
+    debug: false,
+  };
+  const cacheOptions = {  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
+    store: chatgptStore,
+  };
+  const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
 
   // Automatically join rooms the bot is invited to
-  if (MATRIX_AUTOJOIN) {
-    AutojoinRoomsMixin.setupOnClient(client);
-  }
+  if (MATRIX_AUTOJOIN) AutojoinRoomsMixin.setupOnClient(client);
 
   client.on("room.failed_decryption", async (roomId, event, error) => {
     // handle `m.room.encrypted` event that could not be decrypted
@@ -74,7 +83,7 @@ async function main() {
   });
 
   // Prepare the command handler
-  const commands = new CommandHandler(client, chatGPT);
+  const commands = new CommandHandler(client, chatgpt);
   await commands.start();
 
   LogService.info("index", `Starting bot using ChatGPT model: ${CHATGPT_MODEL}`);
