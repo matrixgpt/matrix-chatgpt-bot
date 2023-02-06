@@ -29,7 +29,8 @@ export const {
   OPENAI_API_KEY,
   CHATGPT_CONTEXT,
   CHATGPT_TIMEOUT,
-  CHATGPT_MODEL
+  CHATGPT_MODEL,
+  CHATGPT_PROMPT_PREFIX,
 } = parseEnv(process.env, {
   DATA_PATH:                   { schema: z.string().default("./storage"),          description: "Set to /storage/ if using docker, ./storage if running without" },
   KEYV_BACKEND:                { schema: z.enum(["file", "other"]).default("file"),description: "Set the Keyv backend to 'file' or 'other' if other set KEYV_URL" },
@@ -56,5 +57,6 @@ export const {
   OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
   CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" },
-  CHATGPT_MODEL:               { schema: z.string().default("text-chat-davinci-002-20221122"), description: "The model for the ChatGPT-API to use" }
+  CHATGPT_MODEL:               { schema: z.string().default("text-chat-davinci-002-20221122"), description: "The model for the ChatGPT-API to use" },
+  CHATGPT_PROMPT_PREFIX:       { schema: z.string().default('Instructions:\nYou are ChatGPT, a large language model trained by OpenAI.'), description: "Instructions to feed to ChatGPT on startup"},
 });

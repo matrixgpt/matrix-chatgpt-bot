@@ -82,3 +82,8 @@ export async function sendChatGPTMessage(chatgpt: ChatGPTClient, question: strin
     await chatgpt.sendMessage(question, { conversationId: storedConversation.conversationId, parentMessageId: storedConversation.messageId }) :
     await chatgpt.sendMessage(question);
 }
+
+export function wrapPrompt(wrapped: string) {
+  const currentDateString = new Date().toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' },);
+  return `<|im_sep|>${wrapped}\nCurrent date: ${currentDateString}<|im_sep|>\n\n`
+}

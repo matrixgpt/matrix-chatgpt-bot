@@ -8,10 +8,10 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND } from './env.js'
+import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX } from './env.js'
 import CommandHandler from "./handlers.js"
 import { KeyvStorageProvider } from './storage.js'
-import { parseMatrixUsernamePretty } from './utils.js';
+import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
 // LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
@@ -51,13 +51,7 @@ async function main() {
     modelOptions: {
       model: CHATGPT_MODEL,  // The model is set to text-chat-davinci-002-20221122 by default
     },
-    // (Optional) Set custom instructions instead of "You are ChatGPT...".
-    // promptPrefix: 'You are Bob, a cowboy in Western times...',
-    // (Optional) Set a custom name for the user
-    // userLabel: 'User',
-    // (Optional) Set a custom name for ChatGPT
-    // chatGptLabel: 'ChatGPT',
-    // (Optional) Set to true to enable `console.debug()` logging
+    promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
   };
   const cacheOptions = {  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
@@ -87,6 +81,7 @@ async function main() {
   await commands.start();
 
   LogService.info("index", `Starting bot using ChatGPT model: ${CHATGPT_MODEL}`);
+  LogService.info("index", `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`)
   await client.start()
   LogService.info("index", "Bot started!");
 }
