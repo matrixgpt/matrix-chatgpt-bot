@@ -1,7 +1,7 @@
 Matrix ChatGPT Bot
 ==================
 
-Talk to ChatGPT via your favourite Matrix client!
+Talk to ChatGPT via any Matrix client!
 
 ![Screenshot of Element iOS app showing conversation with bot](img/matrix-chatgpt.png)
 
@@ -10,7 +10,7 @@ A Matrix bot that uses [transitive-bullshit/chatgpt-api](https://github.com/tran
 # Usage
 1. Create a room
 2. Add the bot
-3. Start chatting away!
+3. Start chatting.
 
 # Features
 - Shows typing indicator as ChatGPT is thinking!
@@ -25,26 +25,38 @@ Create a copy of the example `.env` file
 cp .env.example .env
 ```
 
-You must adjust all required settings in the `.env` file according to your needs. Optional settings can also be adjusted later.
+Adjust all required settings in the `.env` file before running. Optional settings can also be adjusted later.
 
 ## Prerequsistes
 
 ### Matrix
-- You need a Matrix account on Matrix.org (or any other server) for the bot user. 
-
-Per default, whoever knows the name of your bot can add it to their rooms and start chatting. Access can be restricted by setting `MATRIX_BLACKLIST` or `MATRIX_WHISTLIST` in your `.env` file. When using a self-hosted setup, you could wildcard all your user by adding `MATRIX_WHITELIST=:anotherhomeserver.example` and change it to your homeserver address.
+- You need a Matrix account on [Matrix.org](https://matrix.org) (or any other server) for the bot user. 
+- By default, anyone that knows the name of your bot can invite it to rooms or chat with it.
+- Restrict access with `MATRIX_BLACKLIST` or `MATRIX_WHITELIST`
+- Restrict access with `MATRIX_BLACKLIST_ROOMS` or `MATRIX_WHITELIST_ROOMS`
+- When using a self-hosted setup, you could wildcard all your users with `MATRIX_WHITELIST=:yourhomeserver.example`.
 
 ### OpenAI / ChatGPT
-- You need to have an account at [openai.com. ](https://openai.com/). Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
-- You might want to change to chat-model by setting the `CHATGPT_MODEL` in your `.env` file. The model currently defaults to `text-chat-davinci-002-20221122`. Check the [node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository for keeping track of the models.
+- You need to have an account at [openai.com](https://openai.com/).
+- Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
+- You might want to change to chat-model by setting the `CHATGPT_MODEL` in your `.env` file.
+- The model currently defaults to `text-chat-davinci-002-20221122`.
+- Check the [node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository to keep track of the models.
 
 ## Setup
 
-At first run, the bot outputs `MATRIX_ACCESS_TOKEN` to the console if it is not already set but `MATRIX_BOT_USERNAME` & `MATRIX_BOT_PASSWORD` are.
+- Set `MATRIX_BOT_USERNAME`
+- Set `MATRIX_BOT_PASSWORD` (you can remove this later if you want)
+- Run the app using one of the methods below.
+- Copy `MATRIX_ACCESS_TOKEN` from the output.
+- Set `MATRIX_ACCESS_TOKEN`, you can now remove `MATRIX_BOT_PASSWORD`.
 
-You must set `MATRIX_ACCESS_TOKEN` to use this token. Do not use it with any other client. Also, do not use an access token extracted via Element. This can cause issues with encryption later on.
+*Note*: Doing any of the following can cause issues with encryption later on:
 
-You no longer need `MATRIX_BOT_PASSWORD` set but you can leave it if you want.
+- Using this token with any other client.
+- Using an access token extracted via Element.
+- Deleting the storage folder.
+- Switching between environments (e.g. Docker or no Docker)
 
 # Run
 
@@ -71,7 +83,9 @@ Note: In order to see the output of your console you need to run `docker logs ma
 
 ## with Docker Compose
 
-You can also simply use a docker-compose file. You only need to copy the content below and save it in a file named `docker-compose.yml`. Either with a self-build image (run `docker build . -t matrix-chatgpt-bot` from your local git repo location) or with the latest stable release as pre-build package from this repo, which is the **recommended** way. The script will look for the `.env` file in the same folder as the `docker-compose.yml`. The key storage folder `storage` will be created in the same folder as well. Adjust the locations to your needs.
+If you prefer you can use a docker-compose file. Copy the content below and save it in a file named `docker-compose.yml`. Either with a self-build image (run `docker build . -t matrix-chatgpt-bot` from your local git repo location) or with the latest stable pre-built release from this repo (the **recommended** way).
+
+The script will look for the `.env` file in the same folder as the `docker-compose.yml`. The key storage folder `storage` will be created in the same folder as well. Adjust the locations to your needs.
 
 ```
   version: '3.7'
@@ -105,14 +119,18 @@ You only need to do this if you want to contribute code to this package.
 # Good to know
 
 - By default "storage"-folder contains all your encryption keys. If you delete it, you will loose access to all your encrypted messages.
-- You can use a [Keyv](https://github.com/jaredwray/keyv) storage backend for persistence if you prefer (advanced)
-- The bot replies in a thread. If you want to keep the context you need to reply to this thread or the bot will think its a new conversation. "Threads" were recently an experimental feature so you may need to activate it in your clients settings (e.g. in Element in the "lab"-section).
-- There is support to set the context to work at the room level, the thread level or both (threads fork the conversation from the main room)
-- The `CHATGPT_MODEL` environment sets the used model. As of writing the default uses ChatGPT from late 2022 which works fine, however we can't tell if OpenAI decides to remove the model. If so, you can always change the model variable to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these models are not free and will cost you OpenAI credits.
+- You can use a [Keyv](https://github.com/jaredwray/keyv) storage backend for persistence if you prefer (advanced).
+- The bot uses threads by default, to keep the context you should reply to this thread or the bot will think its a new conversation. "Threads" were previously experimental, you may need to activate them in your client's settings (e.g. in Element in the "lab"-section).
+- There is support to set the context to work at either the:
+  - room level
+  - thread level
+  - both (threads fork the conversation from the main room)
+- Use `CHATGPT_MODEL` to set the model.
+  - As of writing the default uses ChatGPT from late 2022 which works fine, however we can't tell if OpenAI decides to remove the model. If so, you can always change the model variable to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these models are not free and will cost you OpenAI credits.
 
 # FAQ
 
-## How do I handle "[Error: decryption failed because the room key is missing]" 
+## I get "[Error: decryption failed because the room key is missing]" 
 Encryption works great with this package but can sometimes be a bit sensitive. Following steps can help to solve the "encryption" error
 
 - Don't use a `MATRIX_ACCESS_TOKEN` extracted via Element-App, use the generated token from the bot based on your `MATRIX_BOT_USERNAME` & `MATRIX_BOT_PASSWORD` set in the `env`file. It will be visible in the console at start up if the `MATRIX_ACCESS_TOKEN` is not already set:
@@ -128,23 +146,11 @@ Encryption works great with this package but can sometimes be a bit sensitive. F
 4) Log into your bot account (e.g. via Element) and log out of all sessions
 5) Verify the correctness of your `env` file and then run the bot setup again (e.g. via `docker-compose up` if you use docker-compose).
 
-## I just want to chat with the bot and don't want to deal with encryption problems
+## I want to chat with the bot without dealing with encryption problems
 - Set `MATRIX_ENCRYPTION=false` in your env-file and restart the bot. If it previously was running with encryption switched on, you need to create a new room with the bot as encryption can't be switched off once it was activated.
 
-## I'm getting a "{ errcode: 'M_NOT_FOUND', error: 'Event not found.' }" in my log files, do I need to worry?
+## I get "{ errcode: 'M_NOT_FOUND', error: 'Event not found.' }"
 - So far, its not known to cause issues, you can safely ignore it.
-
-## What to do if I get a TimeoutError, e.g. "TimeoutError: Navigation timeout of 30000 ms exceeded"?
-This can happen if your bot can't reach the openai server.
-
-- Make sure that your machine can reach the internet (e.g. using curl: `curl -I www.google.com` should give you a useful output (not "Could not resolve host")
-- When using docker, you first need to get inside the container via `docker exec -it matrix-chatgpt-bot bash` and get the curl package `apt-get update && apt install -y curl`). You can then run the command from within the container.
-- Verify that you are using a google account and 2FA is **NOT** activated. 
-
-## ChatGPT is at capacity right now?
-There are multiple ways out there on what to do, so see this just as some ideas
-- If you can't login via website, try clearing your browser cache by pressing "shift" and reload the OpenAI page https://chat.openai.com
-- If your bot can't connect, just be a bit patient, it typically does not take long until it's back
 
 ## How do I know that the bot is running succesfully?
 Once the bot has started succesfully, it will output the following information to your console. 
@@ -152,21 +158,21 @@ Once the bot has started succesfully, it will output the following information t
 -  `[INFO] [MatrixClientLite] End-to-end encryption enabled`  ## this depends on your setup
 -  `[INFO] [index] Bot started!`
 
-## I use Docker but I don't see an console output
+## I use Docker but I don't see any console output
 You most likely need to view the logs by running `docker logs matrix-chatgpt-bot`
 
 
 # Reporting issues
 
-You must report issues via Github if you want support. The chat room is for discussion not first line tech support.
+Please report issues via Github. The chat room is for discussion.
+
+Please use the search on Github and Matrix before asking for support. 
 
 # Discussion
 
 Join [#matrix-chatgpt-bot:matrix.org](https://matrix.to/#/#matrix-chatgpt-bot:matrix.org) with any Matrix chat client or on the web!
 
 If you've never set up a Matrix client before you can follow the prompts to get started.
-
-Please use the search on Github and Matrix before asking for support. 
 
 
 # License
