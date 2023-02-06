@@ -5,7 +5,7 @@ Talk to ChatGPT via any Matrix client!
 
 ![Screenshot of Element iOS app showing conversation with bot](img/matrix-chatgpt.png)
 
-A Matrix bot that uses [transitive-bullshit/chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api) to access the unofficial ChatGPT API.
+A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the unofficial ChatGPT API.
 
 # Usage
 1. Create a room
