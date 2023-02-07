@@ -10,9 +10,9 @@
     "node": ">=18.12.1"
   },
   "scripts": {
-    "build": "rm -f tsconfig.tsbuildinfo && npx tsc",
+    "build": "rm -f tsconfig.tsbuildinfo && yarn tsc",
     "start": "node --enable-source-maps dist/index.js",
-    "typecheck": "npx tsc"
+    "typecheck": "yarn tsc"
   },
   "dependencies": {
     "@keyv/mongo": "^2.1.8",
