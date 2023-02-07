@@ -2,7 +2,8 @@ FROM node:19-slim
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
 RUN yarn install --frozen-lockfile --production && yarn cache clean
 
 COPY ./tsconfig.json ./tsconfig.json
