@@ -1,6 +1,6 @@
 import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS, CHATGPT_IGNORE_MEDIA } from "./env.js";
+import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, CHATGPT_IGNORE_MEDIA, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendChatGPTMessage, sendError, sendReply } from "./utils.js";
 
