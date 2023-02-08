@@ -122,7 +122,12 @@ export default class CommandHandler {
         return;
       }
 
-      const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation);
+      const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation)
+        .catch((error) => {
+          LogService.warn(`OpenAPI Error: ${error}`);
+          sendError(this.client, "Sorry, there was an error using the OpenAI-API. Details: " + error, roomId, event.event_id);
+          return;
+      });
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
         sendReply(this.client, roomId, this.getRootEventId(event), `${result.response}`, MATRIX_THREADS, MATRIX_RICH_TEXT)
