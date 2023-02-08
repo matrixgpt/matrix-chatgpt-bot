@@ -19,6 +19,7 @@ export const {
   MATRIX_THREADS,
   MATRIX_PREFIX_DM,
   MATRIX_RICH_TEXT,
+  MATRIX_WELCOME,
   /** Matrix Access Control */
   MATRIX_BLACKLIST,
   MATRIX_WHITELIST,
@@ -48,6 +49,7 @@ export const {
   MATRIX_THREADS:              { schema: z.boolean().default(true),                description: "Set to true if you want the bot to answer always in a new thread/conversation" },
   MATRIX_PREFIX_DM:            { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a one-to-one room" },
   MATRIX_RICH_TEXT:            { schema: z.boolean().default(true),                description: "Set to true if you want the bot to answer with enriched text" },
+  MATRIX_WELCOME:              { schema: z.boolean().default(true),                description: "Set to true if you want the bot to post a message when it joins a new chat." },
   /** Matrix Access Control */
   MATRIX_BLACKLIST:            { schema: z.string().optional(),                    description: "Set to a spaces separated string of 'user:homeserver' or a wildcard like ':anotherhomeserver.example' to blacklist users or domains" },
   MATRIX_WHITELIST:            { schema: z.string().optional(),                    description: "Set to a spaces separated string of 'user:homeserver' or a wildcard like ':anotherhomeserver.example' to whitelist users or domains" },

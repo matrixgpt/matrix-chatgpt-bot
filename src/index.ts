@@ -7,7 +7,7 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX } from './env.js'
+import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX, MATRIX_WELCOME } from './env.js'
 import CommandHandler from "./handlers.js"
 import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
@@ -70,10 +70,12 @@ async function main() {
 
   client.on("room.join", async (roomId: string, _event: any) => {
     LogService.info("index", `Bot joined room ${roomId}`);
-    await client.sendMessage(roomId, {
-      "msgtype": "m.notice",
-      "body": `👋 Hello, I'm ChatGPT bot! Matrix E2EE: ${MATRIX_ENCRYPTION}`,
-    });
+    if(MATRIX_WELCOME) {
+      await client.sendMessage(roomId, {
+        "msgtype": "m.notice",
+        "body": `👋 Hello, I'm ChatGPT bot! Matrix E2EE: ${MATRIX_ENCRYPTION}`,
+      });
+    }
   });
 
   // Prepare the command handler
