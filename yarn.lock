@@ -771,11 +771,6 @@
   dependencies:
     fast-json-stringify "^5.0.0"
 
-"@fortaine/fetch-event-source@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@fortaine/fetch-event-source/-/fetch-event-source-3.0.6.tgz#b8552a2ca2c5202f5699b93a92be0188d422b06e"
-  integrity sha512-621GAuLMvKtyZQ3IA6nlDWhV1V/7PGOTNIGLUifxt0KzM+dZIweJ6F3XvQF3QnqeNfS1N7WQ0Kil1Di/lhChEw==
-
 "@gar/promisify@^1.0.1":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
@@ -942,13 +937,13 @@
     "@types/node" "*"
     "@types/webidl-conversions" "*"
 
-"@waylaidwanderer/chatgpt-api@^1.9.0":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.10.1.tgz#1312b55f5aa6b76cfea4b596155f022a91be97ea"
-  integrity sha512-x8eOhtCqJo7j4p230VaFkqjkgmcnHmrXD0QZiAQlPYIajGLBFrjzs3ZEgw0gYUX/GTG896+UDmPAZUXMem1ehA==
+"@waylaidwanderer/chatgpt-api@^1.10.5":
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.10.5.tgz#8683cbf6f7c495e1e757832c7a718c99c518201d"
+  integrity sha512-aLECPQN/zLorDXldN1ApHqoE4KPp+I3GmW9RtExmzgR0TaFWb2f2GQMbuTKrZWDsadOo3wUO8AssTR1Zc7nkrg==
   dependencies:
     "@fastify/cors" "^8.2.0"
-    "@fortaine/fetch-event-source" "^3.0.6"
+    "@waylaidwanderer/fetch-event-source" "^3.0.1"
     boxen "^7.0.1"
     clipboardy "^3.0.0"
     dotenv "^16.0.3"
@@ -961,6 +956,11 @@
     keyv-file "^0.2.0"
     node-fetch "^3.3.0"
     ora "^6.1.2"
+
+"@waylaidwanderer/fetch-event-source@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/fetch-event-source/-/fetch-event-source-3.0.1.tgz#4a000462513066b18a167ab87a59bd640fd7bca4"
+  integrity sha512-gkc7vmBW9uulRj7tY30/1D8iBrpcgphBpI+e7LP744x/hAzaQxUuyF+n4O5dctKx+dE3i4BFuCWMEz9fAx2jlQ==
 
 abbrev@1:
   version "1.1.1"
@@ -3924,7 +3924,7 @@ znv@^0.3.2:
   dependencies:
     colorette "^2.0.19"
 
-zod@^3.20.2:
-  version "3.20.2"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
-  integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==
+zod@^3.20.3:
+  version "3.20.3"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.3.tgz#56b2ebb87d4566e7cd38f0f6cda7fa591fcec948"
+  integrity sha512-+MLeeUcLTlnzVo5xDn9+LVN9oX4esvgZ7qfZczBN+YVUvZBafIrPPVyG2WdjMWU2Qkb2ZAh2M8lpqf1wIoGqJQ==
