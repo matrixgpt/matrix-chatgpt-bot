@@ -2,9 +2,8 @@ import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
 import Keyv from 'keyv'
 import { KeyvFile } from 'keyv-file';
 import {
-  MatrixAuth, MatrixClient, AutojoinRoomsMixin,
-  LogService, LogLevel, RichConsoleLogger,
-  RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider,
+  MatrixAuth, MatrixClient, AutojoinRoomsMixin, LogService, LogLevel, RichConsoleLogger,
+  RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider, ICryptoStorageProvider,
 } from "matrix-bot-sdk";
 
 import * as path from "path";
@@ -34,7 +33,8 @@ if (KEYV_BOT_STORAGE) {
   storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 }
 
-const cryptoStore = MATRIX_ENCRYPTION ? new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")) : undefined; // /storage/encrypted
+let cryptoStore: ICryptoStorageProvider;
+if (MATRIX_ENCRYPTION) cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
