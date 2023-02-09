@@ -19,13 +19,6 @@ LogService.setLevel(LogLevel.INFO);
 LogService.trace = LogService.debug;
 if (KEYV_URL && KEYV_BACKEND === 'file') LogService.warn('config', 'KEYV_URL is ignored when KEYV_BACKEND is set to `file`')
 
-let chatgptStore:Keyv
-if (KEYV_BACKEND === 'file'){
-  chatgptStore = new Keyv({store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`),})})
-} else {
-  chatgptStore = new Keyv(KEYV_URL, { namespace: 'chatgpt-bot-api' });
-}
-
 let storage: IStorageProvider
 if (KEYV_BOT_STORAGE) {
   storage = new KeyvStorageProvider('chatgpt-bot-storage');
@@ -35,6 +28,11 @@ if (KEYV_BOT_STORAGE) {
 
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION) cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
+
+let cacheOptions  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
+if (KEYV_BACKEND === 'file'){
+  cacheOptions = { store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`) })  };
+} else { cacheOptions = { uri: KEYV_URL } }
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
@@ -53,9 +51,6 @@ async function main() {
     },
     promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
-  };
-  const cacheOptions = {  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
-    store: chatgptStore,
   };
   const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
 
