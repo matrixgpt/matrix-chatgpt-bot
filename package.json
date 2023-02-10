@@ -12,6 +12,8 @@
   "scripts": {
     "build": "rm -f tsconfig.tsbuildinfo && yarn tsc",
     "start": "node --enable-source-maps dist/index.js",
+    "lint": "eslint ./src",
+    "test": "ts-mocha --project ./tsconfig.json test/commands/**/*.ts",
     "typecheck": "yarn tsc"
   },
   "dependencies": {
@@ -26,8 +28,17 @@
     "keyv-file": "^0.2.0",
     "markdown-it": "^13.0.1",
     "matrix-bot-sdk": "^0.6.3",
-    "typescript": "^4.9.5",
+    "typescript": "*",
     "znv": "^0.3.2",
     "zod": "^3.20.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "ts-mocha": "^10.0.0"
   }
 }
