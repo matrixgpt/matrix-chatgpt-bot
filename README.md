@@ -7,6 +7,13 @@ Talk to ChatGPT via any Matrix client!
 
 A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the unofficial ChatGPT API.
 
+## ⚠️ Currently there is no free ChatGPT model provided by the OpenAI-API ⚠️
+
+The bot <ins>won't work</ins> as expected out of the box and there is no known free model which can be used:
+
+- The `CHATGPT_MODEL` environment can be used to set the model - as of writing the default uses a model of ChatGPT from late 2022 which is **not working at the moment** and we do not know if and when this will change. However, you can change the `CHATGPT_MODEL` env to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these alternative models are not free and will cost you OpenAI credits.
+- Check the [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository for any updates on this.
+
 # Usage
 1. Create a room
 2. Add the bot
@@ -125,8 +132,6 @@ You only need to do this if you want to contribute code to this package.
   - room level
   - thread level
   - both (threads fork the conversation from the main room)
-- Use `CHATGPT_MODEL` to set the model.
-  - As of writing the default uses ChatGPT from late 2022 which works fine, however we can't tell if OpenAI decides to remove the model. If so, you can always change the model variable to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these models are not free and will cost you OpenAI credits.
 
 # FAQ
 
