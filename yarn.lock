@@ -937,10 +937,10 @@
     "@types/node" "*"
     "@types/webidl-conversions" "*"
 
-"@waylaidwanderer/chatgpt-api@^1.10.5":
-  version "1.10.5"
-  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.10.5.tgz#8683cbf6f7c495e1e757832c7a718c99c518201d"
-  integrity sha512-aLECPQN/zLorDXldN1ApHqoE4KPp+I3GmW9RtExmzgR0TaFWb2f2GQMbuTKrZWDsadOo3wUO8AssTR1Zc7nkrg==
+"@waylaidwanderer/chatgpt-api@^1.17.1":
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.17.1.tgz#bb26741c2de2b7fe955f446b053d5cb99ce628b3"
+  integrity sha512-b5GSOsLf6XmYTgxaKB8of8CrRd3qSfbQQsAwWHj+JshJULa9NdEhUIrQaxRRe6qf0kDvaDR0kpREClDD8GM3lQ==
   dependencies:
     "@fastify/cors" "^8.2.0"
     "@waylaidwanderer/fetch-event-source" "^3.0.1"
@@ -956,6 +956,7 @@
     keyv-file "^0.2.0"
     node-fetch "^3.3.0"
     ora "^6.1.2"
+    ws "^8.12.0"
 
 "@waylaidwanderer/fetch-event-source@^3.0.1":
   version "3.0.1"
@@ -3906,6 +3907,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+
+ws@^8.12.0:
+  version "8.12.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.12.1.tgz#c51e583d79140b5e42e39be48c934131942d4a8f"
+  integrity sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==
 
 xtend@^4.0.0:
   version "4.0.2"
