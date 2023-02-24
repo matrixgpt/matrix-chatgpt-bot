@@ -19,7 +19,7 @@
     "@keyv/postgres": "^1.4.1",
     "@keyv/redis": "^2.5.4",
     "@keyv/sqlite": "^3.6.4",
-    "@waylaidwanderer/chatgpt-api": "^1.10.5",
+    "@waylaidwanderer/chatgpt-api": "^1.20.8",
     "dotenv": "^16.0.3",
     "hash.js": "^1.1.7",
     "keyv": "^4.5.2",
