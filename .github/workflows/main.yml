@@ -22,7 +22,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/matrixgpt/matrix-chatgpt-bot
+            ghcr.io/snekkenull/matrix-chatgpt-bot
           flavor: latest=true
           # generate Docker tags based on the following events/attributes
           tags: |
