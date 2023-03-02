@@ -47,7 +47,7 @@ async function main() {
 
   const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
     modelOptions: {
-      model: CHATGPT_MODEL,  // The model is set to text-chat-davinci-002-20221122 by default
+      model: CHATGPT_MODEL,  // The model is set to gpt-3.5-turbo by default
     },
     promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
