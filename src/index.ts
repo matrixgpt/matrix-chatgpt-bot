@@ -45,6 +45,13 @@ async function main() {
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room") throw Error("You must set CHATGPT_CONTEXT to 'room' if you set MATRIX_THREADS to false")
   const client: MatrixClient = new MatrixClient(MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, storage, cryptoStore);
 
+  if (!CHATGPT_API_MODEL) {
+    LogService.warn("index", "This bot now uses the official API from ChatGPT. In order to migrate add the CHATGPT_API_MODEL variable to your .env");
+    LogService.warn("index", "The official ChatGPT-model which should be used is 'gpt-3.5-turbo'. See the .env.example for details")
+    LogService.warn("index", "Please note that the usage of the models charge your OpenAI account and are not free to use");
+    return;
+  }
+
   const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
     modelOptions: {
       model: CHATGPT_API_MODEL,  // The model is set to gpt-3.5-turbo by default
@@ -52,6 +59,7 @@ async function main() {
     promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
   };
+
   const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
 
   // Automatically join rooms the bot is invited to

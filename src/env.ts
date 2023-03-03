@@ -64,7 +64,7 @@ export const {
   OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
   CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" },
-  CHATGPT_API_MODEL:               { schema: z.string().default("gpt-3.5-turbo"), description: "The model for the ChatGPT-API to use. Keep in mind that these models will charge your OpenAI account depending on their pricing." },
+  CHATGPT_API_MODEL:           { schema: z.string().default(""),                   description: "The model for the ChatGPT-API to use. Keep in mind that these models will charge your OpenAI account depending on their pricing." },
   CHATGPT_PROMPT_PREFIX:       { schema: z.string().default('Instructions:\nYou are ChatGPT, a large language model trained by OpenAI.'), description: "Instructions to feed to ChatGPT on startup"},
   CHATGPT_IGNORE_MEDIA:        { schema: z.boolean().default(false),               description: "Wether or not the bot should react to non-text messages"},
 });
