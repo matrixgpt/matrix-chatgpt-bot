@@ -5,14 +5,11 @@ Talk to ChatGPT via any Matrix client!
 
 ![Screenshot of Element iOS app showing conversation with bot](img/matrix-chatgpt.png)
 
-A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the unofficial ChatGPT API.
+A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the official ChatGPT API.
 
-## ⚠️ Currently there is no free ChatGPT model provided by the OpenAI-API ⚠️
-
-The bot <ins>won't work</ins> as expected out of the box and there is no known free model which can be used:
-
-- The `CHATGPT_MODEL` environment can be used to set the model - as of writing the default uses a model of ChatGPT from late 2022 which is **not working at the moment** and we do not know if and when this will change. However, you can change the `CHATGPT_MODEL` env to `text-davinci-003` or any other of the [supported models](https://platform.openai.com/docs/models/gpt-3). Keep in mind that that these alternative models are not free and will cost you OpenAI credits.
-- Check the [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository for any updates on this.
+## Warning for users upgrading from version 2.x
+OpenAI released the [official API for ChatGPT](https://openai.com/blog/introducing-chatgpt-and-whisper-apis). Thus, we no longer have to use any older models or any models which kept on being turned off by OpenAI. This means the bot is now way more stable and way faster. However, please note: The usage of the API is **no longer free**. If you use this bot, your OpenAI account **will be charged**! You might want to limit your budget in your account using the [OpenAI website](https://platform.openai.com/account/billing).
+You need to remove the `CHATGPT_MODEL` variable from your environment, if you changed the value.
 
 # Usage
 1. Create a room
@@ -44,11 +41,9 @@ Adjust all required settings in the `.env` file before running. Optional setting
 - When using a self-hosted setup, you could wildcard all your users with `MATRIX_WHITELIST=:yourhomeserver.example`.
 
 ### OpenAI / ChatGPT
-- You need to have an account at [openai.com](https://openai.com/).
+- You need to have an account at [openai.com](https://openai.com/). Please note that the usage of the ChatGPT-API is not free.
 - Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
-- You might want to change to chat-model by setting the `CHATGPT_MODEL` in your `.env` file.
-- The model currently defaults to `text-chat-davinci-002-20221122`.
-- Check the [node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) repository to keep track of the models.
+- You can change the chat-model by setting the `CHATGPT_API_MODEL` in your `.env` file. ChatGPT is the `gpt-3.5-turbo`-model which is the default. Please note that depending on the model your OpenAI account will be charged.
 
 ## Setup
 
