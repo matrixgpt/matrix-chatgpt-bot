@@ -942,10 +942,10 @@
     "@types/node" "*"
     "@types/webidl-conversions" "*"
 
-"@waylaidwanderer/chatgpt-api@^1.26.0":
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.26.0.tgz#85d0f70af34350e0ebebac827fad7446adcdf1af"
-  integrity sha512-0hde3Uz02nklhSBp16hNfPtWiW3saFBqeI7PHPVtoU+7oFOHyB4747ewxIJwCYHzTo0aUZEDQHK3kAToPsKU9A==
+"@waylaidwanderer/chatgpt-api@^1.26.1":
+  version "1.26.1"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.26.1.tgz#ea436be52cb5873036c2f4e99a27c067651257ed"
+  integrity sha512-cv9NqC0owO2EGCkVg4VQO0lcA5pDgv2VJrBE/0P6En27/v0gIC+7MedowX3htIUi4GLDkgyyDDDimst2i8ReMw==
   dependencies:
     "@dqbd/tiktoken" "^0.4.0"
     "@fastify/cors" "^8.2.0"
@@ -962,6 +962,7 @@
     keyv "^4.5.2"
     keyv-file "^0.2.0"
     ora "^6.1.2"
+    undici "^5.20.0"
     ws "^8.12.0"
 
 "@waylaidwanderer/fastify-sse-v2@^3.1.0":
@@ -3756,7 +3757,7 @@ uc.micro@^1.0.1, uc.micro@^1.0.5:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
   integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
-undici@^5.0.0:
+undici@^5.0.0, undici@^5.20.0:
   version "5.20.0"
   resolved "https://registry.yarnpkg.com/undici/-/undici-5.20.0.tgz#6327462f5ce1d3646bcdac99da7317f455bcc263"
   integrity sha512-J3j60dYzuo6Eevbawwp1sdg16k5Tf768bxYK4TUJRH7cBM4kFCbf3mOnM/0E3vQYXvpxITbbWmBafaDbxLDz3g==
