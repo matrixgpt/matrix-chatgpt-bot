@@ -5,7 +5,7 @@ Talk to ChatGPT via any Matrix client!
 
 ![Screenshot of Element iOS app showing conversation with bot](img/matrix-chatgpt.png)
 
-A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the unofficial ChatGPT API.
+A Matrix bot that uses [waylaidwanderer/node-chatgpt-api](https://github.com/waylaidwanderer/node-chatgpt-api) to access the official ChatGPT API.
 
 ## Warning for users upgrading from version 2.x
 OpenAI released the [official API for ChatGPT](https://openai.com/blog/introducing-chatgpt-and-whisper-apis). Thus, we no longer have to use any older models or any models which kept on being turned off by OpenAI. This means the bot is now way more stable and way faster. However, please note: The usage of the API is **no longer free**. If you use this bot, your OpenAI account **will be charged**! You might want to limit your budget in your account using the [OpenAI website](https://platform.openai.com/account/billing).
