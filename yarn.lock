@@ -942,10 +942,10 @@
     "@types/node" "*"
     "@types/webidl-conversions" "*"
 
-"@waylaidwanderer/chatgpt-api@^1.28.0":
-  version "1.28.0"
-  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.28.0.tgz#66dcaad0194fdfdbeb090c5ed55cff6edd2fe4ef"
-  integrity sha512-753dc/Eaf+1XmSXrLu+99LR4N+ACL7fQyA7GlsUXjRVXcH+m/iDqqXrU+o1JKGy84VlNKokAvq3oy9LVunKCIw==
+"@waylaidwanderer/chatgpt-api@^1.28.2":
+  version "1.28.2"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.28.2.tgz#fc762f6bf67b5f2092ec5e101a904590081f15ee"
+  integrity sha512-efNvZr8uosiYD69zFq50OPM36s+tyRMixlHpwDzn2q9UuZrdHC++kmm23OAnDxv3/+vA4UwCsZXn+92c35NHBQ==
   dependencies:
     "@dqbd/tiktoken" "^0.4.0"
     "@fastify/cors" "^8.2.0"
