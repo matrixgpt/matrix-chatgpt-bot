@@ -35,7 +35,7 @@ export default class CommandHandler {
       LogService.warn("No power level event found");
     }
 
-    let requiredPower = MATRIX_POWER_LEVEL
+    let requiredPower = MATRIX_POWER_LEVEL;
 
     let userPower = 0;
     if (Number.isFinite(powerLevelsEvent["users_default"])) userPower = powerLevelsEvent["users_default"];
