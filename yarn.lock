@@ -737,10 +737,10 @@
     "@aws-sdk/util-buffer-from" "3.208.0"
     tslib "^2.3.1"
 
-"@dqbd/tiktoken@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@dqbd/tiktoken/-/tiktoken-0.4.0.tgz#070e770ae3fa3fa8fccbea4f2e02ab87117f6c3a"
-  integrity sha512-iaHgmwKAOqowBFZKxelyszoeGLoNw62eOULcmyme1aA1Ymr3JgYl0V7jwpuUm7fksalycZajx3loFn9TRUaviw==
+"@dqbd/tiktoken@^1.0.2":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@dqbd/tiktoken/-/tiktoken-1.0.4.tgz#30c61cb5b865e839af88c1014e4ff16f6278e4ce"
+  integrity sha512-C0HrJj2RNlsB3wslfNHGNH8xN7QQMki+y4JkUor/GE+oIfPvH7yVep9l1/2powam8AAH6+gdv5MggA5gsszweg==
 
 "@fastify/ajv-compiler@^3.3.1":
   version "3.5.0"
@@ -942,12 +942,12 @@
     "@types/node" "*"
     "@types/webidl-conversions" "*"
 
-"@waylaidwanderer/chatgpt-api@^1.29.2":
-  version "1.29.2"
-  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.29.2.tgz#f7636747d29dc421850fd8200b262c319229f610"
-  integrity sha512-TXJo5OMJnqleu+ZySMqU3jU9i0agM2N00LXzwOLP2GT1Y19Nh3/ePLSm8gjA2FggXk55uWRilts2WLlXVPHiqQ==
+"@waylaidwanderer/chatgpt-api@^1.33.0":
+  version "1.34.0"
+  resolved "https://registry.yarnpkg.com/@waylaidwanderer/chatgpt-api/-/chatgpt-api-1.34.0.tgz#3db21771e953fc3ebeaecbf28de3211aee143358"
+  integrity sha512-DPquhkZucw31xpv7LQC18koG/C6OtSPi0+tBsdeqE4sbt4CcKKauAWk2COWaVRR1VyX8m8Y5K+2/Bkgk2xr2HQ==
   dependencies:
-    "@dqbd/tiktoken" "^0.4.0"
+    "@dqbd/tiktoken" "^1.0.2"
     "@fastify/cors" "^8.2.0"
     "@waylaidwanderer/fastify-sse-v2" "^3.1.0"
     "@waylaidwanderer/fetch-event-source" "^3.0.1"
