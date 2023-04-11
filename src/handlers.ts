@@ -127,7 +127,7 @@ export default class CommandHandler {
       const result = await sendChatGPTMessage(this.chatGPT, await bodyWithoutPrefix, storedConversation)
         .catch((error) => {
           LogService.error(`OpenAI-API Error: ${error}`);
-          sendError(this.client, "The bot has encountered an error, please contact your administrator.", roomId, event.event_id);
+          sendError(this.client, `The bot has encountered an error, please contact your administrator (Error code ${error.status || "Unknown"}).`, roomId, event.event_id);
       });
       await Promise.all([
         this.client.setTyping(roomId, false, 500),
