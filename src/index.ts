@@ -7,7 +7,12 @@ import {
 } from "matrix-bot-sdk";
 
 import * as path from "path";
-import { DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT, CHATGPT_API_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX, MATRIX_WELCOME } from './env.js'
+import {
+  DATA_PATH, KEYV_URL, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN,
+  MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT,
+  CHATGPT_API_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX, MATRIX_WELCOME,
+  CHATGPT_REVERSE_PROXY
+  } from './env.js'
 import CommandHandler from "./handlers.js"
 import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
@@ -58,6 +63,9 @@ async function main() {
     },
     promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
+    options: {
+      reverseProxyUrl: CHATGPT_REVERSE_PROXY
+    },
   };
 
   const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
