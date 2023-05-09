@@ -36,6 +36,7 @@ export const {
   CHATGPT_PROMPT_PREFIX,
   CHATGPT_IGNORE_MEDIA,
   CHATGPT_REVERSE_PROXY,
+  CHATGPT_TEMPERATURE,
 } = parseEnv(process.env, {
   DATA_PATH:                   { schema: z.string().default("./storage"),          description: "Set to /storage/ if using docker, ./storage if running without" },
   KEYV_BACKEND:                { schema: z.enum(["file", "other"]).default("file"),description: "Set the Keyv backend to 'file' or 'other' if other set KEYV_URL" },
@@ -68,5 +69,6 @@ export const {
   CHATGPT_API_MODEL:           { schema: z.string().default(""),                   description: "The model for the ChatGPT-API to use. Keep in mind that these models will charge your OpenAI account depending on their pricing." },
   CHATGPT_PROMPT_PREFIX:       { schema: z.string().default('Instructions:\nYou are ChatGPT, a large language model trained by OpenAI.'), description: "Instructions to feed to ChatGPT on startup"},
   CHATGPT_IGNORE_MEDIA:        { schema: z.boolean().default(false),               description: "Wether or not the bot should react to non-text messages"},
-  CHATGPT_REVERSE_PROXY:       { schema: z.string().default(""),                   description: "Change the api url to use another (OpenAI-compatible) API endpoint" }
+  CHATGPT_REVERSE_PROXY:       { schema: z.string().default(""),                   description: "Change the api url to use another (OpenAI-compatible) API endpoint" },
+  CHATGPT_TEMPERATURE:         { schema: z.float().default(0.8),                   description: "Set the temperature for the model" }
 });
