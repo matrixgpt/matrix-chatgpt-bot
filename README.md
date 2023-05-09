@@ -44,6 +44,7 @@ Adjust all required settings in the `.env` file before running. Optional setting
 - You need to have an account at [openai.com](https://openai.com/). Please note that the usage of the ChatGPT-API is not free.
 - Create a [API Key](https://platform.openai.com/account/api-keys). Then, set `OPENAI_API_KEY` in your `.env` file
 - You can change the chat-model by setting the `CHATGPT_API_MODEL` in your `.env` file. ChatGPT is the `gpt-3.5-turbo`-model which is the default. Please note that depending on the model your OpenAI account will be charged.
+- You can change the API-URL to use another base than the official OpenAI-endpoint. To do so, change the `CHATGPT_REVERSE_PROXY` in the `.env` file.
 
 ## Setup
 
