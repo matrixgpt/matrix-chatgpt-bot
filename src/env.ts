@@ -70,5 +70,5 @@ export const {
   CHATGPT_PROMPT_PREFIX:       { schema: z.string().default('Instructions:\nYou are ChatGPT, a large language model trained by OpenAI.'), description: "Instructions to feed to ChatGPT on startup"},
   CHATGPT_IGNORE_MEDIA:        { schema: z.boolean().default(false),               description: "Wether or not the bot should react to non-text messages"},
   CHATGPT_REVERSE_PROXY:       { schema: z.string().default(""),                   description: "Change the api url to use another (OpenAI-compatible) API endpoint" },
-  CHATGPT_TEMPERATURE:         { schema: z.float().default(0.8),                   description: "Set the temperature for the model" }
+  CHATGPT_TEMPERATURE:         { schema: z.number().default(0.8),                   description: "Set the temperature for the model" }
 });
