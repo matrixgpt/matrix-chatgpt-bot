@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "main": "dist/index.js",
   "repository": "git@github.com:matrixgpt/matrix-chatgpt-bot.git",
-  "author": "Jake Coppinger <jake@jakecoppinger.com>",
+  "author": "Max Kammler <max.kammler@ucc.ovgu.de>",
   "license": "AGPL-3.0",
   "type": "module",
   "engines": {
@@ -19,7 +19,7 @@
     "@keyv/postgres": "^1.4.1",
     "@keyv/redis": "^2.5.4",
     "@keyv/sqlite": "^3.6.4",
-    "@waylaidwanderer/chatgpt-api": "^1.26.1",
+    "@waylaidwanderer/chatgpt-api": "^1.33.0",
     "dotenv": "^16.0.3",
     "hash.js": "^1.1.7",
     "keyv": "^4.5.2",
