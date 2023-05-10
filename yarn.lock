@@ -808,13 +808,13 @@
   dependencies:
     ioredis "^5.3.0"
 
-"@keyv/sqlite@^3.6.4":
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.4.tgz#5582efe86e3fbbf9a65b895973d73d6d5950c879"
-  integrity sha512-nE7bjOU6lmGn3QBkaAZS+LLvBHebBKDwDbMGlTbhRNJoREam69LZewspGbePb8dpZS1C6IazedVRCq2eb5kFWw==
+"@keyv/sqlite@^3.6.5":
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.5.tgz#d16aaf45397942486dca3cb10ef4840fa164e0bc"
+  integrity sha512-PZPsXcZYHPKUCX1DO7e6dTMGmk5aX7uW8QFzEavOPRMVloIp2QMv+Glt162pu+Dw5NunJinCbvD2DvYwinyNZw==
   dependencies:
     pify "^5.0.0"
-    sqlite3 "^5.1.4"
+    sqlite3 "^5.1.6"
 
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.10"
@@ -3530,10 +3530,10 @@ split2@^4.0.0, split2@^4.1.0:
   resolved "https://registry.yarnpkg.com/split2/-/split2-4.1.0.tgz#101907a24370f85bb782f08adaabe4e281ecf809"
   integrity sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==
 
-sqlite3@^5.1.4:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.1.5.tgz#cf5a753c98914f3aa44b7bd057702fdca6abceb6"
-  integrity sha512-7sP16i4wI+yKnGOO2q2ijze7EjQ9US+Vw7DYYwxfFtqNZDGgBcEw0oeDaDvUTq66uJOzVd/z6MkIg+c9erSJKg==
+sqlite3@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.1.6.tgz#1d4fbc90fe4fbd51e952e0a90fd8f6c2b9098e97"
+  integrity sha512-olYkWoKFVNSSSQNvxVUfjiVbz3YtBwTJj+mfV5zpHmqW3sELx2Cf4QCdirMelhM5Zh+KDVaKgQHqCxrqiWHybw==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
     node-addon-api "^4.2.0"
