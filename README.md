@@ -162,6 +162,16 @@ Once the bot has started succesfully, it will output the following information t
 ## I use Docker but I don't see any console output
 You most likely need to view the logs by running `docker logs matrix-chatgpt-bot`
 
+## How to set the temperature
+Set the temperature by using CHATGPT_TEMPERATURE in your .env file. The default is 0.8.
+
+Here are some guidelines for setting the temperature:
+
+| Temperature Values | Appropriate Tasks | Examples |
+| --- | --- | --- |
+| Below 0.5 (low) | Tasks requiring a single correct answer or predictable output | Programming |
+| 0.5-0.9 (medium) | Tasks needing somewhat varied and creative content grounded in reality | E-mail response |
+| Above 0.9 (high) | Tasks requiring more creative and unpredictable output | Story writing |
 
 # Reporting issues
 
