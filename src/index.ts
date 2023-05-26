@@ -64,9 +64,7 @@ async function main() {
     },
     promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
     debug: false,
-    options: {
-      reverseProxyUrl: CHATGPT_REVERSE_PROXY
-    },
+    reverseProxyUrl: CHATGPT_REVERSE_PROXY,
   };
 
   const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
