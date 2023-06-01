@@ -786,10 +786,10 @@
   resolved "https://registry.yarnpkg.com/@ioredis/commands/-/commands-1.2.0.tgz#6d61b3097470af1fdbbe622795b8921d42018e11"
   integrity sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==
 
-"@keyv/mongo@^2.1.8":
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/@keyv/mongo/-/mongo-2.1.8.tgz#ba044317cce2543a019fee0e45d46b1ad10d6abd"
-  integrity sha512-IOFKS9Y10c42NCaoD/6OKmqz7FMCm/VbMbrip7ma8tBvdWcPhDkkPV3ZpLgGsGw39RePzzKO6FQ89xs0+BFCKg==
+"@keyv/mongo@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@keyv/mongo/-/mongo-2.2.8.tgz#683631ac422fc19d912e45fa953b6959e6491a3b"
+  integrity sha512-2y8RXQDzCUzvhkzjH0bj4+Ur9Ce+x9PjNrV6KnGGpRocexFKVgOYexIegnEc/DBy6HhNyqUlgWOpuFfnhpmF+A==
   dependencies:
     mongodb "^4.5.0"
     pify "^5.0.0"
