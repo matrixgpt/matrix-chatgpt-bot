@@ -29,6 +29,7 @@ export const {
   MATRIX_DEFAULT_PREFIX,
   MATRIX_DEFAULT_PREFIX_REPLY,
   /** ChatGPT Settings */
+  OPENAI_AZURE,
   OPENAI_API_KEY,
   CHATGPT_CONTEXT,
   CHATGPT_TIMEOUT,
@@ -63,6 +64,7 @@ export const {
   MATRIX_DEFAULT_PREFIX:       { schema: z.string().default(""),                   description: "Set to a string if you want the bot to respond only when messages start with this prefix. Trailing space matters. Empty for no prefix." },
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },
   /** ChatGPT Settings */
+  OPENAI_AZURE:                { schema: z.boolean().default(false),               description: "Wether or not to use Azure OPENAI"},
   OPENAI_API_KEY:              { schema: z.string().default(""),                   description: "Set to the API key from https://platform.openai.com/account/api-keys"},
   CHATGPT_TIMEOUT:             { schema: z.number().default(2 * 60 * 1000),        description: "Set number of milliseconds to wait for ChatGPT responses" },
   CHATGPT_CONTEXT:             { schema: z.enum(["thread", "room", "both"]).default("thread"), description: "Set the ChatGPT conversation context to 'thread', 'room' or 'both'" },
