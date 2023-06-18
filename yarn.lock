@@ -801,10 +801,10 @@
   dependencies:
     pg "8.11.0"
 
-"@keyv/redis@^2.5.8":
-  version "2.5.8"
-  resolved "https://registry.yarnpkg.com/@keyv/redis/-/redis-2.5.8.tgz#6ba503b215f8ea66d194aa99457161e18ec046ec"
-  integrity sha512-WweuUZqZN2ETcseV6r1AEum1qG6eR5poNhkZ4CIpWBOjMasT2ArTKWyIPxxYllKUS2A8wKv1l8+AqH6Jpzk7Ug==
+"@keyv/redis@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@keyv/redis/-/redis-2.6.1.tgz#afbf763e6d936db402c7abc79f42172d70f1a1b4"
+  integrity sha512-s0L2DRZoa3eahIf/I/mhG6bpb90JFKVnpd1iVlhBOr6PxsqvCyPU99BhZKRAkMThnoJZRewI7sO9G/bYjQ+B6Q==
   dependencies:
     ioredis "^5.3.2"
 
