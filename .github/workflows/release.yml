@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-    branches: [main]
 
 jobs:
   docker:
@@ -13,6 +12,14 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
+      -
+        name: Check branch
+        run: |
+          BRANCH_NAME=$(git branch --contains ${{ github.sha }} | grep 'main')
+          if [[ -z $BRANCH_NAME ]]; then
+            echo "Tagged commit is not on main branch, aborting."
+            exit 1
+          fi
       -
         name: Docker meta
         id: meta
