@@ -1,5 +1,7 @@
 FROM node:20-slim
 
+LABEL org.opencontainers.image.source=https://github.com/0xO0O0/matrix-chatgpt-bot
+
 WORKDIR /usr/src/app
 
 COPY package.json ./
