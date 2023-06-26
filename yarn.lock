@@ -794,10 +794,10 @@
     mongodb "^4.5.0"
     pify "^5.0.0"
 
-"@keyv/postgres@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@keyv/postgres/-/postgres-1.4.6.tgz#f540ad47ebd9f8288394c08803c7c7c5dd59fd5a"
-  integrity sha512-WSO6BqTT6Q3guQus7el25idabTOJYFnCDD/j5p6yAylqrVi24iZ9ExoUG/lJroyHZi76bKLhckbDlYOw61LjaQ==
+"@keyv/postgres@^1.4.7":
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/@keyv/postgres/-/postgres-1.4.7.tgz#6d4657a65338cd26225b47e7833db5ceac545f02"
+  integrity sha512-VpB6dLmwMi6KN7UupbHbET8Dffz9jKWJadg0wXXKTHG/Z7iSzjUW7wy/E+FBErnh1B0S/jKdGYWmaoECrL3DBw==
   dependencies:
     pg "8.11.0"
 
