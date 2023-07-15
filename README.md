@@ -173,6 +173,9 @@ Here are some guidelines for setting the temperature:
 | 0.5-0.9 (medium) | Tasks needing somewhat varied and creative content grounded in reality | E-mail response |
 | Above 0.9 (high) | Tasks requiring more creative and unpredictable output | Story writing |
 
+## The response I receive is excessively long and gets truncated. Unlike in ChatGPT, my matrix does not have a "Continue generating" button.
+You can simply write `continue` to prompt the bot to continue from its previous answer.
+
 # Reporting issues
 
 Please report issues via Github. The chat room is for discussion.
