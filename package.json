@@ -22,7 +22,7 @@
     "@waylaidwanderer/chatgpt-api": "^1.37.2",
     "dotenv": "^16.3.1",
     "hash.js": "^1.1.7",
-    "keyv": "^4.5.2",
+    "keyv": "^4.5.3",
     "keyv-file": "^0.2.0",
     "markdown-it": "^13.0.1",
     "matrix-bot-sdk": "^0.6.3",
