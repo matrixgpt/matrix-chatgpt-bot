@@ -16,18 +16,18 @@
   },
   "dependencies": {
     "@keyv/mongo": "^2.2.8",
-    "@keyv/postgres": "^1.4.7",
-    "@keyv/redis": "^2.7.0",
-    "@keyv/sqlite": "^3.6.5",
-    "@waylaidwanderer/chatgpt-api": "^1.37.2",
+    "@keyv/postgres": "^1.4.9",
+    "@keyv/redis": "^2.8.0",
+    "@keyv/sqlite": "^3.6.6",
+    "@waylaidwanderer/chatgpt-api": "^1.37.3",
     "dotenv": "^16.3.1",
     "hash.js": "^1.1.7",
-    "keyv": "^4.5.2",
+    "keyv": "^4.5.4",
     "keyv-file": "^0.2.0",
-    "markdown-it": "^13.0.1",
-    "matrix-bot-sdk": "^0.6.5",
-    "typescript": "^5.1.6",
-    "znv": "^0.3.2",
-    "zod": "^3.21.4"
+    "markdown-it": "^13.0.2",
+    "matrix-bot-sdk": "0.6.5",
+    "typescript": "^5.2.2",
+    "znv": "^0.4.0",
+    "zod": "^3.22.4"
   }
 }
