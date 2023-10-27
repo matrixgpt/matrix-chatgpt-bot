@@ -76,7 +76,12 @@ async function main() {
   client.on("room.failed_decryption", async (roomId, event, error) => {
     // handle `m.room.encrypted` event that could not be decrypted
     LogService.error("index", `Failed decryption event!\n${{ roomId, event, error }}`);
-    await client.sendText(roomId, `I couldn't decrypt the message :( Please add me to an unencrypted room.`);
+    await client.sendText(roomId, `Room key error. I will leave the room, please reinvite me!`);
+    try {
+      await client.leaveRoom(roomId);
+    } catch (e) {
+      LogService.error("index", `Failed to leave room ${roomId} after failed decryption!`);
+    }
   });
 
   client.on("room.join", async (roomId: string, _event: any) => {
