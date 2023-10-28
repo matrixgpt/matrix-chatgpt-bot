@@ -15,7 +15,6 @@
     "typecheck": "yarn tsc"
   },
   "dependencies": {
-    "@keyv/mongo": "^2.2.8",
     "@keyv/postgres": "^1.4.9",
     "@keyv/redis": "^2.8.0",
     "@keyv/sqlite": "^3.6.6",
