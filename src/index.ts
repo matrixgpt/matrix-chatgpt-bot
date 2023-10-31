@@ -1,5 +1,4 @@
 import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
-import Keyv from 'keyv'
 import { KeyvFile } from 'keyv-file';
 import {
   MatrixAuth, MatrixClient, AutojoinRoomsMixin, LogService, LogLevel, RichConsoleLogger,
@@ -8,13 +7,10 @@ import {
 
 import * as path from "path";
 import {
-  DATA_PATH, KEYV_URL, OPENAI_AZURE, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN,
-  MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT,
-  CHATGPT_API_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX, MATRIX_WELCOME,
-  CHATGPT_REVERSE_PROXY, CHATGPT_TEMPERATURE
+  DATA_PATH, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN, MATRIX_WELCOME, MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS,
+  OPENAI_AZURE, OPENAI_API_KEY, CHATGPT_CONTEXT, CHATGPT_API_MODEL, CHATGPT_PROMPT_PREFIX, CHATGPT_REVERSE_PROXY, CHATGPT_TEMPERATURE
   } from './env.js'
 import CommandHandler from "./handlers.js"
-import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
@@ -22,22 +18,15 @@ LogService.setLogger(new RichConsoleLogger());
 LogService.setLevel(LogLevel.INFO);
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
-if (KEYV_URL && KEYV_BACKEND === 'file') LogService.warn('config', 'KEYV_URL is ignored when KEYV_BACKEND is set to `file`')
 
 let storage: IStorageProvider
-if (KEYV_BOT_STORAGE) {
-  storage = new KeyvStorageProvider('chatgpt-bot-storage');
-} else {
-  storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
-}
+storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION) cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
 
 let cacheOptions  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
-if (KEYV_BACKEND === 'file'){
-  cacheOptions = { store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`) })  };
-} else { cacheOptions = { uri: KEYV_URL } }
+cacheOptions = { store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`) })  };
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
