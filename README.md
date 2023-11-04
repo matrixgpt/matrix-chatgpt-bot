@@ -37,7 +37,7 @@ Adjust all required settings in the `.env` file before running. Optional setting
 - You need a Matrix account on [Matrix.org](https://matrix.org) (or any other server) for the bot user. 
 - By default, anyone that knows the name of your bot can invite it to rooms or chat with it.
 - Restrict access with `MATRIX_BLACKLIST` or `MATRIX_WHITELIST`
-- Restrict access with `MATRIX_BLACKLIST_ROOMS` or `MATRIX_WHITELIST_ROOMS`
+- Restrict access with `MATRIX_ROOM_BLACKLIST` or `MATRIX_ROOM_WHITELIST`
 - Restrict access with `MATRIX_POWER_LEVEL` (defaults to 0)
 - When using a self-hosted setup, you could wildcard all your users with `MATRIX_WHITELIST=:yourhomeserver.example`.
 
@@ -173,6 +173,9 @@ Here are some guidelines for setting the temperature:
 | Below 0.5 (low) | Tasks requiring a single correct answer or predictable output | Programming |
 | 0.5-0.9 (medium) | Tasks needing somewhat varied and creative content grounded in reality | E-mail response |
 | Above 0.9 (high) | Tasks requiring more creative and unpredictable output | Story writing |
+
+## The response I receive is excessively long and gets truncated. Unlike in ChatGPT, my matrix does not have a "Continue generating" button.
+You can simply write `continue` to prompt the bot to continue from its previous answer.
 
 # Reporting issues
 
