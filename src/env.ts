@@ -75,6 +75,6 @@ export const {
   CHATGPT_IGNORE_MEDIA:        { schema: z.boolean().default(false),               description: "Wether or not the bot should react to non-text messages"},
   CHATGPT_REVERSE_PROXY:       { schema: z.string().default(""),                   description: "Change the api url to use another (OpenAI-compatible) API endpoint" },
   CHATGPT_TEMPERATURE:         { schema: z.number().default(0.8),                  description: "Set the temperature for the model" },
-  CHATGPT_MAX_CONTEXT_TOKENS:  { schema: z.number().default(4097), description: "Davinci models have a max context length of 4097 tokens, but you may need to change this for other models." }
-  CHATGPT_MAX_PROMPT_TOKENS    { schema: z.number().default(3097), description: "You might want to lower this to save money if using a paid model. Earlier messages will be dropped until the prompt is within the limit." }
+  CHATGPT_MAX_CONTEXT_TOKENS:  { schema: z.number().default(4097), description: "Davinci models have a max context length of 4097 tokens, but you may need to change this for other models." },
+  CHATGPT_MAX_PROMPT_TOKENS:   { schema: z.number().default(3097), description: "You might want to lower this to save money if using a paid model. Earlier messages will be dropped until the prompt is within the limit." },
 });
