@@ -81,7 +81,7 @@ export default class CommandHandler {
       if(relatesTo.event_id !== undefined){
         const rootEvent: MessageEvent = await this.client.getEvent(roomId, relatesTo.event_id) // relatesTo is root event.
         const rootPrefixUsed = prefixes.find(p => rootEvent.content.body.startsWith(p));
-        if (!rootPrefixUsed && !(!MATRIX_PREFIX_DM && isDm)) return false;  // Ignore unrelated threads or certain dms
+        if (MATRIX_PREFIX && !rootPrefixUsed && !(!MATRIX_PREFIX_DM && isDm)) return false;  // Ignore unrelated threads or certain dms
       } else { // reply not thread, iterating for a prefix not implemented
         return false;                                                       // Ignore if no relatesTo EventID
       }
