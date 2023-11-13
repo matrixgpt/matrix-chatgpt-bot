@@ -74,7 +74,6 @@ export type StoredConversationConfig = {
 }
 
 export type StoredConversation = {
-    conversationId: string;
-    messageId: string;
+    threadId: string;
     config: StoredConversationConfig;
 }

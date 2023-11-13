@@ -1,9 +1,7 @@
-import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
+import OpenAI from 'openai';
 import Markdown from 'markdown-it';
-import { MatrixClient } from "matrix-bot-sdk";
+import { LogService, MatrixClient } from "matrix-bot-sdk";
 import { MessageEvent, StoredConversation } from "./interfaces.js";
-import { CHATGPT_TIMEOUT } from "./env.js";
-
 const md = Markdown();
 
 export function parseMatrixUsernamePretty(matrix_username: string): string {
@@ -76,11 +74,64 @@ export async function sendReply(client: MatrixClient, roomId: string, rootEventI
   await client.sendEvent(roomId, "m.room.message", finalContent);
 }
 
-export async function sendChatGPTMessage(chatgpt: ChatGPTClient, question: string, storedConversation: StoredConversation) {
-  // TODO: CHATGPT_TIMEOUT
-  return (storedConversation !== undefined) ?
-    await chatgpt.sendMessage(question, { conversationId: storedConversation.conversationId, parentMessageId: storedConversation.messageId }) :
-    await chatgpt.sendMessage(question);
+/**
+ * The OpenAI Assistance API queues tasks in runs. While these runs are running, we have to check if they already finished.
+ * @param {OpenAI} client the open-ai client to be used
+ * @param {string} runId the id of the current run to wait for
+ * @param {string} threadId the id of the current thread we're using
+ */
+async function waitForRun(client: OpenAI, runId: string, threadId: string) {
+  let run = await client.beta.threads.runs.retrieve(threadId, runId);
+  if (run.status === "in_progress") {
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    return waitForRun(client, runId, threadId);
+  } else if (run.status !== "completed") {
+    LogService.error(`Failed while getting the response from OpenAI API. Details: ${run}`);
+    throw "Failed getting response from OpenAI";
+  }
+  return;
+}
+
+/**
+ * Schedule a run in order to retrive a response from the API
+ * @param {OpenAI} client the open-ai client to be used
+ * @param {string} threadId the id of the current thread we're using
+ * @param {OpenAI.Beta.Assistant} assistant the assistant to use
+ */
+export async function getResponse(client: OpenAI, threadId: string, assistant: OpenAI.Beta.Assistant) {
+  // check if our response finished generating
+  LogService.debug("Checking if our response finished generating...");
+  let run = await client.beta.threads.runs.create(threadId, {assistant_id: assistant.id});
+  await waitForRun(client, run.id, threadId);
+  const message = await client.beta.threads.messages.list(threadId);
+  LogService.debug(`Finished generating response and got message: ${message}`);
+  return message;
+}
+
+/**
+ * Send a question to the OpenAI API and get its reponse
+ * @param {OpenAI} client the open-ai client to be used
+ * @param {OpenAI.Beta.Assistant} assistant the assistant to use
+ * @param {string} question the question to be asked
+* @param {StoredConversation} storedConversation holds the threadId for context
+ */
+export async function sendChatGPTMessage(client: OpenAI, assistant: OpenAI.Beta.Assistant, question: string, storedConversation?: StoredConversation) {
+  let threadId = "";
+  if (storedConversation !== undefined) {
+    // use existing threadId if we already have one
+    threadId = storedConversation.threadId;
+  } else {
+    // if no threadId exists, create a new thread
+    const thread = await client.beta.threads.create();
+    threadId = thread.id;
+  }
+  // add our question to the current thread
+  const message = await client.beta.threads.messages.create(threadId, {
+    role: "user",
+    content: question
+  });
+  const response = await getResponse(client, threadId, assistant);
+  return response;
 }
 
 export function wrapPrompt(wrapped: string) {

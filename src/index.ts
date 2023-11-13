@@ -1,6 +1,4 @@
-import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
-import Keyv from 'keyv'
-import { KeyvFile } from 'keyv-file';
+import OpenAI, { ClientOptions } from 'openai';
 import {
   MatrixAuth, MatrixClient, AutojoinRoomsMixin, LogService, LogLevel, RichConsoleLogger,
   RustSdkCryptoStorageProvider, IStorageProvider, SimpleFsStorageProvider, ICryptoStorageProvider,
@@ -11,14 +9,15 @@ import {
   DATA_PATH, KEYV_URL, OPENAI_AZURE, OPENAI_API_KEY, MATRIX_HOMESERVER_URL, MATRIX_ACCESS_TOKEN, MATRIX_AUTOJOIN,
   MATRIX_BOT_PASSWORD, MATRIX_BOT_USERNAME, MATRIX_ENCRYPTION, MATRIX_THREADS, CHATGPT_CONTEXT,
   CHATGPT_API_MODEL, KEYV_BOT_STORAGE, KEYV_BACKEND, CHATGPT_PROMPT_PREFIX, MATRIX_WELCOME,
-  CHATGPT_REVERSE_PROXY, CHATGPT_TEMPERATURE, CHATGPT_MAX_CONTEXT_TOKENS, CHATGPT_MAX_PROMPT_TOKENS
+  CHATGPT_REVERSE_PROXY, CHATGPT_TEMPERATURE, CHATGPT_MAX_CONTEXT_TOKENS, CHATGPT_MAX_PROMPT_TOKENS,
+  CHATGPT_TIMEOUT, CHATGPT_NAME,
   } from './env.js'
 import CommandHandler from "./handlers.js"
 import { KeyvStorageProvider } from './storage.js'
 import { parseMatrixUsernamePretty, wrapPrompt } from './utils.js';
 
 LogService.setLogger(new RichConsoleLogger());
-// LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
+LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
 LogService.setLevel(LogLevel.INFO);
 // LogService.muteModule("Metrics");
 LogService.trace = LogService.debug;
@@ -33,11 +32,6 @@ if (KEYV_BOT_STORAGE) {
 
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION) cryptoStore = new RustSdkCryptoStorageProvider(path.join(DATA_PATH, "encrypted")); // /storage/encrypted
-
-let cacheOptions  // Options for the Keyv cache, see https://www.npmjs.com/package/keyv
-if (KEYV_BACKEND === 'file'){
-  cacheOptions = { store: new KeyvFile({ filename: path.join(DATA_PATH, `chatgpt-bot-api.json`) })  };
-} else { cacheOptions = { uri: KEYV_URL } }
 
 async function main() {
   if (!MATRIX_ACCESS_TOKEN){
@@ -57,20 +51,36 @@ async function main() {
     return;
   }
 
-  const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
-    modelOptions: {
-      model: CHATGPT_API_MODEL,  // The model is set to gpt-3.5-turbo by default
-      temperature: CHATGPT_TEMPERATURE,
-    },
-    promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
-    debug: false,
-    azure: OPENAI_AZURE,
-    reverseProxyUrl: CHATGPT_REVERSE_PROXY,
-    maxContextTokens: CHATGPT_MAX_CONTEXT_TOKENS,
-    maxPromptTokens: CHATGPT_MAX_PROMPT_TOKENS
-  };
+  // const clientOptions = {  // (Optional) Parameters as described in https://platform.openai.com/docs/api-reference/completions
+  //   modelOptions: {
+  //     model: CHATGPT_API_MODEL,  // The model is set to gpt-3.5-turbo by default
+  //     temperature: CHATGPT_TEMPERATURE,
+  //   },
+  //   promptPrefix: wrapPrompt(CHATGPT_PROMPT_PREFIX),
+  //   debug: false,
+  //   azure: OPENAI_AZURE,
+  //   reverseProxyUrl: CHATGPT_REVERSE_PROXY,
+  //   maxContextTokens: CHATGPT_MAX_CONTEXT_TOKENS,
+  //   maxPromptTokens: CHATGPT_MAX_PROMPT_TOKENS
+  // };
 
-  const chatgpt = new ChatGPTClient(OPENAI_API_KEY, clientOptions, cacheOptions);
+  const clientOptions: ClientOptions = {
+    apiKey: OPENAI_API_KEY,
+    timeout: CHATGPT_TIMEOUT,
+    baseURL: CHATGPT_REVERSE_PROXY !== "" ? CHATGPT_REVERSE_PROXY: undefined,
+  };
+  const openaiClient = new OpenAI(clientOptions);
+
+  const assistant = await openaiClient.beta.assistants.create({
+    instructions: wrapPrompt(CHATGPT_PROMPT_PREFIX),
+    tools: [
+      { type: 'code_interpreter' }
+    ],
+    model: CHATGPT_API_MODEL,
+    name: CHATGPT_NAME,
+    // TODO: I can not figure out how to use temperature, max context tokens und max prompt tokens.
+    // Maybe these parameters are not yet to be found in the beta/assistant code? Not sure, will check later.
+  });
 
   // Automatically join rooms the bot is invited to
   if (MATRIX_AUTOJOIN) AutojoinRoomsMixin.setupOnClient(client);
@@ -97,7 +107,7 @@ async function main() {
   });
 
   // Prepare the command handler
-  const commands = new CommandHandler(client, chatgpt);
+  const commands = new CommandHandler(client, openaiClient, assistant);
   await commands.start();
 
   LogService.info("index", `Starting bot using ChatGPT model: ${CHATGPT_API_MODEL}`);
