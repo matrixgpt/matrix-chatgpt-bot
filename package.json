@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@keyv/postgres": "^1.4.9",
-    "@keyv/redis": "^2.8.0",
+    "@keyv/redis": "^2.8.2",
     "@keyv/sqlite": "^3.6.6",
     "@waylaidwanderer/chatgpt-api": "^1.37.3",
     "dotenv": "^16.3.1",
