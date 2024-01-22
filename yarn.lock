@@ -56,10 +56,10 @@
   resolved "https://registry.yarnpkg.com/@ioredis/commands/-/commands-1.2.0.tgz#6d61b3097470af1fdbbe622795b8921d42018e11"
   integrity sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==
 
-"@keyv/postgres@^1.4.9":
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/@keyv/postgres/-/postgres-1.4.9.tgz#3c6c9dc3014134c3a280530c582a634868cb4e2d"
-  integrity sha512-eCnZWcSSDc5Ooxo+mFjUI7cYYgaaQNsjYPU8cVTWj/EB3UOpkkHHnYz9Jly+wwxiwIIP2Wyr7MXSn825v5q5MA==
+"@keyv/postgres@^1.4.10":
+  version "1.4.10"
+  resolved "https://registry.yarnpkg.com/@keyv/postgres/-/postgres-1.4.10.tgz#d2609e393c0a6e8596a4ec3da7326bc49f6611e3"
+  integrity sha512-iSAox9VrvpXqQvhjq6RlO+A2YdDC+5n2LIfYaVKF/K7Pu3GMwDSsIS/H/9LtVeh2LIjfYiXkPwHR6m2GUWJ78A==
   dependencies:
     pg "8.11.3"
 
