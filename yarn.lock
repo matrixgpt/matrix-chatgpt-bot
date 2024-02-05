@@ -1773,10 +1773,10 @@ markdown-it@^14.0.0:
     punycode.js "^2.3.1"
     uc.micro "^2.0.0"
 
-matrix-bot-sdk@0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.7.0.tgz#68323c5b0c7d384c66e8a779e19286185720ec18"
-  integrity sha512-c+jhWXzlT4tQAk0QWIgaFUYW4zwYxlwXNUy+gjdvWEuzjKCFFrWR9kb3hrQjDeEpFOtEN8pR9GywkFySO5Ir4A==
+matrix-bot-sdk@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1.tgz#b6b80d9f1a2c06795c61f114c12568ea78a1e694"
+  integrity sha512-klbuohKoOVdCw3foQyDxAswHLgIvBsEfTvt+SNu1RJYk/80UvKd/03YwYD470vILR/XtRXO8Cm+VC+5DvLwHaA==
   dependencies:
     "@matrix-org/matrix-sdk-crypto-nodejs" "0.1.0-beta.6"
     "@types/express" "^4.17.20"
