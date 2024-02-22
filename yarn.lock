@@ -1677,10 +1677,10 @@ keyv-file@^0.2.0:
     fs-extra "^4.0.1"
     tslib "^1.9.3"
 
-keyv-file@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/keyv-file/-/keyv-file-0.3.0.tgz#648d0826a1918650dc2c61ea4cf77d474df62bd7"
-  integrity sha512-Ey37SITDV7cvpkzPJdmbNvi+WihHRp7Lr48NJRowyF/9iQx5SrJsW2AgRV84262uZ7ZNjlOjgrB2VfwWNsZigA==
+keyv-file@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/keyv-file/-/keyv-file-0.3.1.tgz#fd85810e0551b70ad8e954b9f2fa23622d1cad09"
+  integrity sha512-nrIyNaGlw8nf11mu8p7ttr+Qj6V3N0/BO62Y/oDsi02aWKWYaQjGVPLo0XPfRIwgaByQabuA/IH1se7i150LnQ==
   dependencies:
     debug "^4.1.1"
     fs-extra "^4.0.1"
