@@ -18,7 +18,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/matrixgpt/matrix-chatgpt-bot
+            ghcr.io/${{ github.repository_owner }}/matrix-chatgpt-bot
           flavor: latest=true
           tags: |
             type=semver,pattern={{version}}
