@@ -63,12 +63,12 @@
   dependencies:
     pg "8.11.3"
 
-"@keyv/redis@^2.8.4":
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/@keyv/redis/-/redis-2.8.4.tgz#0d1afb74ef4588c849658509fb69051648ac17d9"
-  integrity sha512-osO4C+i+Gi844wHjvXuHwhl+sDx3289Of309ZlLcj6SJReTLmPXzNiVR81N88wOu5aC+lVFdmx9FUQkkjdbPRQ==
+"@keyv/redis@^2.8.5":
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/@keyv/redis/-/redis-2.8.5.tgz#2365eed421c74ec8837572af557ca058c3f47049"
+  integrity sha512-e9W1faN32A1Wy5726qtorAvPu1Xffh75ngfQQtETQ0hIN/FQtK0RcBTz/OH/vwDvLX8zrzdu0sWq/KoSHDYfVw==
   dependencies:
-    ioredis "^5.3.2"
+    ioredis "^5.4.1"
 
 "@keyv/sqlite@^3.6.7":
   version "3.6.7"
@@ -1520,10 +1520,10 @@ inquirer@^9.1.4:
     through "^2.3.6"
     wrap-ansi "^8.0.1"
 
-ioredis@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.3.2.tgz#9139f596f62fc9c72d873353ac5395bcf05709f7"
-  integrity sha512-1DKMMzlIHM02eBBVOFQ1+AolGjs6+xEcM4PDL7NqOS6szq7H9jSaEkIUH6/a5Hl241LzW6JLSiAbNvTQjUupUA==
+ioredis@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.4.1.tgz#1c56b70b759f01465913887375ed809134296f40"
+  integrity sha512-2YZsvl7jopIa1gaePkeMtd9rAcSjOOjPtpcLlOeusyO+XH2SK5ZcT+UCrElPP+WVIInh2TzeI4XW9ENaSLVVHA==
   dependencies:
     "@ioredis/commands" "^1.1.1"
     cluster-key-slot "^1.1.0"
