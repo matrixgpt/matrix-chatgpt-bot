@@ -20,8 +20,6 @@ import {
   OPENAI_API_KEY,
   MATRIX_HOMESERVER_URL,
   MATRIX_AUTOJOIN,
-  MATRIX_BOT_PASSWORD,
-  MATRIX_BOT_USERNAME,
   MATRIX_ENCRYPTION,
   MATRIX_THREADS,
   CHATGPT_CONTEXT,
@@ -34,6 +32,8 @@ import {
   CHATGPT_TEMPERATURE,
   CHATGPT_MAX_CONTEXT_TOKENS,
   CHATGPT_MAX_PROMPT_TOKENS,
+  BOT_CLIENT_ID,
+  BOT_CLIENT_SECRET,
 } from "./env";
 import CommandHandler from "./handlers";
 import { KeyvStorageProvider } from "./storage";
@@ -77,12 +77,11 @@ if (KEYV_BACKEND === "file") {
 }
 
 async function main() {
-  const botUsernameWithoutDomain =
-    parseMatrixUsernamePretty(MATRIX_BOT_USERNAME);
+  const botUsernameWithoutDomain = parseMatrixUsernamePretty(BOT_CLIENT_ID);
   const auth = await clientCredentialsLogin(
     MATRIX_HOMESERVER_URL,
     botUsernameWithoutDomain,
-    MATRIX_BOT_PASSWORD
+    BOT_CLIENT_SECRET
   );
   const accessToken = auth.access_token;
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room")

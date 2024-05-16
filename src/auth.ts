@@ -45,11 +45,8 @@ export async function clientCredentialsLogin(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      identifier: {
-        type: "globalid.id.client",
-        user: clientId,
-      },
-      password: clientSecret,
+      client_id: clientId,
+      client_secret: clientSecret,
       initial_device_display_name: "GlobaliD ChatGPT Bot",
       type: "globalid.login.client_credentials",
     }),
