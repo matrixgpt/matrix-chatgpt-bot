@@ -34,11 +34,11 @@ import {
   CHATGPT_MAX_PROMPT_TOKENS,
   BOT_CLIENT_ID,
   BOT_CLIENT_SECRET,
-} from "./env";
-import CommandHandler from "./handlers";
-import { KeyvStorageProvider } from "./storage";
-import { parseMatrixUsernamePretty, wrapPrompt } from "./utils";
-import { clientCredentialsLogin } from "./auth";
+} from "./env.js";
+import CommandHandler from "./handlers.js";
+import { KeyvStorageProvider } from "./storage.js";
+import { parseMatrixUsernamePretty, wrapPrompt } from "./utils.js";
+import { clientCredentialsLogin } from "./auth.js";
 
 LogService.setLogger(new RichConsoleLogger());
 // LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
