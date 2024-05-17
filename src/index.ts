@@ -77,6 +77,7 @@ if (KEYV_BACKEND === "file") {
 }
 
 async function main() {
+  console.log("Starting ChatGPT Matrix bot", BOT_CLIENT_ID, BOT_CLIENT_SECRET);
   const botUsernameWithoutDomain = parseMatrixUsernamePretty(BOT_CLIENT_ID);
   const auth = await clientCredentialsLogin(
     MATRIX_HOMESERVER_URL,
