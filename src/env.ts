@@ -41,7 +41,7 @@ export const {
   CHATGPT_MAX_PROMPT_TOKENS,
 } = parseEnv(process.env, {
   DATA_PATH: {
-    schema: z.string().default("./storage"),
+    schema: z.string().default("/storage/"),
     description:
       "Set to /storage/ if using docker, ./storage if running without",
   },
