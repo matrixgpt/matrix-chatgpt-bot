@@ -163,7 +163,7 @@ async function main() {
     if (MATRIX_WELCOME) {
       await client.sendMessage(roomId, {
         msgtype: "m.notice",
-        body: `👋 Hello, I'm ChatGPT bot! Matrix E2EE: ${MATRIX_ENCRYPTION}`,
+        body: `👋 Hello, I'm GlobaliD Bot! Ask me a question and I'll see how I can help!`,
       });
     }
   });
@@ -180,10 +180,6 @@ async function main() {
     "index",
     `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`
   );
-  const joinedRooms = await client.getJoinedRooms();
-
-  Promise.all(joinedRooms.map((roomId) => client.leaveRoom(roomId)));
-
   await client.start();
 
   LogService.info("index", "Bot started!");
