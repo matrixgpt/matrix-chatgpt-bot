@@ -12,6 +12,7 @@ export const {
   MATRIX_HOMESERVER_URL,
   BOT_CLIENT_ID,
   BOT_CLIENT_SECRET,
+  BOT_DEVICE_ID,
   /** Matrix Bot Features */
   MATRIX_AUTOJOIN,
   MATRIX_ENCRYPTION,
@@ -72,6 +73,11 @@ export const {
   BOT_CLIENT_SECRET: {
     schema: z.string().optional(),
     description: "Set client secret generated in GlobaliD Admin Panel",
+  },
+  BOT_DEVICE_ID: {
+    schema: z.string().optional(),
+    description:
+      "Set device id that you should generate for persistant matrix device",
   },
   /** Matrix Bot Features */
   MATRIX_AUTOJOIN: {

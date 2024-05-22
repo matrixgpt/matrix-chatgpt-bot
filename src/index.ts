@@ -34,6 +34,7 @@ import {
   CHATGPT_MAX_PROMPT_TOKENS,
   BOT_CLIENT_ID,
   BOT_CLIENT_SECRET,
+  BOT_DEVICE_ID,
 } from "./env.js";
 import CommandHandler from "./handlers.js";
 import { KeyvStorageProvider } from "./storage.js";
@@ -82,8 +83,10 @@ async function main() {
   const auth = await clientCredentialsLogin(
     MATRIX_HOMESERVER_URL,
     botUsernameWithoutDomain,
-    BOT_CLIENT_SECRET
+    BOT_CLIENT_SECRET,
+    BOT_DEVICE_ID
   );
+  LogService.info("index", "Logged in as " + auth.device_id, BOT_DEVICE_ID);
   const accessToken = auth.access_token;
   if (!MATRIX_THREADS && CHATGPT_CONTEXT !== "room")
     throw Error(
@@ -177,7 +180,12 @@ async function main() {
     "index",
     `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`
   );
+  const joinedRooms = await client.getJoinedRooms();
+
+  Promise.all(joinedRooms.map((roomId) => client.leaveRoom(roomId)));
+
   await client.start();
+
   LogService.info("index", "Bot started!");
 }
 

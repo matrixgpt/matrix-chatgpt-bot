@@ -36,7 +36,8 @@ export interface LoginResponse {
 export async function clientCredentialsLogin(
   matrixServerUrl: string,
   clientId: string,
-  clientSecret: string
+  clientSecret: string,
+  deviceId: string
 ) {
   // POST /_matrix/client/v3/login
   const response = await fetch(`${matrixServerUrl}/_matrix/client/v3/login`, {
@@ -49,6 +50,7 @@ export async function clientCredentialsLogin(
       client_secret: clientSecret,
       initial_device_display_name: "GlobaliD ChatGPT Bot",
       type: "globalid.login.client_credentials",
+      device_id: deviceId,
     }),
   });
 
