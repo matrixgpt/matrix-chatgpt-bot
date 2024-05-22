@@ -42,10 +42,10 @@ import { parseMatrixUsernamePretty, wrapPrompt } from "./utils.js";
 import { clientCredentialsLogin } from "./auth.js";
 
 LogService.setLogger(new RichConsoleLogger());
-// LogService.setLevel(LogLevel.DEBUG);  // Shows the Matrix sync loop details - not needed most of the time
-LogService.setLevel(LogLevel.INFO);
-// LogService.muteModule("Metrics");
-LogService.trace = LogService.debug;
+LogService.setLevel(LogLevel.DEBUG); // Shows the Matrix sync loop details - not needed most of the time
+//LogService.setLevel(LogLevel.INFO);
+LogService.muteModule("Metrics");
+// LogService.trace = LogService.debug;
 if (KEYV_URL && KEYV_BACKEND === "file")
   LogService.warn(
     "config",
@@ -54,7 +54,7 @@ if (KEYV_URL && KEYV_BACKEND === "file")
 
 let storage: IStorageProvider;
 if (KEYV_BOT_STORAGE) {
-  storage = new KeyvStorageProvider("chatgpt-bot-storage");
+  storage = new KeyvStorageProvider(BOT_DEVICE_ID, "chatgpt-bot-storage");
 } else {
   storage = new SimpleFsStorageProvider(path.join(DATA_PATH, "bot.json")); // /storage/bot.json
 }
@@ -62,7 +62,7 @@ if (KEYV_BOT_STORAGE) {
 let cryptoStore: ICryptoStorageProvider;
 if (MATRIX_ENCRYPTION)
   cryptoStore = new RustSdkCryptoStorageProvider(
-    path.join(DATA_PATH, "encrypted"),
+    path.join(DATA_PATH, BOT_DEVICE_ID, "encrypted"),
     1
   ); // /storage/encrypted
 
@@ -70,7 +70,7 @@ let cacheOptions; // Options for the Keyv cache, see https://www.npmjs.com/packa
 if (KEYV_BACKEND === "file") {
   cacheOptions = {
     store: new KeyvFile({
-      filename: path.join(DATA_PATH, `chatgpt-bot-api.json`),
+      filename: path.join(DATA_PATH, BOT_DEVICE_ID, `chatgpt-bot-api.json`),
     }),
   };
 } else {
@@ -180,6 +180,17 @@ async function main() {
     "index",
     `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`
   );
+
+  let joinedRooms = await client.getJoinedRooms();
+
+  Promise.all(
+    joinedRooms.map(async (roomId) => {
+      client.leaveRoom(roomId);
+    })
+  );
+
+  joinedRooms = await client.getJoinedRooms();
+  LogService.info("index", `Joined rooms: ${joinedRooms.length}`);
   await client.start();
 
   LogService.info("index", "Bot started!");
