@@ -144,18 +144,7 @@ async function main() {
       "index",
       `Failed decryption event!\n${{ roomId, event, error }}`
     );
-    await client.sendText(
-      roomId,
-      `Room key error. I will leave the room, please reinvite me!`
-    );
-    try {
-      await client.leaveRoom(roomId);
-    } catch (e) {
-      LogService.error(
-        "index",
-        `Failed to leave room ${roomId} after failed decryption!`
-      );
-    }
+    await client.sendText(roomId, "Something went wrong please try again.");
   });
 
   client.on("room.join", async (roomId: string, _event: any) => {
@@ -181,16 +170,6 @@ async function main() {
     `Using promptPrefix: ${wrapPrompt(CHATGPT_PROMPT_PREFIX)}`
   );
 
-  let joinedRooms = await client.getJoinedRooms();
-
-  Promise.all(
-    joinedRooms.map(async (roomId) => {
-      client.leaveRoom(roomId);
-    })
-  );
-
-  joinedRooms = await client.getJoinedRooms();
-  LogService.info("index", `Joined rooms: ${joinedRooms.length}`);
   await client.start();
 
   LogService.info("index", "Bot started!");
