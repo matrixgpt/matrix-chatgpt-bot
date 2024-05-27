@@ -17,9 +17,6 @@
   },
   "dependencies": {
     "@keyv/postgres": "^1.4.11",
-    "@keyv/redis": "^2.8.4",
-    "@keyv/sqlite": "^3.6.7",
-    "@waylaidwanderer/chatgpt-api": "^1.37.3",
     "dotenv": "^16.4.5",
     "hash.js": "^1.1.7",
     "jwt-decode": "^4.0.0",
@@ -29,7 +26,9 @@
     "matrix-bot-sdk": "0.7.1",
     "typescript": "^5.3.3",
     "znv": "^0.4.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "openai": "^4.47.1",
+    "undici": "^6.18.1"
   },
   "devDependencies": {
     "tsx": "^4.10.2"
