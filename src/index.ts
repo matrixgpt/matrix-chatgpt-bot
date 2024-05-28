@@ -31,7 +31,7 @@ import {
 } from "./env.js";
 import CommandHandler from "./handlers.js";
 import { KeyvStorageProvider } from "./storage.js";
-import { parseMatrixUsernamePretty, wrapPrompt } from "./utils.js";
+import { getIntroMessage, parseMatrixUsernamePretty } from "./utils.js";
 import { clientCredentialsLogin } from "./auth.js";
 import OpenAI, { type ClientOptions } from "openai";
 
@@ -105,10 +105,7 @@ async function main() {
 	client.on("room.join", async (roomId: string, _event: MatrixEvent) => {
 		LogService.info("index", `Bot joined room ${roomId}`);
 		if (MATRIX_WELCOME) {
-			await client.sendMessage(roomId, {
-				msgtype: "m.notice",
-				body: `👋 Hello, I'm your Trust Assistant! Ask me a question and I'll see how I can help!`,
-			});
+			await client.sendMessage(roomId, getIntroMessage());
 		}
 	});
 

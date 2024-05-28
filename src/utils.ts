@@ -1,13 +1,10 @@
 import Markdown from "markdown-it";
-import {
-	LogService,
-	type MatrixClient,
-	type MatrixEvent,
-} from "matrix-bot-sdk";
+import { LogService, type MatrixClient } from "matrix-bot-sdk";
 import type { MessageEvent, StoredConversation } from "./interfaces.js";
 import { CHATGPT_TIMEOUT } from "./env.js";
 import type OpenAI from "openai";
 import type { MessageContent } from "openai/resources/beta/threads/messages.js";
+import introMessage from "./introMessage.json";
 
 const md = Markdown();
 
@@ -208,4 +205,8 @@ export async function checkingStatus(
 			}
 		}, 1000);
 	});
+}
+
+export function getIntroMessage() {
+	return introMessage;
 }
