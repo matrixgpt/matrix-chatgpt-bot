@@ -1,4 +1,9 @@
-import { LogService, type MatrixClient, UserID } from "matrix-bot-sdk";
+import {
+	LogService,
+	type MatrixClient,
+	UserID,
+	type MatrixEvent,
+} from "matrix-bot-sdk";
 import {
 	CHATGPT_CONTEXT,
 	CHATGPT_TIMEOUT,
@@ -12,6 +17,7 @@ import {
 	MATRIX_THREADS,
 	MATRIX_ROOM_BLACKLIST,
 	MATRIX_ROOM_WHITELIST,
+	MATRIX_WELCOME,
 } from "./env.js";
 import type {
 	RelatesTo,
@@ -19,7 +25,12 @@ import type {
 	StoredConversation,
 	StoredConversationConfig,
 } from "./interfaces.js";
-import { sendChatGPTMessage, sendError, sendReply } from "./utils.js";
+import {
+	getIntroMessage,
+	sendChatGPTMessage,
+	sendError,
+	sendReply,
+} from "./utils.js";
 import type OpenAI from "openai";
 
 export default class CommandHandler {
@@ -37,6 +48,25 @@ export default class CommandHandler {
 	public async start() {
 		await this.prepareProfile(); // Populate the variables above (async)
 		this.client.on("room.message", this.onMessage.bind(this)); // Set up the event handler
+
+		this.client.on("room.failed_decryption", async (roomId, event, error) => {
+			// handle `m.room.encrypted` event that could not be decrypted
+			LogService.error(
+				"index",
+				`Failed decryption event!\n${{ roomId, event, error }}`,
+			);
+			await this.client.sendText(
+				roomId,
+				"Something went wrong please try again.",
+			);
+		});
+
+		this.client.on("room.join", async (roomId: string, _event: MatrixEvent) => {
+			LogService.info("index", `Bot joined room ${roomId}`);
+			if (MATRIX_WELCOME) {
+				await this.client.sendMessage(roomId, getIntroMessage());
+			}
+		});
 	}
 
 	private async prepareProfile() {
