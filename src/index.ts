@@ -1,6 +1,5 @@
 import {
 	MatrixClient,
-	AutojoinRoomsMixin,
 	LogService,
 	LogLevel,
 	RichConsoleLogger,
@@ -17,7 +16,6 @@ import {
 	OPENAI_API_KEY,
 	OPENAI_ASSISTANT_ID,
 	MATRIX_HOMESERVER_URL,
-	MATRIX_AUTOJOIN,
 	MATRIX_ENCRYPTION,
 	MATRIX_THREADS,
 	CHATGPT_CONTEXT,
@@ -88,9 +86,6 @@ async function runService() {
 		storage,
 		cryptoStore,
 	);
-
-	// Automatically join rooms the bot is invited to
-	if (MATRIX_AUTOJOIN) AutojoinRoomsMixin.setupOnClient(client);
 
 	const openai = new OpenAI({
 		apiKey: OPENAI_API_KEY,

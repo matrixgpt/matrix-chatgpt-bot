@@ -18,6 +18,7 @@ import {
 	MATRIX_ROOM_BLACKLIST,
 	MATRIX_ROOM_WHITELIST,
 	MATRIX_WELCOME,
+	MATRIX_AUTOJOIN,
 } from "./env.js";
 import type {
 	RelatesTo,
@@ -67,6 +68,18 @@ export default class CommandHandler {
 				await this.client.sendMessage(roomId, getIntroMessage());
 			}
 		});
+		if (MATRIX_AUTOJOIN) {
+			this.client.on(
+				"room.invite",
+				async (roomId: string, inviteEvent: MatrixEvent) => {
+					try {
+						await this.client.joinRoom(roomId);
+					} catch (e) {
+						LogService.error("index", "Error joining room", e);
+					}
+				},
+			);
+		}
 	}
 
 	private async prepareProfile() {
