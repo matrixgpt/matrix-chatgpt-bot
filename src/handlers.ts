@@ -33,21 +33,26 @@ import {
 	sendReply,
 } from "./utils.js";
 import type OpenAI from "openai";
+import MonitorActivities from './monitorActivities';
 
 export default class CommandHandler {
 	// Variables so we can cache the bot's display name and ID for command matching later.
 	private displayName: string;
 	private userId: string;
 	private localpart: string;
+	private monitorActivities: MonitorActivities;
 
 	constructor(
 		private client: MatrixClient,
 		private openai: OpenAI,
 		private assistantId: string,
-	) {}
+	) {
+	}
 
 	public async start() {
 		await this.prepareProfile(); // Populate the variables above (async)
+		// prepare monitoring activites with unique id for the user and uns name
+		this.monitorActivities = new MonitorActivities(this.userId, this.displayName);
 		this.client.on("room.message", this.onMessage.bind(this)); // Set up the event handler
 
 		this.client.on("room.failed_decryption", async (roomId, event, error) => {
@@ -252,6 +257,8 @@ export default class CommandHandler {
 				event,
 			);
 			if (!shouldBePrefixed) return;
+			// send tracking when user send new message
+			this.monitorActivities.trackSendMessageEvent(event.content.body);
 
 			await Promise.all([
 				this.client.sendReadReceipt(roomId, event.event_id),
