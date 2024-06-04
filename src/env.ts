@@ -36,7 +36,7 @@ export const {
 	CHATGPT_PROMPT_PREFIX,
 	CHATGPT_IGNORE_MEDIA,
 	/**  Mixpanel */
-	MIXPANEL_PROJECT_TOKEN
+	MIXPANEL_PROJECT_TOKEN,
 } = parseEnv(process.env, {
 	DATA_PATH: {
 		schema: z.string().default("/storage/"),
@@ -172,7 +172,6 @@ export const {
 	/** Mixpanel settings */
 	MIXPANEL_PROJECT_TOKEN: {
 		schema: z.string().default(""),
-		description:
-		"Set to a string to activate mixpanel tracking",
-	}
+		description: "Set to a string to activate mixpanel tracking",
+	},
 });
