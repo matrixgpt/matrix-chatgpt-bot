@@ -16,6 +16,7 @@ export default class MonitorActivities {
 	 * @param uns_name - The user's name.
 	 */
 	trackSendMessageEvent(message: string, userId: string, uns_name: string) {
+		if (!message || !userId || !uns_name) return;
 		// set new user we can add as many as we want distinct user
 		this.mixpanel.people.set(userId, {
 			name: uns_name,
