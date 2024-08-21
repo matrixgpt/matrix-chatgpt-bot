@@ -70,6 +70,13 @@
   dependencies:
     ioredis "^5.4.1"
 
+"@keyv/serialize@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@keyv/serialize/-/serialize-1.0.0.tgz#1123aadbed6200e6b11ed642db7a8291e778660e"
+  integrity sha512-BckrffCXqE2eMxl8LjOpc6vY3TTduILoiFwytNhJtQfhMDKhepq4+EAyP9qMCy38Fxs9g4RRCe/6mimdap1/vQ==
+  dependencies:
+    buffer "^6.0.3"
+
 "@keyv/sqlite@^3.6.7":
   version "3.6.7"
   resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.7.tgz#32a1279b26f2b63f1b98694266cf5c16fdde8fe1"
@@ -1693,12 +1700,12 @@ keyv@^4.5.2:
   dependencies:
     json-buffer "3.0.1"
 
-keyv@^4.5.4:
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
-  integrity sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==
+keyv@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/keyv/-/keyv-5.0.0.tgz#f7dc34681f8a9e823dab5664ae7b3e74202a5701"
+  integrity sha512-qtmxo+NR06YxIrywQzkxQG5bsNKR4GlOHZzrJHKsRXATU8ivqptnMllSuPIJRtaLmDGWdAK/n6JVfbBgRfTuXQ==
   dependencies:
-    json-buffer "3.0.1"
+    "@keyv/serialize" "*"
 
 leac@^0.6.0:
   version "0.6.0"
