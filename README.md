@@ -1,7 +1,7 @@
 Matrix ChatGPT Bot
 ==================
 
-Note: This is unmaintained. You should use [Baibot]([https://jackson.dev/post/chaz/](https://github.com/etkecc/baibot)) instead of this project.
+Note: This is unmaintained. You should use [Baibot](https://github.com/etkecc/baibot) instead of this project.
 
 Talk to ChatGPT via any Matrix client!
 
